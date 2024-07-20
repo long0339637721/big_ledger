@@ -31,16 +31,16 @@ export class DonMuaHangController {
     return this.donMuaHangService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDonMuaHangDto: UpdateDonMuaHangDto,
-  ) {
-    return this.donMuaHangService.update(+id, updateDonMuaHangDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateDonMuaHangDto: UpdateDonMuaHangDto,
+  // ) {
+  //   return this.donMuaHangService.update(+id, updateDonMuaHangDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.donMuaHangService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.donMuaHangService.remove(+id);
+  // }
 }
