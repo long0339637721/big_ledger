@@ -78,16 +78,16 @@ export class ProductRepository {
     });
   }
 
-  orderProduct(id: number, newCategory: number, newOdered: number) {
+  deliverProduct(
+    id: number,
+    newCategory: number,
+    newOdered: number,
+    newArriving: number,
+  ) {
     return this.productRepository.update(id, {
       category: newCategory,
       ordered: newOdered,
-    });
-  }
-
-  deliverProduct(id: number, newOdered: number) {
-    return this.productRepository.update(id, {
-      ordered: newOdered,
+      arriving: newArriving,
     });
   }
 

@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { DonMuaHangService } from './don-mua-hang.service';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
@@ -23,8 +22,8 @@ export class DonMuaHangController {
   }
 
   @Get()
-  findAll(@Query() queryGetDMH: GetDonMuaHangDto) {
-    return this.donMuaHangService.findAll(queryGetDMH);
+  findAll() {
+    return this.donMuaHangService.findAll();
   }
 
   @Get(':id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import {
   CreateSupplierDto,
@@ -40,8 +40,12 @@ export class SupplierService {
     return this.supplierRepository.findOneGroup(id);
   }
 
-  findOne(id: number) {
-    return this.supplierRepository.findOne(id);
+  async findOne(id: number) {
+    const supplier = await this.supplierRepository.findOne(id);
+    if (!supplier) {
+      throw new NotFoundException(`Supplier with ${id} not found`);
+    }
+    return supplier;
   }
 
   async updateGroup(

@@ -66,18 +66,44 @@ export class ProductService {
     return this.productRepository.update(id, updateProductDto);
   }
 
-  async orderProduct(id: number, order: number) {
+  async orderProduct(id: number, count: number, isPuerchase: boolean = false) {
     const product = await this.findOne(id);
-    return this.productRepository.orderProduct(
+    if (!isPuerchase) {
+      return this.productRepository.deliverProduct(
+        id,
+        product.category - count,
+        product.ordered + count,
+        product.arriving,
+      );
+    }
+    return this.productRepository.deliverProduct(
       id,
-      product.category - order,
-      product.ordered + order,
+      product.category,
+      product.ordered,
+      product.arriving + count,
     );
   }
 
-  async deliverProduct(id: number, count: number) {
+  async deliverProduct(
+    id: number,
+    count: number,
+    isPuerchase: boolean = false,
+  ) {
     const product = await this.findOne(id);
-    return this.productRepository.deliverProduct(id, product.ordered - count);
+    if (!isPuerchase) {
+      return this.productRepository.deliverProduct(
+        id,
+        product.category,
+        product.ordered - count,
+        product.arriving,
+      );
+    }
+    return this.productRepository.deliverProduct(
+      id,
+      product.category + count,
+      product.ordered,
+      product.arriving - count,
+    );
   }
 
   removeGroup(id: number) {

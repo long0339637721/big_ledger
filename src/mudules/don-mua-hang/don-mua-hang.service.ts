@@ -1,17 +1,11 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { DonMuaHangRepository } from './don-mua-hang.repository';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
 import { UpdateDonMuaHangDto } from './dto/update-don-mua-hang.dto';
-import { GetDonMuaHangDto } from './dto/get-don-mua-hang.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { ORDER, OrderType } from 'src/constants';
 import { EmployeeService } from '../employee/employee.service';
 import { SupplierService } from '../supplier/supplier.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class DonMuaHangService {
@@ -19,78 +13,37 @@ export class DonMuaHangService {
     private readonly donMuaHangRepository: DonMuaHangRepository,
     private readonly employeeService: EmployeeService,
     private readonly supplierService: SupplierService,
+    private readonly productService: ProductService,
   ) {}
 
-  async create(createDonMuaHangDto: CreateDonMuaHangDto) {
+  async create(createDto: CreateDonMuaHangDto) {
     const purchasingOfficer =
       await this.employeeService.findOnePurchasingOfficer(
-        createDonMuaHangDto.purchasingOfficerId,
+        createDto.purchasingOfficerId,
       );
-    if (!purchasingOfficer) {
-      throw new NotFoundException(
-        `Purchasing Officer with id ${createDonMuaHangDto.purchasingOfficerId} not found`,
-      );
-    }
-
-    const supplier = await this.supplierService.findOne(
-      createDonMuaHangDto.supplierId,
+    const supplier = await this.supplierService.findOne(createDto.supplierId);
+    const productsOfDonMuaHangs = await Promise.all(
+      createDto.products.map(async (each) => {
+        const product = await this.productService.findOne(each.productId);
+        return {
+          product: product,
+          count: each.count,
+          price: product.priceReceived,
+        };
+      }),
     );
-    if (!supplier) {
-      throw new NotFoundException(
-        `Supplier with id ${createDonMuaHangDto.supplierId} not found`,
-      );
-    }
 
     return this.donMuaHangRepository.create(
-      createDonMuaHangDto,
+      createDto,
       purchasingOfficer,
       supplier,
+      productsOfDonMuaHangs,
     );
   }
 
-  async findAll(query: GetDonMuaHangDto) {
-    let sortObject: { [key: string]: OrderType } = {};
-    if (!query.sorts) {
-      sortObject = { ngayMua: ORDER.DESC };
-    } else if (Array.isArray(query.sorts)) {
-      query.sorts.forEach((sort) => {
-        const sortValueParts = sort.split(':');
-        sortObject[sortValueParts[0]] = sortValueParts[1] as OrderType;
-      });
-    } else {
-      const sortValueParts = query.sorts.split(':');
-      sortObject[sortValueParts[0]] = sortValueParts[1] as OrderType;
-    }
-    console.log(sortObject);
-    console.log(Object.keys(sortObject));
-    Object.keys(sortObject).forEach((value) => {
-      if (
-        ![
-          'id',
-          'ngayMua',
-          'hanGiaoHang',
-          'paymentStatus',
-          'deliveryStatus',
-          'documentStatus',
-        ].includes(value)
-      ) {
-        throw new UnprocessableEntityException(
-          'Key of sort options is not valid',
-        );
-      }
-    });
-    const donMuaHangs = await this.donMuaHangRepository.findAll(
-      query.pageSize,
-      query.pageSize * (query.currentPage - 1),
-      sortObject,
-    );
-    const pagination = new PaginationDto(
-      query.currentPage,
-      query.pageSize,
-      Math.ceil(donMuaHangs[1] / query.pageSize),
-      donMuaHangs[1],
-    );
-    return { data: donMuaHangs[0], pagination: pagination };
+  async findAll() {
+    const donMuaHangs = await this.donMuaHangRepository.findAll();
+    return donMuaHangs;
   }
 
   async findOne(id: number) {

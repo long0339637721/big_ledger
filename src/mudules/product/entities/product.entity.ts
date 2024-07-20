@@ -42,6 +42,9 @@ export class Product extends AbstractEntity {
   @Column({ type: 'int', default: 0 })
   ordered: number = 0;
 
+  @Column({ type: 'int', default: 0 })
+  arriving: number = 0;
+
   @Column({ type: 'enum', enum: UNIT })
   unit: UnitType;
 

@@ -19,27 +19,42 @@ export class DonMuaHangRepository {
     createDonMuaHangDto: CreateDonMuaHangDto,
     purchasingOfficer: PurchasingOfficer,
     supplier: Supplier,
+    productOfDonMuaHangs: {
+      product: any;
+      count: number;
+      price: number;
+    }[],
   ) {
     const newDonMuaHang = this.donMuaHangRepository.create({
       ...createDonMuaHangDto,
       purchasingOfficer: purchasingOfficer,
       supplier: supplier,
     });
-
-    return this.donMuaHangRepository.save(newDonMuaHang);
+    return this.dataSource.transaction(async (manager) => {
+      const donMuaHang = await manager.save(newDonMuaHang);
+      await Promise.all(
+        productOfDonMuaHangs.map(async (each) => {
+          const productOfDonMuaHang = manager.create('ProductOfDonMuaHang', {
+            product: each.product,
+            count: each.count,
+            price: each.price,
+            donMuaHang: donMuaHang,
+          });
+          return manager.save(productOfDonMuaHang);
+        }),
+      );
+      return donMuaHang;
+    });
   }
 
-  findAll(take: number, skip: number, sorts?: { [key: string]: OrderType }) {
-    return this.donMuaHangRepository.findAndCount({
+  findAll() {
+    return this.donMuaHangRepository.find({
       relations: {
         purchasingOfficer: true,
         supplier: true,
         productOfDonMuaHangs: true,
         ctmuas: true,
       },
-      order: sorts,
-      take: take,
-      skip: skip,
     });
   }
 
