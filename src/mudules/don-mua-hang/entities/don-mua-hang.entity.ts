@@ -45,6 +45,12 @@ export class DonMuaHang extends AbstractEntity {
   @Column({ type: 'date', default: new Date() })
   deliveryTerm: Date;
 
+  @Column({ type: 'int', default: 0 })
+  discount: number;
+
+  @Column({ type: 'int', default: 0 })
+  discountRate: number;
+
   @ManyToOne(
     () => PurchasingOfficer,
     (purchasingOfficer) => purchasingOfficer.donMuaHangs,

@@ -71,14 +71,24 @@ export class CreateDonMuaHangDto {
   @IsNotEmpty({ message: 'Han Giao Hang is required' })
   deliveryTerm: string;
 
+  @ApiProperty({ example: 0 })
+  @IsNumber({}, { message: 'Discount must be a number' })
+  @IsOptional()
+  discount: number = 0;
+
+  @ApiProperty({ example: 0 })
+  @IsNumber({}, { message: 'Discount rate must be a number' })
+  @IsOptional()
+  discountRate: number = 0;
+
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'purchasingOfficerId must be a number' })
-  @IsOptional()
+  @IsNotEmpty({ message: 'purchasingOfficerId is required' })
   purchasingOfficerId: number;
 
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'supplierId must be a number' })
-  @IsOptional()
+  @IsNotEmpty({ message: 'supplierId is required' })
   supplierId: number;
 
   @ApiProperty({
