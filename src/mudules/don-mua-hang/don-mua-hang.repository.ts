@@ -52,7 +52,9 @@ export class DonMuaHangRepository {
       relations: {
         purchasingOfficer: true,
         supplier: true,
-        productOfDonMuaHangs: true,
+        productOfDonMuaHangs: {
+          product: true,
+        },
         ctmuas: true,
       },
     });
@@ -66,7 +68,9 @@ export class DonMuaHangRepository {
       relations: {
         purchasingOfficer: true,
         supplier: true,
-        productOfDonMuaHangs: true,
+        productOfDonMuaHangs: {
+          product: true,
+        },
         ctmuas: true,
       },
     });
