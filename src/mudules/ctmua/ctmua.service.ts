@@ -37,13 +37,6 @@ export class CtmuaService {
         this.donMuaHangService.findOne(id),
       ),
     );
-    donMuaHangs.forEach((donMuaHang, index) => {
-      if (!donMuaHang) {
-        throw new NotFoundException(
-          `Don mua hang with id ${createCtmuaDto.donMuaHangIds[index]} not found`,
-        );
-      }
-    });
 
     return this.ctmuaRepository.create(
       createCtmuaDto,
@@ -52,27 +45,16 @@ export class CtmuaService {
     );
   }
 
-  async findAll(query: GetCtmuaDto) {
-    const ctmuas = await this.ctmuaRepository.findAll(
-      query.currentPage,
-      query.pageSize,
-    );
-    const metaData = new PageMetaDto(query, ctmuas.length);
-    return {
-      metaData: metaData,
-      data: ctmuas,
-    };
+  async findAll() {
+    return this.ctmuaRepository.findAll();
   }
 
   async findOne(id: number) {
     const ctmua = await this.ctmuaRepository.findOne(id);
     if (!ctmua) {
-      return 'Ctmua not found';
+      throw new NotFoundException(`Ctmua with id ${id} not found`);
     }
-    return {
-      metaData: {},
-      data: ctmua,
-    };
+    return ctmua;
   }
 
   update(id: number, updateCtmuaDto: UpdateCtmuaDto) {

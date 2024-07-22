@@ -23,8 +23,8 @@ export class CtmuaController {
   }
 
   @Get()
-  findAll(@Query() query: GetCtmuaDto) {
-    return this.ctmuaService.findAll(query);
+  findAll() {
+    return this.ctmuaService.findAll();
   }
 
   @Get(':id')
@@ -32,13 +32,13 @@ export class CtmuaController {
     return this.ctmuaService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCtmuaDto: UpdateCtmuaDto) {
-    return this.ctmuaService.update(+id, updateCtmuaDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCtmuaDto: UpdateCtmuaDto) {
+  //   return this.ctmuaService.update(+id, updateCtmuaDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ctmuaService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.ctmuaService.remove(+id);
+  // }
 }

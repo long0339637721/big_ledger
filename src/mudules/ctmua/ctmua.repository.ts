@@ -15,27 +15,25 @@ export class CtmuaRepository {
 
   create(
     createCtmuaDto: CreateCtmuaDto,
-    nguoiNhanHang: WarehouseKeeper,
+    warehouseKeeper: WarehouseKeeper,
     donMuaHangs: DonMuaHang[],
   ) {
     const newCtmua = this.ctmuaRepository.create({
       ...createCtmuaDto,
-      nguoiNhanHang: nguoiNhanHang,
+      warehouseKeeper: warehouseKeeper,
       donMuaHangs: donMuaHangs,
     });
     return this.ctmuaRepository.save(newCtmua);
   }
 
-  findAll(currentPage: number, pageSize: number) {
+  findAll() {
     return this.ctmuaRepository.find({
       relations: {
-        nguoiNhanHang: true,
+        warehouseKeeper: true,
         donMuaHangs: true,
         productOfCtmua: true,
         phieuChi: true,
       },
-      take: pageSize,
-      skip: pageSize * (currentPage - 1),
     });
   }
 
@@ -45,7 +43,7 @@ export class CtmuaRepository {
         id: id,
       },
       relations: {
-        nguoiNhanHang: true,
+        warehouseKeeper: true,
         donMuaHangs: true,
         productOfCtmua: true,
         phieuChi: true,

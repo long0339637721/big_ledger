@@ -66,7 +66,7 @@ export class WarehouseKeeper extends Emmployee {
   @OneToMany(() => Ctban, (ctban) => ctban.warehouseKeeper)
   ctban: Ctban[];
 
-  @OneToMany(() => Ctmua, (ctmua) => ctmua.nguoiNhanHang)
+  @OneToMany(() => Ctmua, (ctmua) => ctmua.warehouseKeeper)
   ctmua: Ctmua[];
 }
 

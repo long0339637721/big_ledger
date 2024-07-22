@@ -15,24 +15,36 @@ import { ChungTuCuaPhieuChi } from 'src/mudules/phieu-chi/entities/phieu-chi.ent
 
 @Entity({ name: 'ctmua' })
 export class Ctmua extends AbstractEntity {
-  @Column({ type: 'date' })
-  ngayNhan: Date;
+  @Column({ type: 'date', default: new Date() })
+  deliveryDate: Date;
 
   @ManyToOne(
     () => WarehouseKeeper,
     (warehouseKeeper) => warehouseKeeper.ctmua,
     { nullable: false },
   )
-  nguoiNhanHang: WarehouseKeeper;
+  warehouseKeeper: WarehouseKeeper;
 
   @Column({ type: 'enum', enum: PAYMENT_METHOD })
   paymentMethod: PaymentMethodType;
 
   @Column({ type: 'varchar', nullable: true })
-  noiDung?: string;
+  content?: string;
 
-  @Column({ type: 'varchar' })
-  nguoiGiao: string;
+  @Column({ type: 'varchar', nullable: true })
+  shipper: string;
+
+  @Column({ type: 'int' })
+  totalProductValue: number;
+
+  @Column({ type: 'int' })
+  totalDiscountValue: number;
+
+  @Column({ type: 'int' })
+  finalValue: number;
+
+  @Column({ type: 'int', default: 0 })
+  paidValue: number;
 
   @ManyToMany(() => DonMuaHang, (donMuaHang) => donMuaHang.ctmuas, {
     nullable: false,
@@ -51,11 +63,11 @@ export class Ctmua extends AbstractEntity {
 
 @Entity({ name: 'product_of_ctmua' })
 export class ProductOfCtmua extends AbstractEntity {
-  @Column({ type: 'int' })
-  soLuong: number;
+  @Column({ type: 'int', default: 0 })
+  count: number;
 
-  @Column({ type: 'int' })
-  donGia: number;
+  @Column({ type: 'int', default: 0 })
+  price: number;
 
   @ManyToOne(() => Ctmua, (ctmua) => ctmua.productOfCtmua, { nullable: false })
   ctmua: Ctmua;
