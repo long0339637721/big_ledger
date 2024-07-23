@@ -9,10 +9,15 @@ import {
   UpdateSupplierGroupDto,
 } from './dto/update-supplier.dto';
 import { SupplierRepository } from './supplier.repository';
+import { AddProductDto } from './dto/add-product.dto';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class SupplierService {
-  constructor(private readonly supplierRepository: SupplierRepository) {}
+  constructor(
+    private readonly supplierRepository: SupplierRepository,
+    private readonly productService: ProductService,
+  ) {}
 
   createGroup(createSupplierGroupDto: CreateSupplierGroupDto) {
     return this.supplierRepository.createGroup(createSupplierGroupDto);
@@ -59,6 +64,21 @@ export class SupplierService {
   async update(id: number, updateSupplierDto: UpdateSupplierDto) {
     await this.findOne(id);
     return this.supplierRepository.update(id, updateSupplierDto);
+  }
+
+  async addProducts(id: number, addProductDto: AddProductDto) {
+    const supplier = await this.findOne(id);
+    const productsOfSuppliers = supplier.products;
+    const products = await this.productService.findByIds(
+      addProductDto.productIds,
+    );
+    products.forEach((each) => {
+      if (!productsOfSuppliers.includes(each)) {
+        productsOfSuppliers.push(each);
+      }
+    });
+
+    return this.supplierRepository.addProducts(supplier, productsOfSuppliers);
   }
 
   removeGroup(id: number) {

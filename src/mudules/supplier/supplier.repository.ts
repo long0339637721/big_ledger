@@ -11,6 +11,7 @@ import {
   UpdateSupplierDto,
   UpdateSupplierGroupDto,
 } from './dto/update-supplier.dto';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class SupplierRepository {
@@ -85,6 +86,11 @@ export class SupplierRepository {
 
   update(id: number, supplier: UpdateSupplierDto) {
     return this.supplierRepository.update(id, supplier);
+  }
+
+  addProducts(supplier: Supplier, products: Product[]) {
+    supplier.products = products;
+    return this.supplierRepository.save(supplier);
   }
 
   removeGroup(id: number) {

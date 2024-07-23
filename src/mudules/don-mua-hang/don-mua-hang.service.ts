@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { DonMuaHangRepository } from './don-mua-hang.repository';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
@@ -22,13 +26,21 @@ export class DonMuaHangService {
         createDto.purchasingOfficerId,
       );
     const supplier = await this.supplierService.findOne(createDto.supplierId);
+    const productsOfSuppliers = supplier.products.map((each) => each.id);
+    createDto.products.forEach((each) => {
+      if (!productsOfSuppliers.includes(each.productId)) {
+        throw new ConflictException(
+          `Product with ${each.productId} not found in supplier with ${createDto.supplierId}`,
+        );
+      }
+    });
     const productsOfDonMuaHangs = await Promise.all(
       createDto.products.map(async (each) => {
         const product = await this.productService.findOne(each.productId);
         return {
           product: product,
           count: each.count,
-          price: product.priceReceived,
+          price: each.price,
         };
       }),
     );

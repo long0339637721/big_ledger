@@ -18,6 +18,7 @@ import {
   UpdateSupplierDto,
   UpdateSupplierGroupDto,
 } from './dto/update-supplier.dto';
+import { AddProductDto } from './dto/add-product.dto';
 
 @ApiTags('Doi tuong')
 @Controller('supplier')
@@ -45,6 +46,11 @@ export class SupplierController {
     @Body() updateSupplierDto: UpdateSupplierDto,
   ) {
     return this.supplierService.update(+id, updateSupplierDto);
+  }
+
+  @Patch(':id/add-product')
+  addProduct(@Param('id') id: string, @Body() addProductDto: AddProductDto) {
+    return this.supplierService.addProducts(+id, addProductDto);
   }
 
   // @Delete(':id')
