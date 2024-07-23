@@ -11,10 +11,10 @@ export class DonMuaHangController {
     return this.donMuaHangService.create(createDonMuaHangDto);
   }
 
-  // @Post('raw')
-  // createRaw(@Body() createDonMuaHangDto: CreateDonMuaHangDto) {
-  //   return this.donMuaHangService.createRaw(createDonMuaHangDto);
-  // }
+  @Post('raw')
+  createRaw(@Body() createDonMuaHangDto: CreateDonMuaHangDto) {
+    return this.donMuaHangService.create(createDonMuaHangDto, true);
+  }
 
   @Get()
   findAll() {

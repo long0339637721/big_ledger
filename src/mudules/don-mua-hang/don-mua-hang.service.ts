@@ -20,7 +20,7 @@ export class DonMuaHangService {
     private readonly productService: ProductService,
   ) {}
 
-  async create(createDto: CreateDonMuaHangDto) {
+  async create(createDto: CreateDonMuaHangDto, raw = false) {
     const purchasingOfficer =
       await this.employeeService.findOnePurchasingOfficer(
         createDto.purchasingOfficerId,
@@ -48,6 +48,7 @@ export class DonMuaHangService {
       purchasingOfficer,
       supplier,
       productsOfDonMuaHangs,
+      raw,
     );
   }
 

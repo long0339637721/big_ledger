@@ -2,17 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
-import { DonMuaHang } from './entities/don-mua-hang.entity';
+import {
+  DonMuaHang,
+  ProductOfDonMuaHang,
+} from './entities/don-mua-hang.entity';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
 import { PurchasingOfficer } from '../employee/entities/employee.entity';
 import { Supplier } from '../supplier/entities';
-import { OrderType } from 'src/constants';
 
 @Injectable()
 export class DonMuaHangRepository {
   private readonly donMuaHangRepository: Repository<DonMuaHang>;
+  private readonly productOfDonMuaHangRepository: Repository<ProductOfDonMuaHang>;
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {
     this.donMuaHangRepository = this.dataSource.getRepository(DonMuaHang);
+    this.productOfDonMuaHangRepository =
+      this.dataSource.getRepository(ProductOfDonMuaHang);
   }
 
   create(
@@ -24,17 +29,30 @@ export class DonMuaHangRepository {
       count: number;
       price: number;
     }[],
+    raw = false,
   ) {
     const newDonMuaHang = this.donMuaHangRepository.create({
       ...createDonMuaHangDto,
       purchasingOfficer: purchasingOfficer,
       supplier: supplier,
     });
+    if (raw) {
+      const products = productOfDonMuaHangs.map((each) => {
+        return this.productOfDonMuaHangRepository.create({
+          product: each.product,
+          count: each.count,
+          price: each.price,
+          donMuaHang: newDonMuaHang,
+        });
+      });
+      newDonMuaHang.productOfDonMuaHangs = products;
+      return newDonMuaHang;
+    }
     return this.dataSource.transaction(async (manager) => {
       const donMuaHang = await manager.save(newDonMuaHang);
       await Promise.all(
         productOfDonMuaHangs.map(async (each) => {
-          const productOfDonMuaHang = manager.create('ProductOfDonMuaHang', {
+          const productOfDonMuaHang = manager.create(ProductOfDonMuaHang, {
             product: each.product,
             count: each.count,
             price: each.price,
