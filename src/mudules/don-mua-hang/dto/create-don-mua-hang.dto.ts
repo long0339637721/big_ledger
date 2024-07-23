@@ -28,6 +28,12 @@ class ProductOfDonMuaHang {
   @Min(1, { message: 'Count must be greater than or equal to 1' })
   count: number;
 
+  @ApiProperty({ example: 1000 })
+  @IsNumber({}, { message: 'Price must be a number' })
+  @IsNotEmpty({ message: 'Price is required' })
+  @Min(0, { message: 'Price must be greater than or equal to 0' })
+  price: number;
+
   @ApiProperty({ example: 1 })
   @IsNumber({}, { message: 'Product id must be a number' })
   @IsNotEmpty({ message: 'Product id is required' })
