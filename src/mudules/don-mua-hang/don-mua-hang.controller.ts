@@ -1,16 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { DonMuaHangService } from './don-mua-hang.service';
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
-import { UpdateDonMuaHangDto } from './dto/update-don-mua-hang.dto';
-import { GetDonMuaHangDto } from './dto/get-don-mua-hang.dto';
 
 @Controller('don-mua-hang')
 export class DonMuaHangController {
@@ -20,6 +10,11 @@ export class DonMuaHangController {
   create(@Body() createDonMuaHangDto: CreateDonMuaHangDto) {
     return this.donMuaHangService.create(createDonMuaHangDto);
   }
+
+  // @Post('raw')
+  // createRaw(@Body() createDonMuaHangDto: CreateDonMuaHangDto) {
+  //   return this.donMuaHangService.createRaw(createDonMuaHangDto);
+  // }
 
   @Get()
   findAll() {

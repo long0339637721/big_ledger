@@ -27,15 +27,13 @@ export class DonMuaHangService {
       );
     const supplier = await this.supplierService.findOne(createDto.supplierId);
     const productsOfSuppliers = supplier.products.map((each) => each.id);
-    createDto.products.forEach((each) => {
-      if (!productsOfSuppliers.includes(each.productId)) {
-        throw new ConflictException(
-          `Product with ${each.productId} not found in supplier with ${createDto.supplierId}`,
-        );
-      }
-    });
     const productsOfDonMuaHangs = await Promise.all(
       createDto.products.map(async (each) => {
+        if (!productsOfSuppliers.includes(each.productId)) {
+          throw new ConflictException(
+            `Product with ${each.productId} not found in supplier with ${createDto.supplierId}`,
+          );
+        }
         const product = await this.productService.findOne(each.productId);
         return {
           product: product,
@@ -53,9 +51,8 @@ export class DonMuaHangService {
     );
   }
 
-  async findAll() {
-    const donMuaHangs = await this.donMuaHangRepository.findAll();
-    return donMuaHangs;
+  findAll() {
+    return this.donMuaHangRepository.findAll();
   }
 
   async findOne(id: number) {
