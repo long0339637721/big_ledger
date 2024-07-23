@@ -21,27 +21,18 @@ export class CtmuaService {
   ) {}
 
   async create(createCtmuaDto: CreateCtmuaDto) {
-    const nguoiNhanHang = await this.employeeService.findOneWarehouseKeeper(
-      createCtmuaDto.nguoiNhanHangId,
+    const warehouseKeeper = await this.employeeService.findOneWarehouseKeeper(
+      createCtmuaDto.warehouseKeeperId,
     );
-    if (!nguoiNhanHang) {
-      throw new NotFoundException('Nguoi nhan hang not found');
-    }
 
-    if (createCtmuaDto.donMuaHangIds.length === 0) {
-      throw new UnprocessableEntityException('Don mua hang ids is empty');
-    }
-
-    const donMuaHangs = await Promise.all(
-      createCtmuaDto.donMuaHangIds.map((id) =>
-        this.donMuaHangService.findOne(id),
-      ),
+    const donMuaHang = await this.donMuaHangService.findOne(
+      createCtmuaDto.donMuaHangId,
     );
 
     return this.ctmuaRepository.create(
       createCtmuaDto,
-      nguoiNhanHang,
-      donMuaHangs,
+      warehouseKeeper,
+      donMuaHang,
     );
   }
 
