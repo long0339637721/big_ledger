@@ -19,11 +19,6 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ example: 1000 })
-  @IsNumber(undefined, { message: 'PriceReceived is not valid' })
-  @IsNotEmpty({ message: 'PriceReceived is required' })
-  priceReceived: number;
-
   @ApiProperty({ example: 1200 })
   @IsNumber(undefined, { message: 'PriceDelivery is not valid' })
   @IsNotEmpty({ message: 'PriceDelivery is required' })

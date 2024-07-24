@@ -31,9 +31,6 @@ export class Product extends AbstractEntity {
   description?: string;
 
   @Column({ type: 'int' })
-  priceReceived: number;
-
-  @Column({ type: 'int' })
   priceDelivery: number;
 
   @Column({ type: 'int', default: 0 })
