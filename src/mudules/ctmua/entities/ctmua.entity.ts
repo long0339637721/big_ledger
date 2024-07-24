@@ -25,7 +25,7 @@ export class Ctmua extends AbstractEntity {
   })
   paymentStatus: PaymentStatusType;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: new Date() })
   paymentTerm: Date;
 
   @Column({ type: 'varchar', nullable: true })
