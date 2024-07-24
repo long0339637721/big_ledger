@@ -100,7 +100,7 @@ export class CreateDonMuaHangDto {
   @ApiProperty({
     type: [ProductOfDonMuaHang],
     description: 'List of products',
-    example: [{ productId: 1, count: 1 }],
+    example: [{ productId: 1, count: 1, price: 1000 }],
   })
   @IsArray({ message: 'Products must be an array' })
   @ArrayNotEmpty({ message: 'Products must not be empty' })
