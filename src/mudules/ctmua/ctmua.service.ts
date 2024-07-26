@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnprocessableEntityException,
@@ -11,6 +12,7 @@ import { CtmuaRepository } from './ctmua.repository';
 import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { DonMuaHangService } from '../don-mua-hang/don-mua-hang.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class CtmuaService {
@@ -18,21 +20,81 @@ export class CtmuaService {
     private readonly ctmuaRepository: CtmuaRepository,
     private readonly employeeService: EmployeeService,
     private readonly donMuaHangService: DonMuaHangService,
+    private readonly productService: ProductService,
   ) {}
 
   async create(createCtmuaDto: CreateCtmuaDto) {
     const warehouseKeeper = await this.employeeService.findOneWarehouseKeeper(
       createCtmuaDto.warehouseKeeperId,
     );
-
     const donMuaHang = await this.donMuaHangService.findOne(
       createCtmuaDto.donMuaHangId,
     );
+    const productOfDonMuaHangs = donMuaHang.productOfDonMuaHangs;
+    const productOfCtmuas = await Promise.all(
+      createCtmuaDto.products.map(async (each) => {
+        const product = await this.productService.findOne(each.productId);
+        const productOfDonMuaHang = productOfDonMuaHangs.find(
+          (productOfDonMuaHang) =>
+            productOfDonMuaHang.product.id === product.id,
+        );
+        if (!productOfDonMuaHang) {
+          throw new ConflictException(
+            `Product ${product.id} not found in DonMuaHang`,
+          );
+        }
+        if (
+          productOfDonMuaHang.count - productOfDonMuaHang.delivered <
+          each.count
+        ) {
+          throw new UnprocessableEntityException(
+            `Product ${product.id} has only ${
+              productOfDonMuaHang.count - productOfDonMuaHang.delivered
+            } left`,
+          );
+        }
+        return {
+          product: product,
+          count: each.count,
+          price: productOfDonMuaHang.price,
+        };
+      }),
+    );
+
+    productOfCtmuas.forEach(async (each) => {
+      await this.donMuaHangService.deliverDonMuaHang(
+        donMuaHang.id,
+        each.product,
+        each.count,
+      );
+      await this.productService.deliverProduct(
+        each.product.id,
+        each.count,
+        true,
+      );
+    });
+
+    await this.donMuaHangService.checkAndUpdateDocumentStatus(donMuaHang.id);
+
+    const totalProductValue = productOfCtmuas.reduce(
+      (sum, each) => sum + each.count * each.price,
+      0,
+    );
+    const totalDiscountValue =
+      donMuaHang.discountRate * totalProductValue + donMuaHang.discount;
+    const finalValue =
+      totalProductValue - totalDiscountValue >= 0
+        ? totalProductValue - totalDiscountValue
+        : 0;
 
     return this.ctmuaRepository.create(
       createCtmuaDto,
       warehouseKeeper,
       donMuaHang,
+      totalProductValue,
+      totalDiscountValue,
+      finalValue,
+      productOfCtmuas,
     );
   }
 

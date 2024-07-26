@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { Ctmua } from './entities/ctmua.entity';
+import { Ctmua, ProductOfCtmua } from './entities/ctmua.entity';
 import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
 import { DonMuaHang } from '../don-mua-hang/entities/don-mua-hang.entity';
+import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class CtmuaRepository {
@@ -17,13 +18,38 @@ export class CtmuaRepository {
     createCtmuaDto: CreateCtmuaDto,
     warehouseKeeper: WarehouseKeeper,
     donMuaHang: DonMuaHang,
+    totalProductValue: number,
+    totalDiscountValue: number,
+    finalValue: number,
+    productOfCtmuas: {
+      product: Product;
+      count: number;
+      price: number;
+    }[],
   ) {
     const newCtmua = this.ctmuaRepository.create({
       ...createCtmuaDto,
       warehouseKeeper: warehouseKeeper,
       donMuaHang: donMuaHang,
+      totalProductValue: totalProductValue,
+      totalDiscountValue: totalDiscountValue,
+      finalValue: finalValue,
     });
-    return this.ctmuaRepository.save(newCtmua);
+    return this.dataSource.transaction(async (manager) => {
+      const ctmua = await manager.save<Ctmua>(newCtmua);
+      await Promise.all(
+        productOfCtmuas.map(async (each) => {
+          const productOfCtmua = manager.create(ProductOfCtmua, {
+            product: each.product,
+            count: each.count,
+            price: each.price,
+            ctmua: ctmua,
+          });
+          await manager.save(productOfCtmua);
+        }),
+      );
+      return ctmua;
+    });
   }
 
   findAll() {

@@ -9,6 +9,7 @@ import {
 import { CreateDonMuaHangDto } from './dto/create-don-mua-hang.dto';
 import { PurchasingOfficer } from '../employee/entities/employee.entity';
 import { Supplier } from '../supplier/entities';
+import { DocumentStatusType } from 'src/constants';
 
 @Injectable()
 export class DonMuaHangRepository {
@@ -91,6 +92,18 @@ export class DonMuaHangRepository {
         },
         ctmuas: true,
       },
+    });
+  }
+
+  deliverDonMuaHang(productOfDonMuaHangId: number, delivered: number) {
+    return this.productOfDonMuaHangRepository.update(productOfDonMuaHangId, {
+      delivered: delivered,
+    });
+  }
+
+  updateDocumentStatus(id: number, status: DocumentStatusType) {
+    return this.donMuaHangRepository.update(id, {
+      documentStatus: status,
     });
   }
 
