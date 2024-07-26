@@ -88,7 +88,7 @@ export class DonMuaHangService {
       );
     }
     return this.donMuaHangRepository.deliverDonMuaHang(
-      id,
+      productOfDonMuaHang.id,
       productOfDonMuaHang.delivered + count,
     );
   }
