@@ -60,7 +60,9 @@ export class CtmuaRepository {
           supplier: true,
           productOfDonMuaHangs: true,
         },
-        productOfCtmua: true,
+        productOfCtmua: {
+          product: true,
+        },
         phieuChi: true,
       },
     });
@@ -77,7 +79,9 @@ export class CtmuaRepository {
           supplier: true,
           productOfDonMuaHangs: true,
         },
-        productOfCtmua: true,
+        productOfCtmua: {
+          product: true,
+        },
         phieuChi: true,
       },
     });
