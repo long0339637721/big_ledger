@@ -81,7 +81,7 @@ export class CtmuaService {
       0,
     );
     const totalDiscountValue =
-      donMuaHang.discountRate * totalProductValue + donMuaHang.discount;
+      (donMuaHang.discountRate * totalProductValue) / 100 + donMuaHang.discount;
     const finalValue =
       totalProductValue - totalDiscountValue >= 0
         ? totalProductValue - totalDiscountValue
