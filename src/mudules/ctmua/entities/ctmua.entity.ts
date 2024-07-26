@@ -4,7 +4,10 @@ import { Product } from 'src/mudules/product/entities/product.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { WarehouseKeeper } from 'src/mudules/employee/entities/employee.entity';
-import { ChungTuCuaPhieuChi } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
+import {
+  ChungTuCuaPhieuChiTienGui,
+  ChungTuCuaPhieuChiTienMat,
+} from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
 
 @Entity({ name: 'ctmua' })
 export class Ctmua extends AbstractEntity {
@@ -54,10 +57,15 @@ export class Ctmua extends AbstractEntity {
   @OneToMany(() => ProductOfCtmua, (productOfCtban) => productOfCtban.ctmua)
   productOfCtmua: ProductOfCtmua[];
 
-  @OneToMany(() => ChungTuCuaPhieuChi, (phieuChi) => phieuChi.ctmua, {
+  @OneToMany(() => ChungTuCuaPhieuChiTienMat, (phieuChi) => phieuChi.ctmua, {
     nullable: false,
   })
-  phieuChi: ChungTuCuaPhieuChi[];
+  phieuChiTienMat: ChungTuCuaPhieuChiTienMat[];
+
+  @OneToMany(() => ChungTuCuaPhieuChiTienGui, (phieuChi) => phieuChi.ctmua, {
+    nullable: false,
+  })
+  phieuChiTienGui: ChungTuCuaPhieuChiTienGui[];
 }
 
 @Entity({ name: 'product_of_ctmua' })

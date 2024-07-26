@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { PhieuChiTienGui } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
+import { PhieuThuTienGui } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 
 @Entity({ name: 'bank_accounts' })
 export class BankAccount extends AbstractEntity {
@@ -21,4 +22,7 @@ export class BankAccount extends AbstractEntity {
 
   @OneToMany(() => PhieuChiTienGui, (phieuChi) => phieuChi.bankAccount)
   phieuChi: PhieuChiTienGui[];
+
+  @OneToMany(() => PhieuThuTienGui, (phieuThu) => phieuThu.bankAccount)
+  phieuThu: PhieuThuTienGui[];
 }

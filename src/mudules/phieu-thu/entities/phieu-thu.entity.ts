@@ -54,7 +54,7 @@ export class PhieuThuTienGui extends AbstractEntity {
   })
   salesperson: Salesperson;
 
-  @ManyToOne(() => BankAccount, (bankAccount) => bankAccount.phieuChi, {
+  @ManyToOne(() => BankAccount, (bankAccount) => bankAccount.phieuThu, {
     nullable: false,
   })
   bankAccount: BankAccount;

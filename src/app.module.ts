@@ -53,7 +53,8 @@ import { HdmuaModule } from './mudules/hdmua/hdmua.module';
 import {
   PhieuChiTienMat,
   PhieuChiTienGui,
-  ChungTuCuaPhieuChi,
+  ChungTuCuaPhieuChiTienMat,
+  ChungTuCuaPhieuChiTienGui,
 } from './mudules/phieu-chi/entities/phieu-chi.entity';
 import { PhieuChiModule } from './mudules/phieu-chi/phieu-chi.module';
 import {
@@ -132,7 +133,8 @@ dotenv.config();
         Hdmua,
         PhieuChiTienMat,
         PhieuChiTienGui,
-        ChungTuCuaPhieuChi,
+        ChungTuCuaPhieuChiTienMat,
+        ChungTuCuaPhieuChiTienGui,
         PhieuThuTienMat,
         PhieuThuTienGui,
         ChungTuCuaPhieuThuTienMat,
