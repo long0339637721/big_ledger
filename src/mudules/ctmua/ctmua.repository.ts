@@ -57,6 +57,7 @@ export class CtmuaRepository {
       relations: {
         warehouseKeeper: true,
         donMuaHang: {
+          supplier: true,
           productOfDonMuaHangs: true,
         },
         productOfCtmua: true,
@@ -73,6 +74,7 @@ export class CtmuaRepository {
       relations: {
         warehouseKeeper: true,
         donMuaHang: {
+          supplier: true,
           productOfDonMuaHangs: true,
         },
         productOfCtmua: true,
