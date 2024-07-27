@@ -63,7 +63,8 @@ export class CtmuaRepository {
         productOfCtmua: {
           product: true,
         },
-        phieuChi: true,
+        phieuChiTienGui: true,
+        phieuChiTienMat: true,
       },
     });
   }
@@ -82,7 +83,8 @@ export class CtmuaRepository {
         productOfCtmua: {
           product: true,
         },
-        phieuChi: true,
+        phieuChiTienGui: true,
+        phieuChiTienMat: true,
       },
     });
   }
