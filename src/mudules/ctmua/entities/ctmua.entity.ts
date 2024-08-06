@@ -58,12 +58,12 @@ export class Ctmua extends AbstractEntity {
   productOfCtmua: ProductOfCtmua[];
 
   @OneToMany(() => ChungTuCuaPhieuChiTienMat, (phieuChi) => phieuChi.ctmua, {
-    nullable: false,
+    nullable: true,
   })
   phieuChiTienMat: ChungTuCuaPhieuChiTienMat[];
 
   @OneToMany(() => ChungTuCuaPhieuChiTienGui, (phieuChi) => phieuChi.ctmua, {
-    nullable: false,
+    nullable: true,
   })
   phieuChiTienGui: ChungTuCuaPhieuChiTienGui[];
 }

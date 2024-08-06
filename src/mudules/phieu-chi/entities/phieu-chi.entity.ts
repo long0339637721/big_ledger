@@ -59,10 +59,10 @@ export class PhieuChiTienGui extends AbstractEntity {
   purchasingOfficer: PurchasingOfficer;
 
   @OneToMany(
-    () => ChungTuCuaPhieuChiTienMat,
-    (chungTu) => chungTu.phieuChiTienMat,
+    () => ChungTuCuaPhieuChiTienGui,
+    (chungTu) => chungTu.phieuChiTienGui,
   )
-  chungTu: ChungTuCuaPhieuChiTienMat[];
+  chungTu: ChungTuCuaPhieuChiTienGui[];
 
   @ManyToOne(() => BankAccount, (bankAccount) => bankAccount.phieuChi, {
     nullable: false,
@@ -71,7 +71,7 @@ export class PhieuChiTienGui extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_mat' })
-@Unique(['phieuChi', 'ctmua'])
+@Unique(['phieuChiTienMat', 'ctmua'])
 export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
   @Column({ type: 'int' })
   money: number;
@@ -89,7 +89,7 @@ export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_gui' })
-@Unique(['phieuChi', 'ctmua'])
+@Unique(['phieuChiTienGui', 'ctmua'])
 export class ChungTuCuaPhieuChiTienGui extends AbstractEntity {
   @Column({ type: 'int' })
   money: number;

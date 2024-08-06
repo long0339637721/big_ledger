@@ -6,6 +6,7 @@ import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
 import { DonMuaHang } from '../don-mua-hang/entities/don-mua-hang.entity';
 import { Product } from '../product/entities/product.entity';
+import { PaymentStatusType } from 'src/constants';
 
 @Injectable()
 export class CtmuaRepository {
@@ -63,7 +64,11 @@ export class CtmuaRepository {
         productOfCtmua: {
           product: true,
         },
-        phieuChiTienGui: true,
+        phieuChiTienGui: {
+          phieuChiTienGui: {
+            bankAccount: true,
+          },
+        },
         phieuChiTienMat: true,
       },
     });
@@ -83,9 +88,19 @@ export class CtmuaRepository {
         productOfCtmua: {
           product: true,
         },
-        phieuChiTienGui: true,
+        phieuChiTienGui: {
+          phieuChiTienGui: {
+            bankAccount: true,
+          },
+        },
         phieuChiTienMat: true,
       },
+    });
+  }
+
+  updatePaymentStatus(id: number, status: PaymentStatusType) {
+    return this.ctmuaRepository.update(id, {
+      paymentStatus: status,
     });
   }
 

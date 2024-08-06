@@ -13,6 +13,7 @@ import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { DonMuaHangService } from '../don-mua-hang/don-mua-hang.service';
 import { ProductService } from '../product/product.service';
+import { PAYMENT_STATUS } from 'src/constants';
 
 @Injectable()
 export class CtmuaService {
@@ -108,6 +109,23 @@ export class CtmuaService {
       throw new NotFoundException(`Ctmua with id ${id} not found`);
     }
     return ctmua;
+  }
+
+  async checkAndUpdatePaymentStatus(id: number) {
+    const ctmua = await this.findOne(id);
+    if (ctmua.finalValue === ctmua.paidValue) {
+      return this.ctmuaRepository.updatePaymentStatus(id, PAYMENT_STATUS.PAID);
+    }
+    if (ctmua.paidValue > 0) {
+      return this.ctmuaRepository.updatePaymentStatus(
+        id,
+        PAYMENT_STATUS.BEING_PAID,
+      );
+    }
+    return this.ctmuaRepository.updatePaymentStatus(
+      id,
+      PAYMENT_STATUS.NOT_PAID,
+    );
   }
 
   update(id: number, updateCtmuaDto: UpdateCtmuaDto) {

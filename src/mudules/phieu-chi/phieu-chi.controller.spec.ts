@@ -1,17 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PhieuChiController } from './phieu-chi.controller';
+import { PhieuChiTienMatController } from './phieu-chi.controller';
 import { PhieuChiService } from './phieu-chi.service';
 
 describe('PhieuChiController', () => {
-  let controller: PhieuChiController;
+  let controller: PhieuChiTienMatController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [PhieuChiController],
+      controllers: [PhieuChiTienMatController],
       providers: [PhieuChiService],
     }).compile();
 
-    controller = module.get<PhieuChiController>(PhieuChiController);
+    controller = module.get<PhieuChiTienMatController>(
+      PhieuChiTienMatController,
+    );
   });
 
   it('should be defined', () => {
