@@ -37,16 +37,16 @@ export class Ctmua extends AbstractEntity {
   @Column({ type: 'varchar', nullable: true })
   shipper: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   totalProductValue: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   totalDiscountValue: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   finalValue: number;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'float', default: 0 })
   paidValue: number;
 
   @ManyToOne(() => DonMuaHang, (donMuaHang) => donMuaHang.ctmuas, {

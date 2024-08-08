@@ -73,7 +73,7 @@ export class PhieuChiTienGui extends AbstractEntity {
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_mat' })
 @Unique(['phieuChiTienMat', 'ctmua'])
 export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   money: number;
 
   @Column({ type: 'varchar', nullable: true })
@@ -91,7 +91,7 @@ export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_gui' })
 @Unique(['phieuChiTienGui', 'ctmua'])
 export class ChungTuCuaPhieuChiTienGui extends AbstractEntity {
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   money: number;
 
   @Column({ type: 'varchar', nullable: true })

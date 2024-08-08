@@ -32,19 +32,19 @@ export class Ctban extends AbstractEntity {
   @Column({ type: 'date' })
   paymentTerm: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   totalProductValue: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   totalTaxValue: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   totalDiscountValue: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float', default: 0 })
   finalValue: number;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'float', default: 0 })
   paidValue: number;
 
   @Column({
