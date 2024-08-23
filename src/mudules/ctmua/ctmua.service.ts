@@ -128,6 +128,121 @@ export class CtmuaService {
     );
   }
 
+  async reportCostOfYear(year: number) {
+    const startDate = new Date(year, 0, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, 11, 31, 23, 59, 59, 999);
+    const ctmuas = await this.ctmuaRepository.findByDate(startDate, endDate);
+    const ctbansGroupByMonth = new Map();
+    for (let i = 1; i < 13; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        finalValue: 0,
+        paidValue: 0,
+        ctmuas: [],
+      });
+    }
+    ctmuas.forEach((ctmua) => {
+      const createdAt = new Date(ctmua.createdAt);
+      const month = createdAt.getMonth() + 1;
+      if (!ctbansGroupByMonth.has(month)) {
+        ctbansGroupByMonth.set(month, {
+          month: month,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          finalValue: 0,
+          paidValue: 0,
+          ctmuas: [],
+        });
+      }
+      ctbansGroupByMonth.get(month).totalProductValue +=
+        ctmua.totalProductValue;
+      ctbansGroupByMonth.get(month).totalDiscountValue +=
+        ctmua.totalDiscountValue;
+      ctbansGroupByMonth.get(month).finalValue += ctmua.finalValue;
+      ctbansGroupByMonth.get(month).paidValue += ctmua.paidValue;
+      ctbansGroupByMonth.get(month).ctmuas.push(ctmua);
+    });
+    return Array.from(ctbansGroupByMonth.values());
+  }
+
+  async reportCostOfQuarter(year: number, quarter: number) {
+    const startDate = new Date(year, (quarter - 1) * 3, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, quarter * 3, 0, 23, 59, 59, 999);
+    const ctmuas = await this.ctmuaRepository.findByDate(startDate, endDate);
+    const ctbansGroupByMonth = new Map();
+    for (let i = (quarter - 1) * 3 + 1; i < quarter * 3 + 1; i++) {
+      ctbansGroupByMonth.set(i, {
+        month: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        finalValue: 0,
+        paidValue: 0,
+        ctmuas: [],
+      });
+    }
+    ctmuas.forEach((ctmua) => {
+      const createdAt = new Date(ctmua.createdAt);
+      const month = createdAt.getMonth() + 1;
+      if (!ctbansGroupByMonth.has(month)) {
+        ctbansGroupByMonth.set(month, {
+          month: month,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          finalValue: 0,
+          paidValue: 0,
+          ctmuas: [],
+        });
+      }
+      ctbansGroupByMonth.get(month).totalProductValue +=
+        ctmua.totalProductValue;
+      ctbansGroupByMonth.get(month).totalDiscountValue +=
+        ctmua.totalDiscountValue;
+      ctbansGroupByMonth.get(month).finalValue += ctmua.finalValue;
+      ctbansGroupByMonth.get(month).paidValue += ctmua.paidValue;
+      ctbansGroupByMonth.get(month).ctmuas.push(ctmua);
+    });
+    return Array.from(ctbansGroupByMonth.values());
+  }
+
+  async reportCostOfMonth(year: number, month: number) {
+    const startDate = new Date(year, month - 1, 1, 0, 0, 0, 0);
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+    const ctmuas = await this.ctmuaRepository.findByDate(startDate, endDate);
+    const ctbansGroupByDay = new Map();
+    for (let i = 1; i < new Date(year, month, 0).getDate() + 1; i++) {
+      ctbansGroupByDay.set(i, {
+        day: i,
+        totalProductValue: 0,
+        totalDiscountValue: 0,
+        finalValue: 0,
+        paidValue: 0,
+        ctmuas: [],
+      });
+    }
+    ctmuas.forEach((ctmua) => {
+      const createdAt = new Date(ctmua.createdAt);
+      const day = createdAt.getDate();
+      if (!ctbansGroupByDay.has(day)) {
+        ctbansGroupByDay.set(day, {
+          day: day,
+          totalProductValue: 0,
+          totalDiscountValue: 0,
+          finalValue: 0,
+          paidValue: 0,
+          ctmuas: [],
+        });
+      }
+      ctbansGroupByDay.get(day).totalProductValue += ctmua.totalProductValue;
+      ctbansGroupByDay.get(day).totalDiscountValue += ctmua.totalDiscountValue;
+      ctbansGroupByDay.get(day).finalValue += ctmua.finalValue;
+      ctbansGroupByDay.get(day).paidValue += ctmua.paidValue;
+      ctbansGroupByDay.get(day).ctmuas.push(ctmua);
+    });
+    return Array.from(ctbansGroupByDay.values());
+  }
+
   update(id: number, updateCtmuaDto: UpdateCtmuaDto) {
     return `This action updates a #${id} ctmua`;
   }

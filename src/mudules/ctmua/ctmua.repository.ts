@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 import { Ctmua, ProductOfCtmua } from './entities/ctmua.entity';
 import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
@@ -101,6 +101,20 @@ export class CtmuaRepository {
   updatePaymentStatus(id: number, status: PaymentStatusType) {
     return this.ctmuaRepository.update(id, {
       paymentStatus: status,
+    });
+  }
+
+  findByDate(startDate: Date, endDate: Date) {
+    return this.ctmuaRepository.find({
+      where: {
+        createdAt: Between(startDate, endDate),
+      },
+      relations: {
+        donMuaHang: true,
+        productOfCtmua: {
+          product: true,
+        },
+      },
     });
   }
 

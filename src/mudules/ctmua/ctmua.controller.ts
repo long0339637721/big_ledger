@@ -22,6 +22,13 @@ export class CtmuaController {
     return this.ctmuaService.create(createCtmuaDto);
   }
 
+  // @Post('report-by-product')
+  // reportByProduct(@Body() query: FilterByDateDto) {
+  //   const startDate = new Date(query.startDate);
+  //   const endDate = new Date(query.endDate);
+  //   return this.ctmuaService.findAndGroupByProduct(startDate, endDate);
+  // }
+
   @Get()
   findAll() {
     return this.ctmuaService.findAll();
@@ -30,6 +37,27 @@ export class CtmuaController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ctmuaService.findOne(+id);
+  }
+
+  @Get('report-revenue-of-year/:year')
+  reportRevenue(@Param('year') year: string) {
+    return this.ctmuaService.reportCostOfYear(+year);
+  }
+
+  @Get('report-revenue-of-quarter/:year/:quarter')
+  reportRevenueOfQuarter(
+    @Param('year') year: string,
+    @Param('quarter') quarter: string,
+  ) {
+    return this.ctmuaService.reportCostOfQuarter(+year, +quarter);
+  }
+
+  @Get('report-revenue-of-month/:year/:month')
+  reportRevenueOfMonth(
+    @Param('year') year: string,
+    @Param('month') month: string,
+  ) {
+    return this.ctmuaService.reportCostOfMonth(+year, +month);
   }
 
   // @Patch(':id')
