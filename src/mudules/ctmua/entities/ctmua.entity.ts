@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, ManyToMany } from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
@@ -8,6 +8,7 @@ import {
   ChungTuCuaPhieuChiTienGui,
   ChungTuCuaPhieuChiTienMat,
 } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
+import { ReportCostProductDetail } from 'src/mudules/report-cost/entities/report-cost.entity';
 
 @Entity({ name: 'ctmua' })
 export class Ctmua extends AbstractEntity {
@@ -66,6 +67,12 @@ export class Ctmua extends AbstractEntity {
     nullable: true,
   })
   phieuChiTienGui: ChungTuCuaPhieuChiTienGui[];
+
+  @ManyToMany(
+    () => ReportCostProductDetail,
+    (reportCostProductDetail) => reportCostProductDetail.ctmuas,
+  )
+  reportCostProductDetails: ReportCostProductDetail[];
 }
 
 @Entity({ name: 'product_of_ctmua' })

@@ -6,6 +6,7 @@ import { ProductOfDonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-h
 import { ProductOfDonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { ProductOfCtban } from 'src/mudules/ctban/entities/ctban.entity';
 import { ProductOfCtmua } from 'src/mudules/ctmua/entities/ctmua.entity';
+import { ReportCostDetail } from 'src/mudules/report-cost/entities/report-cost.entity';
 
 @Entity({ name: 'product_groups' })
 export class ProductGroup extends AbstractEntity {
@@ -70,4 +71,10 @@ export class Product extends AbstractEntity {
 
   @OneToMany(() => ProductOfCtmua, (productOfCtmua) => productOfCtmua.product)
   productOfCtmua: ProductOfCtmua[];
+
+  @OneToMany(
+    () => ReportCostDetail,
+    (reportCostDetail) => reportCostDetail.product,
+  )
+  reportCostDetails: ReportCostDetail[];
 }

@@ -74,6 +74,12 @@ import {
 } from './mudules/product/entities/product.entity';
 import { ProductModule } from './mudules/product/product.module';
 import {
+  ReportCost,
+  ReportCostDetail,
+  ReportCostProductDetail,
+} from './mudules/report-cost/entities/report-cost.entity';
+import { ReportCostModule } from './mudules/report-cost/report-cost.module';
+import {
   ReportDccn,
   ReportDccnDetail,
   ReportDccnCustomerDetail,
@@ -143,6 +149,9 @@ dotenv.config();
         PhieuXuat,
         Product,
         ProductGroup,
+        ReportCost,
+        ReportCostDetail,
+        ReportCostProductDetail,
         ReportDccn,
         ReportDccnDetail,
         ReportDccnCustomerDetail,
@@ -194,6 +203,7 @@ dotenv.config();
     PhieuNhapModule,
     PhieuXuatModule,
     ProductModule,
+    ReportCostModule,
     ReportDccnModule,
     ReportThcnModule,
     ReportDtbhModule,
