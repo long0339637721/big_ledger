@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportCostDto } from './dto/create-report-cost.dto';
 import { UpdateReportCostDto } from './dto/update-report-cost.dto';
 import { ReportCostRepository } from './report-cost.repository';
@@ -13,23 +13,25 @@ export class ReportCostService {
     private readonly employeeService: EmployeeService,
   ) {}
 
-  create(createReportCostDto: CreateReportCostDto) {
-    return 'This action adds a new reportCost';
+  async create(createReportCostDto: CreateReportCostDto) {
+    const startDate = new Date(createReportCostDto.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(createReportCostDto.endDate);
+    endDate.setHours(23, 59, 59, 999);
+    const ctmuas = await this.ctmuaService.findByDate(startDate, endDate);
+
+    // const
   }
 
   findAll() {
-    return `This action returns all reportCost`;
+    return this.reportCostRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reportCost`;
-  }
-
-  update(id: number, updateReportCostDto: UpdateReportCostDto) {
-    return `This action updates a #${id} reportCost`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} reportCost`;
+  async findOne(id: number) {
+    const reportCost = await this.reportCostRepository.findOne(id);
+    if (!reportCost) {
+      throw new NotFoundException(`Report cost #${id} not found`);
+    }
+    return reportCost;
   }
 }

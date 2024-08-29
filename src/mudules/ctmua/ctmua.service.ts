@@ -103,6 +103,10 @@ export class CtmuaService {
     return this.ctmuaRepository.findAll();
   }
 
+  async findByDate(startDate: Date = new Date(0), endDate: Date = new Date()) {
+    return this.ctmuaRepository.findByDate(startDate, endDate);
+  }
+
   async findOne(id: number) {
     const ctmua = await this.ctmuaRepository.findOne(id);
     if (!ctmua) {
