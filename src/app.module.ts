@@ -73,12 +73,14 @@ import {
   ProductGroup,
 } from './mudules/product/entities/product.entity';
 import { ProductModule } from './mudules/product/product.module';
-import {
-  ReportCost,
-  ReportCostDetail,
-  ReportCostProductDetail,
-} from './mudules/report-cost/entities/report-cost.entity';
+import { ReportCost } from './mudules/report-cost/entities/report-cost.entity';
 import { ReportCostModule } from './mudules/report-cost/report-cost.module';
+import {
+  ReportCpmh,
+  ReportCpmhDetail,
+  ReportCpmhProductDetail,
+} from './mudules/report-cpmh/entities/report-cpmh.entity';
+import { ReportCpmhModule } from './mudules/report-cpmh/report-cpmh.module';
 import {
   ReportDccn,
   ReportDccnDetail,
@@ -150,8 +152,9 @@ dotenv.config();
         Product,
         ProductGroup,
         ReportCost,
-        ReportCostDetail,
-        ReportCostProductDetail,
+        ReportCpmh,
+        ReportCpmhDetail,
+        ReportCpmhProductDetail,
         ReportDccn,
         ReportDccnDetail,
         ReportDccnCustomerDetail,
@@ -204,6 +207,7 @@ dotenv.config();
     PhieuXuatModule,
     ProductModule,
     ReportCostModule,
+    ReportCpmhModule,
     ReportDccnModule,
     ReportThcnModule,
     ReportDtbhModule,

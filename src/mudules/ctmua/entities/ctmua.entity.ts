@@ -8,7 +8,7 @@ import {
   ChungTuCuaPhieuChiTienGui,
   ChungTuCuaPhieuChiTienMat,
 } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
-import { ReportCostProductDetail } from 'src/mudules/report-cost/entities/report-cost.entity';
+import { ReportCpmhProductDetail } from 'src/mudules/report-cpmh/entities/report-cpmh.entity';
 
 @Entity({ name: 'ctmua' })
 export class Ctmua extends AbstractEntity {
@@ -69,10 +69,10 @@ export class Ctmua extends AbstractEntity {
   phieuChiTienGui: ChungTuCuaPhieuChiTienGui[];
 
   @ManyToMany(
-    () => ReportCostProductDetail,
-    (reportCostProductDetail) => reportCostProductDetail.ctmuas,
+    () => ReportCpmhProductDetail,
+    (reportCpmhProductDetail) => reportCpmhProductDetail.ctmuas,
   )
-  reportCostProductDetails: ReportCostProductDetail[];
+  reportCpmhProductDetails: ReportCpmhProductDetail[];
 }
 
 @Entity({ name: 'product_of_ctmua' })
