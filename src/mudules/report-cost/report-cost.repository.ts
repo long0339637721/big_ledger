@@ -16,30 +16,30 @@ export class ReportCostRepository {
 
   findAll() {
     return this.reportCostRepository.find({
-      relations: {
-        reportCostDetails: {
-          product: true,
-          reportCostProductDetails: {
-            supplier: true,
-            ctmuas: true,
-          },
-        },
-      },
+      // relations: {
+      //   reportCostDetails: {
+      //     product: true,
+      //     reportCostProductDetails: {
+      //       supplier: true,
+      //       ctmuas: true,
+      //     },
+      //   },
+      // },
     });
   }
 
   findOne(id: number) {
     return this.reportCostRepository.findOne({
       where: { id: id },
-      relations: {
-        reportCostDetails: {
-          product: true,
-          reportCostProductDetails: {
-            supplier: true,
-            ctmuas: true,
-          },
-        },
-      },
+      // relations: {
+      //   reportCostDetails: {
+      //     product: true,
+      //     reportCostProductDetails: {
+      //       supplier: true,
+      //       ctmuas: true,
+      //     },
+      //   },
+      // },
     });
   }
 }
