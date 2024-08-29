@@ -113,96 +113,96 @@ export class AnnouncementService {
     return annoucement;
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async checkCtban() {
-    console.log('Cron job: checkCtban');
-    const ctban = await this.ctbanService.findByPaymentStatus([
-      PAYMENT_STATUS.BEING_PAID,
-      PAYMENT_STATUS.NOT_PAID,
-    ]);
+  // @Cron(CronExpression.EVERY_10_SECONDS)
+  // async checkCtban() {
+  //   console.log('Cron job: checkCtban');
+  //   const ctban = await this.ctbanService.findByPaymentStatus([
+  //     PAYMENT_STATUS.BEING_PAID,
+  //     PAYMENT_STATUS.NOT_PAID,
+  //   ]);
 
-    ctban.forEach(async (ctban) => {
-      const term = new Date(ctban.paymentTerm);
-      term.setHours(8, 0, 0, 0);
-      const now = new Date();
-      now.setHours(8, 0, 0, 0);
-      const leftTime = term.getTime() - now.getTime();
-      const leftDate = leftTime / (1000 * 60 * 60 * 24);
+  //   ctban.forEach(async (ctban) => {
+  //     const term = new Date(ctban.paymentTerm);
+  //     term.setHours(8, 0, 0, 0);
+  //     const now = new Date();
+  //     now.setHours(8, 0, 0, 0);
+  //     const leftTime = term.getTime() - now.getTime();
+  //     const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
-        const annoucement = await this.announcementRepository.findByEntity(
-          ctban.id,
-          ANNOUNCEMENT_TYPE.THU,
-        );
-        const isRead =
-          annoucement?.leftDate === leftDate ? annoucement.isRead : false;
-        const message = messageGenerator(
-          ANNOUNCEMENT_TYPE.THU,
-          ctban.id,
-          leftDate,
-        );
-        await this.announcementRepository.create(
-          message,
-          ANNOUNCEMENT_TYPE.THU,
-          ctban.id,
-          leftDate,
-          isRead,
-        );
-      }
-    });
-  }
+  //     if (leftDate <= 3) {
+  //       const annoucement = await this.announcementRepository.findByEntity(
+  //         ctban.id,
+  //         ANNOUNCEMENT_TYPE.THU,
+  //       );
+  //       const isRead =
+  //         annoucement?.leftDate === leftDate ? annoucement.isRead : false;
+  //       const message = messageGenerator(
+  //         ANNOUNCEMENT_TYPE.THU,
+  //         ctban.id,
+  //         leftDate,
+  //       );
+  //       await this.announcementRepository.create(
+  //         message,
+  //         ANNOUNCEMENT_TYPE.THU,
+  //         ctban.id,
+  //         leftDate,
+  //         isRead,
+  //       );
+  //     }
+  //   });
+  // }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async checkDonBanHang() {
-    console.log('Cron job: checkDonBanHang');
-    const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
-      DELIVERY_STATUS.NOT_DELIVERED,
-      DELIVERY_STATUS.DELIVERING,
-    ]);
+  // @Cron(CronExpression.EVERY_10_SECONDS)
+  // async checkDonBanHang() {
+  //   console.log('Cron job: checkDonBanHang');
+  //   const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
+  //     DELIVERY_STATUS.NOT_DELIVERED,
+  //     DELIVERY_STATUS.DELIVERING,
+  //   ]);
 
-    donBanHangs.forEach(async (donBanHang) => {
-      const term = new Date(donBanHang.deliveryTerm);
-      term.setHours(8, 0, 0, 0);
-      const now = new Date();
-      now.setHours(8, 0, 0, 0);
-      const leftTime = term.getTime() - now.getTime();
-      const leftDate = leftTime / (1000 * 60 * 60 * 24);
+  //   donBanHangs.forEach(async (donBanHang) => {
+  //     const term = new Date(donBanHang.deliveryTerm);
+  //     term.setHours(8, 0, 0, 0);
+  //     const now = new Date();
+  //     now.setHours(8, 0, 0, 0);
+  //     const leftTime = term.getTime() - now.getTime();
+  //     const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
-        const annoucement = await this.announcementRepository.findByEntity(
-          donBanHang.id,
-          ANNOUNCEMENT_TYPE.BAN_HANG,
-        );
-        if (!annoucement) {
-          console.log('Create new announcement');
-          const message = messageGenerator(
-            ANNOUNCEMENT_TYPE.BAN_HANG,
-            donBanHang.id,
-            leftDate,
-          );
-          return this.announcementRepository.create(
-            message,
-            ANNOUNCEMENT_TYPE.BAN_HANG,
-            donBanHang.id,
-            leftDate,
-            false,
-          );
-        }
-        if (leftDate !== annoucement.leftDate) {
-          const message = messageGenerator(
-            ANNOUNCEMENT_TYPE.BAN_HANG,
-            donBanHang.id,
-            leftDate,
-          );
-          return this.announcementRepository.updateLeftDate(
-            annoucement.id,
-            leftDate,
-            message,
-          );
-        }
-      }
-    });
-  }
+  //     if (leftDate <= 3) {
+  //       const annoucement = await this.announcementRepository.findByEntity(
+  //         donBanHang.id,
+  //         ANNOUNCEMENT_TYPE.BAN_HANG,
+  //       );
+  //       if (!annoucement) {
+  //         console.log('Create new announcement');
+  //         const message = messageGenerator(
+  //           ANNOUNCEMENT_TYPE.BAN_HANG,
+  //           donBanHang.id,
+  //           leftDate,
+  //         );
+  //         return this.announcementRepository.create(
+  //           message,
+  //           ANNOUNCEMENT_TYPE.BAN_HANG,
+  //           donBanHang.id,
+  //           leftDate,
+  //           false,
+  //         );
+  //       }
+  //       if (leftDate !== annoucement.leftDate) {
+  //         const message = messageGenerator(
+  //           ANNOUNCEMENT_TYPE.BAN_HANG,
+  //           donBanHang.id,
+  //           leftDate,
+  //         );
+  //         return this.announcementRepository.updateLeftDate(
+  //           annoucement.id,
+  //           leftDate,
+  //           message,
+  //         );
+  //       }
+  //     }
+  //   });
+  // }
 
   // @Cron(CronExpression.EVERY_10_SECONDS)
   // async testMail() {
@@ -261,5 +261,15 @@ export class AnnouncementService {
       .catch((err) => {
         console.log('Send mail fail:', err);
       });
+  }
+
+  testMail() {
+    console.log('Test mail');
+    this.sendEmail(
+      'long01639637721@gmail.com',
+      'Test mail',
+      'Test mail',
+      '<b>welcome</b>',
+    );
   }
 }

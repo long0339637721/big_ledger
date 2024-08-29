@@ -37,3 +37,6 @@ lerna-debug.log*
 # environment
 .env
 note.md
+
+# data
+pgdata/*
