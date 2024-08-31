@@ -67,7 +67,9 @@ export class PhieuChiRepository {
       relations: {
         supplier: true,
         purchasingOfficer: true,
-        chungTu: true,
+        chungTu: {
+          ctmua: true,
+        },
       },
     });
   }
@@ -80,7 +82,9 @@ export class PhieuChiRepository {
       relations: {
         supplier: true,
         purchasingOfficer: true,
-        chungTu: true,
+        chungTu: {
+          ctmua: true,
+        },
       },
     });
   }
@@ -137,7 +141,9 @@ export class PhieuChiRepository {
         supplier: true,
         purchasingOfficer: true,
         bankAccount: true,
-        chungTu: true,
+        chungTu: {
+          ctmua: true,
+        },
       },
     });
   }
@@ -151,7 +157,9 @@ export class PhieuChiRepository {
         supplier: true,
         purchasingOfficer: true,
         bankAccount: true,
-        chungTu: true,
+        chungTu: {
+          ctmua: true,
+        },
       },
     });
   }
