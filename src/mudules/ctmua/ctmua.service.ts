@@ -13,7 +13,7 @@ import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { EmployeeService } from '../employee/employee.service';
 import { DonMuaHangService } from '../don-mua-hang/don-mua-hang.service';
 import { ProductService } from '../product/product.service';
-import { PAYMENT_STATUS } from 'src/constants';
+import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 
 @Injectable()
 export class CtmuaService {
@@ -105,6 +105,10 @@ export class CtmuaService {
 
   async findByDate(startDate: Date = new Date(0), endDate: Date = new Date()) {
     return this.ctmuaRepository.findByDate(startDate, endDate);
+  }
+
+  async findByPaymentStatus(paymentStatus: PaymentStatusType[]) {
+    return this.ctmuaRepository.findByPaymentStatus(paymentStatus);
   }
 
   async findOne(id: number) {

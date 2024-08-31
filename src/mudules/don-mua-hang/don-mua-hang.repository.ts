@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
 import {
@@ -83,6 +83,22 @@ export class DonMuaHangRepository {
     return this.donMuaHangRepository.findOne({
       where: {
         id: id,
+      },
+      relations: {
+        purchasingOfficer: true,
+        supplier: true,
+        productOfDonMuaHangs: {
+          product: true,
+        },
+        ctmuas: true,
+      },
+    });
+  }
+
+  findByDeliveryStatus(deliveryStatus: DocumentStatusType[]) {
+    return this.donMuaHangRepository.find({
+      where: {
+        documentStatus: In(deliveryStatus),
       },
       relations: {
         purchasingOfficer: true,

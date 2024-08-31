@@ -11,7 +11,7 @@ import { EmployeeService } from '../employee/employee.service';
 import { SupplierService } from '../supplier/supplier.service';
 import { ProductService } from '../product/product.service';
 import { Product } from '../product/entities/product.entity';
-import { DOCUMENT_STATUS } from 'src/constants';
+import { DOCUMENT_STATUS, DocumentStatusType } from 'src/constants';
 
 @Injectable()
 export class DonMuaHangService {
@@ -70,6 +70,10 @@ export class DonMuaHangService {
       throw new NotFoundException(`Don mua hang with ${id} not found`);
     }
     return donMuaHang;
+  }
+
+  async findByDeliveryStatus(deliveryStatus: DocumentStatusType[]) {
+    return this.donMuaHangRepository.findByDeliveryStatus(deliveryStatus);
   }
 
   async deliverDonMuaHang(id: number, product: Product, count: number) {
