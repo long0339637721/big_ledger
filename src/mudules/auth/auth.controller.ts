@@ -6,6 +6,7 @@ import {
   Body,
   Get,
   Patch,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
@@ -16,6 +17,9 @@ import { Auth } from 'src/decorators/http.decorators';
 import { AuthUser } from 'src/decorators';
 import { Accountant } from '../employee/entities/employee.entity';
 import { UpdateEmployeeDto } from '../employee/dto/update-employee.dto';
+import { Response } from 'express';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @ApiTags('AUTH')
 @Controller('auth')
@@ -44,5 +48,30 @@ export class AuthController {
   @Auth([USER_ROLE.ACCOUNTANT])
   updateMe(@AuthUser() user: Accountant, @Body() updateDto: UpdateEmployeeDto) {
     return this.authService.updateMe(user.id, updateDto);
+  }
+
+  @Get('download')
+  downloadExcel(@Res() res: Response) {
+    const filePath = path.join(
+      __dirname,
+      '..',
+      'assets',
+      'excel',
+      'book1.xlsx',
+    );
+    if (fs.existsSync(filePath)) {
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename=' + 'book1.xlsx',
+      );
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    } else {
+      res.status(404).send('File not found');
+    }
   }
 }
