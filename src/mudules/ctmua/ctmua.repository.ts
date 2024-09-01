@@ -110,7 +110,9 @@ export class CtmuaRepository {
         createdAt: Between(startDate, endDate),
       },
       relations: {
-        donMuaHang: true,
+        donMuaHang: {
+          supplier: true,
+        },
         productOfCtmua: {
           product: true,
         },

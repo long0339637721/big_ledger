@@ -20,6 +20,11 @@ export class ReportCpmhController {
     return this.reportCpmhService.create(createReportCpmhDto);
   }
 
+  @Post('raw')
+  createRaw(@Body() createReportCpmhDto: CreateReportCpmhDto) {
+    return this.reportCpmhService.create(createReportCpmhDto, true);
+  }
+
   @Get()
   findAll() {
     return this.reportCpmhService.findAll();

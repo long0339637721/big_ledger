@@ -11,7 +11,7 @@ import { Supplier } from 'src/mudules/supplier/entities';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 
-@Entity({ name: 'report_cost' })
+@Entity({ name: 'report_cpmh' })
 export class ReportCpmh extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -25,7 +25,7 @@ export class ReportCpmh extends AbstractEntity {
   @Column({ type: 'date' })
   endDate: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   totalCost: number;
 
   @OneToMany(
