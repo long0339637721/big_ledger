@@ -1,5 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDateString, IsIn, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+} from 'class-validator';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 
@@ -14,10 +20,12 @@ export class GetCtmuaDto extends PageOptionsDto {
   @IsNotEmpty({ message: 'endDate is required' })
   endDate: string;
 
-  @ApiPropertyOptional({ example: 'NOT_PAID' })
+  @ApiPropertyOptional({ example: ['NOT_PAID'] })
   @IsIn(Object.values(PAYMENT_STATUS), {
     message: 'Payment status is not valid',
+    each: true,
   })
+  @IsArray({ message: 'paymentStatus must be an array' })
   @IsOptional()
   paymentStatus?: PaymentStatusType[] = [
     PAYMENT_STATUS.PAID,
