@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 import {
   PhieuChiTienMat,
   PhieuChiTienGui,
@@ -89,6 +89,21 @@ export class PhieuChiRepository {
     });
   }
 
+  findByDatePhieuChiTienMat(startDate: Date, endDate: Date) {
+    return this.pcTienMatRepository.find({
+      where: {
+        paymentDate: Between(startDate, endDate),
+      },
+      relations: {
+        supplier: true,
+        purchasingOfficer: true,
+        chungTu: {
+          ctmua: true,
+        },
+      },
+    });
+  }
+
   updatePhieuChiTienMat(
     id: number,
     updatePhieuChiDto: UpdatePhieuChiTienMatDto,
@@ -152,6 +167,22 @@ export class PhieuChiRepository {
     return this.pcTienGuiRepository.findOne({
       where: {
         id: id,
+      },
+      relations: {
+        supplier: true,
+        purchasingOfficer: true,
+        bankAccount: true,
+        chungTu: {
+          ctmua: true,
+        },
+      },
+    });
+  }
+
+  findByDatePhieuChiTienGui(startDate: Date, endDate: Date) {
+    return this.pcTienGuiRepository.find({
+      where: {
+        paymentDate: Between(startDate, endDate),
       },
       relations: {
         supplier: true,

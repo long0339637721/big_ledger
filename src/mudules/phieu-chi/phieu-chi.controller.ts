@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PhieuChiService } from './phieu-chi.service';
 import {
@@ -16,6 +17,7 @@ import {
   UpdatePhieuChiTienMatDto,
   UpdatePhieuChiTienGuiDto,
 } from './dto/update-phieu-chi.dto';
+import { GetPhieuChiDto } from './dto/get-phieu-chi.dto';
 
 @Controller('phieu-chi-tien-mat')
 export class PhieuChiTienMatController {
@@ -34,6 +36,11 @@ export class PhieuChiTienMatController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.phieuChiService.findOneTienMat(+id);
+  }
+
+  @Get('get-by-date')
+  findByDate(@Query() query: GetPhieuChiDto) {
+    return this.phieuChiService.findByDate(query, true);
   }
 
   // @Patch(':id')
@@ -67,6 +74,11 @@ export class PhieuChiTienGuiController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.phieuChiService.findOneTienGui(+id);
+  }
+
+  @Get('get-by-date')
+  findByDate(@Query() query: GetPhieuChiDto) {
+    return this.phieuChiService.findByDate(query, false);
   }
 
   // @Patch(':id')

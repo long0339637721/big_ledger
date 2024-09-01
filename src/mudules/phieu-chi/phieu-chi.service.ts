@@ -16,6 +16,7 @@ import { EmployeeService } from '../employee/employee.service';
 import { SupplierService } from '../supplier/supplier.service';
 import { BankAccountService } from '../bank-account/bank-account.service';
 import { CtmuaService } from '../ctmua/ctmua.service';
+import { GetPhieuChiDto } from './dto/get-phieu-chi.dto';
 
 @Injectable()
 export class PhieuChiService {
@@ -156,5 +157,24 @@ export class PhieuChiService {
   async removeTienGui(id: number) {
     const phieuChi = await this.findOneTienGui(id);
     return this.phieuChiRepository.removePhieuChiTienGui(id);
+  }
+
+  // Common
+
+  findByDate(query: GetPhieuChiDto, isTienMat: boolean) {
+    const startDate = new Date(query.startDate);
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(query.endDate);
+    endDate.setHours(23, 59, 59, 999);
+    if (!isTienMat) {
+      return this.phieuChiRepository.findByDatePhieuChiTienGui(
+        startDate,
+        endDate,
+      );
+    }
+    return this.phieuChiRepository.findByDatePhieuChiTienMat(
+      startDate,
+      endDate,
+    );
   }
 }
