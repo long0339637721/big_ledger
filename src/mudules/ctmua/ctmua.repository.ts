@@ -6,7 +6,7 @@ import { CreateCtmuaDto } from './dto/create-ctmua.dto';
 import { WarehouseKeeper } from '../employee/entities/employee.entity';
 import { DonMuaHang } from '../don-mua-hang/entities/don-mua-hang.entity';
 import { Product } from '../product/entities/product.entity';
-import { PaymentStatusType } from 'src/constants';
+import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 
 @Injectable()
 export class CtmuaRepository {
@@ -104,10 +104,19 @@ export class CtmuaRepository {
     });
   }
 
-  findByDate(startDate: Date, endDate: Date) {
+  findByDate(
+    startDate: Date,
+    endDate: Date,
+    paymentStatus: PaymentStatusType[] = [
+      PAYMENT_STATUS.PAID,
+      PAYMENT_STATUS.BEING_PAID,
+      PAYMENT_STATUS.NOT_PAID,
+    ],
+  ) {
     return this.ctmuaRepository.find({
       where: {
-        createdAt: Between(startDate, endDate),
+        deliveryDate: Between(startDate, endDate),
+        paymentStatus: In(paymentStatus),
       },
       relations: {
         donMuaHang: {

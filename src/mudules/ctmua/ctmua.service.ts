@@ -103,8 +103,16 @@ export class CtmuaService {
     return this.ctmuaRepository.findAll();
   }
 
-  async findByDate(startDate: Date = new Date(0), endDate: Date = new Date()) {
-    return this.ctmuaRepository.findByDate(startDate, endDate);
+  async findByDate(
+    startDate: Date = new Date(0),
+    endDate: Date = new Date(),
+    paymentStatus: PaymentStatusType[] = [
+      PAYMENT_STATUS.PAID,
+      PAYMENT_STATUS.BEING_PAID,
+      PAYMENT_STATUS.NOT_PAID,
+    ],
+  ) {
+    return this.ctmuaRepository.findByDate(startDate, endDate, paymentStatus);
   }
 
   async findByPaymentStatus(paymentStatus: PaymentStatusType[]) {

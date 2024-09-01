@@ -39,6 +39,17 @@ export class CtmuaController {
     return this.ctmuaService.findOne(+id);
   }
 
+  @Get('by-date')
+  findByDate(@Query() query: GetCtmuaDto) {
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.ctmuaService.findByDate(
+      startDate,
+      endDate,
+      query.paymentStatus,
+    );
+  }
+
   @Get('report-revenue-of-year/:year')
   reportRevenue(@Param('year') year: string) {
     return this.ctmuaService.reportCostOfYear(+year);
