@@ -29,7 +29,24 @@ export class ReportCpmhService {
     const ctmuas = await this.ctmuaService.findByDate(startDate, endDate);
     const products = await this.productService.findAll();
 
-    const reportCpmhDetail = new Map();
+    const reportCpmhDetail = new Map<
+      number,
+      {
+        product: Product;
+        count: number;
+        productValue: number;
+        discountValue: number;
+        totalValue: number;
+        reportCpmhProductDetails: {
+          supplier: Supplier;
+          count: number;
+          productValue: number;
+          discountValue: number;
+          totalValue: number;
+          ctmuas: Ctmua[];
+        }[];
+      }
+    >();
     products.forEach((product) => {
       reportCpmhDetail.set(product.id, {
         product,
@@ -99,6 +116,11 @@ export class ReportCpmhService {
           );
         }
       });
+    });
+    reportCpmhDetail.forEach((value, key) => {
+      if (value.count === 0) {
+        reportCpmhDetail.delete(key);
+      }
     });
     const totalCost = Array.from(reportCpmhDetail.values()).reduce(
       (sum, each) => sum + each.totalValue,
