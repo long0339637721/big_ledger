@@ -264,7 +264,7 @@ export class AnnouncementService {
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkDonMuaHang() {
     console.log('Cron job: checkDonMuaHang');
-    const donMuaHangs = await this.donMuaHangService.findByDeliveryStatus([
+    const donMuaHangs = await this.donMuaHangService.findByDocumentStatus([
       DOCUMENT_STATUS.UNDOCUMENTED,
       DOCUMENT_STATUS.DOCUMENTING,
     ]);

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, In, Repository } from 'typeorm';
+import { Between, DataSource, In, Repository } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 
 import {
@@ -95,10 +95,31 @@ export class DonMuaHangRepository {
     });
   }
 
-  findByDeliveryStatus(deliveryStatus: DocumentStatusType[]) {
+  findByDateAndDocumentStatus(
+    startDate: Date,
+    endDate: Date,
+    documentStatus: DocumentStatusType[],
+  ) {
     return this.donMuaHangRepository.find({
       where: {
-        documentStatus: In(deliveryStatus),
+        purchasingDate: Between(startDate, endDate),
+        documentStatus: In(documentStatus),
+      },
+      relations: {
+        purchasingOfficer: true,
+        supplier: true,
+        productOfDonMuaHangs: {
+          product: true,
+        },
+        ctmuas: true,
+      },
+    });
+  }
+
+  findByDocumentStatus(documentStatus: DocumentStatusType[]) {
+    return this.donMuaHangRepository.find({
+      where: {
+        documentStatus: In(documentStatus),
       },
       relations: {
         purchasingOfficer: true,

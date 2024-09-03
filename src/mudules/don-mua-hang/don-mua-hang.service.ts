@@ -72,8 +72,8 @@ export class DonMuaHangService {
     return donMuaHang;
   }
 
-  async findByDeliveryStatus(deliveryStatus: DocumentStatusType[]) {
-    return this.donMuaHangRepository.findByDeliveryStatus(deliveryStatus);
+  async findByDocumentStatus(deliveryStatus: DocumentStatusType[]) {
+    return this.donMuaHangRepository.findByDocumentStatus(deliveryStatus);
   }
 
   async deliverDonMuaHang(id: number, product: Product, count: number) {
