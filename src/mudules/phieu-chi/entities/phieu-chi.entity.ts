@@ -1,9 +1,13 @@
 import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
-import { PurchasingOfficer } from 'src/mudules/employee/entities/employee.entity';
+import {
+  Accountant,
+  PurchasingOfficer,
+} from 'src/mudules/employee/entities/employee.entity';
 import { Supplier } from 'src/mudules/supplier/entities';
 import { BankAccount } from 'src/mudules/bank-account/entities/bank-account.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
+import { PHIEU_CHI_TYPE, PhieuChiType } from 'src/constants/phieu-chi-type';
 
 @Entity({ name: 'phieu_chi_tien_mat' })
 export class PhieuChiTienMat extends AbstractEntity {
@@ -104,4 +108,28 @@ export class ChungTuCuaPhieuChiTienGui extends AbstractEntity {
 
   @ManyToOne(() => Ctmua, (ctmua) => ctmua.phieuChiTienGui, { nullable: false })
   ctmua: Ctmua;
+}
+
+@Entity({ name: 'phieu_chi_khac' })
+export class PhieuChiKhac extends AbstractEntity {
+  @Column({ type: 'date' })
+  paymentDate: Date;
+
+  @Column({ type: 'varchar', nullable: true })
+  content?: string;
+
+  @Column({ type: 'float', default: 0 })
+  money: number;
+
+  @Column({
+    type: 'enum',
+    enum: PHIEU_CHI_TYPE,
+    default: PHIEU_CHI_TYPE.OTHER_COSTS,
+  })
+  type: PhieuChiType;
+
+  @ManyToOne(() => Accountant, (accountant) => accountant.phieuChiKhac, {
+    nullable: false,
+  })
+  accountant: Accountant;
 }

@@ -6,17 +6,23 @@ import {
   PhieuChiTienGui,
   ChungTuCuaPhieuChiTienGui,
   ChungTuCuaPhieuChiTienMat,
+  PhieuChiKhac,
 } from './entities/phieu-chi.entity';
 import {
   CreatePhieuChiTienMatDto,
   CreatePhieuChiTienGuiDto,
+  CreatePhieuChiKhacDto,
 } from './dto/create-phieu-chi.dto';
 import {
   UpdatePhieuChiTienMatDto,
   UpdatePhieuChiTienGuiDto,
+  UpdatePhieuChiKhacDto,
 } from './dto/update-phieu-chi.dto';
 import { Supplier } from '../supplier/entities';
-import { PurchasingOfficer } from '../employee/entities/employee.entity';
+import {
+  Accountant,
+  PurchasingOfficer,
+} from '../employee/entities/employee.entity';
 import { Ctmua } from '../ctmua/entities/ctmua.entity';
 import { BankAccount } from '../bank-account/entities/bank-account.entity';
 
@@ -24,9 +30,11 @@ import { BankAccount } from '../bank-account/entities/bank-account.entity';
 export class PhieuChiRepository {
   private readonly pcTienMatRepository: Repository<PhieuChiTienMat>;
   private readonly pcTienGuiRepository: Repository<PhieuChiTienGui>;
+  private readonly pcKhacRepository: Repository<PhieuChiKhac>;
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {
     this.pcTienMatRepository = this.dataSource.getRepository(PhieuChiTienMat);
     this.pcTienGuiRepository = this.dataSource.getRepository(PhieuChiTienGui);
+    this.pcKhacRepository = this.dataSource.getRepository(PhieuChiKhac);
   }
 
   // Tien mat
@@ -204,5 +212,56 @@ export class PhieuChiRepository {
 
   removePhieuChiTienGui(id: number) {
     return this.pcTienGuiRepository.delete(id);
+  }
+
+  // Khac
+
+  createPhieuChiKhac(
+    createPhieuChiKhacDto: CreatePhieuChiKhacDto,
+    account: Accountant,
+  ) {
+    const newPhieuChi = this.pcKhacRepository.create({
+      ...createPhieuChiKhacDto,
+      accountant: account,
+    });
+    return this.pcKhacRepository.save(newPhieuChi);
+  }
+
+  findAllPhieuChiKhac() {
+    return this.pcKhacRepository.find({
+      relations: {
+        accountant: true,
+      },
+    });
+  }
+
+  findByDatePhieuChiKhac(startDate: Date, endDate: Date) {
+    return this.pcKhacRepository.find({
+      where: {
+        paymentDate: Between(startDate, endDate),
+      },
+      relations: {
+        accountant: true,
+      },
+    });
+  }
+
+  findOnePhieuChiKhac(id: number) {
+    return this.pcKhacRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        accountant: true,
+      },
+    });
+  }
+
+  updatePhieuChiKhac(id: number, updatePhieuChiDto: UpdatePhieuChiKhacDto) {
+    return this.pcKhacRepository.update(id, updatePhieuChiDto);
+  }
+
+  removePhieuChiKhac(id: number) {
+    return this.pcKhacRepository.delete(id);
   }
 }

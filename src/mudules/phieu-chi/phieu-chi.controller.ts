@@ -12,10 +12,12 @@ import { PhieuChiService } from './phieu-chi.service';
 import {
   CreatePhieuChiTienMatDto,
   CreatePhieuChiTienGuiDto,
+  CreatePhieuChiKhacDto,
 } from './dto/create-phieu-chi.dto';
 import {
   UpdatePhieuChiTienMatDto,
   UpdatePhieuChiTienGuiDto,
+  UpdatePhieuChiKhacDto,
 } from './dto/update-phieu-chi.dto';
 import { GetPhieuChiDto } from './dto/get-phieu-chi.dto';
 
@@ -40,7 +42,7 @@ export class PhieuChiTienMatController {
 
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, true);
+    return this.phieuChiService.findByDate(query, 'tienMat');
   }
 
   // @Patch(':id')
@@ -78,7 +80,7 @@ export class PhieuChiTienGuiController {
 
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, false);
+    return this.phieuChiService.findByDate(query, 'tienGui');
   }
 
   // @Patch(':id')
@@ -92,5 +94,48 @@ export class PhieuChiTienGuiController {
   // @Delete(':id')
   // remove(@Param('id') id: string) {
   //   return this.phieuChiService.removeTienGui(+id);
+  // }
+}
+
+@Controller('phieu-chi-khac')
+export class PhieuChiKhacController {
+  constructor(private readonly phieuChiService: PhieuChiService) {}
+
+  @Post()
+  create(@Body() createPhieuChiDto: CreatePhieuChiKhacDto) {
+    return this.phieuChiService.createKhac(createPhieuChiDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.phieuChiService.findAllKhac();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.phieuChiService.findOneKhac(+id);
+  }
+
+  @Get('get-by-date')
+  findByDate(@Query() query: GetPhieuChiDto) {
+    return this.phieuChiService.findByDate(query, 'khac');
+  }
+
+  @Get('get-all-by-date')
+  findAllByDate(@Query() query: GetPhieuChiDto) {
+    return this.phieuChiService.findByDate(query, 'all');
+  }
+
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updatePhieuChiDto: UpdatePhieuChiKhacDto,
+  // ) {
+  //   return this.phieuChiService.updateKhac(+id, updatePhieuChiDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.phieuChiService.removeKhac(+id);
   // }
 }

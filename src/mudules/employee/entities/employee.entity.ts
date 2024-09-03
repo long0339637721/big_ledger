@@ -2,7 +2,10 @@ import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entit
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
-import { PhieuChiTienMat } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
+import {
+  PhieuChiKhac,
+  PhieuChiTienMat,
+} from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
@@ -35,6 +38,9 @@ export class Accountant extends Emmployee {
 
   @Column({ type: 'varchar', nullable: true })
   refreshToken: string;
+
+  @OneToMany(() => PhieuChiKhac, (phieuChi) => phieuChi.accountant)
+  phieuChiKhac: PhieuChiKhac[];
 }
 
 @Entity({ name: 'salespersons' })

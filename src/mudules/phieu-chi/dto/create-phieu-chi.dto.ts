@@ -9,7 +9,9 @@ import {
   ValidateNested,
   IsArray,
   ArrayNotEmpty,
+  IsIn,
 } from 'class-validator';
+import { PHIEU_CHI_TYPE, PhieuChiType } from 'src/constants/phieu-chi-type';
 
 class ChungTuCuaPhieuChiDto {
   @ApiProperty({ example: 1 })
@@ -112,4 +114,33 @@ export class CreatePhieuChiTienGuiDto {
   @ValidateNested({ each: true })
   @Type(() => ChungTuCuaPhieuChiDto)
   chungTu: ChungTuCuaPhieuChiDto[];
+}
+
+export class CreatePhieuChiKhacDto {
+  @ApiProperty({ example: '2024-05-08' })
+  @IsDateString(undefined, { message: 'Ngày chi không hợp lệ' })
+  @IsNotEmpty({ message: 'Ngày chi không được để trống' })
+  paymentDate: Date;
+
+  @ApiProperty({ example: 'Nội dung' })
+  @IsString({ message: 'Nội dung không hợp lệ' })
+  @IsOptional()
+  content?: string;
+
+  @ApiProperty({ example: 1000000 })
+  @IsNumber({}, { message: 'Số tiền không hợp lệ' })
+  @IsNotEmpty({ message: 'Số tiền không được để trống' })
+  money: number;
+
+  @ApiProperty({ example: PHIEU_CHI_TYPE.SALARY_COSTS })
+  @IsIn(Object.values(PHIEU_CHI_TYPE), {
+    message: 'Loại phiếu chi không hợp lệ',
+  })
+  @IsNotEmpty({ message: 'Loại phiếu chi không được để trống' })
+  type: PhieuChiType;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'ID Kế toán không hợp lệ' })
+  @IsNotEmpty({ message: 'ID Kế toán không được để trống' })
+  accountantId: number;
 }

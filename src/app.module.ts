@@ -55,6 +55,7 @@ import {
   PhieuChiTienGui,
   ChungTuCuaPhieuChiTienMat,
   ChungTuCuaPhieuChiTienGui,
+  PhieuChiKhac,
 } from './mudules/phieu-chi/entities/phieu-chi.entity';
 import { PhieuChiModule } from './mudules/phieu-chi/phieu-chi.module';
 import {
@@ -143,6 +144,7 @@ dotenv.config();
         PhieuChiTienGui,
         ChungTuCuaPhieuChiTienMat,
         ChungTuCuaPhieuChiTienGui,
+        PhieuChiKhac,
         PhieuThuTienMat,
         PhieuThuTienGui,
         ChungTuCuaPhieuThuTienMat,

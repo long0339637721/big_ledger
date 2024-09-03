@@ -6,6 +6,7 @@ import {
 import {
   CreatePhieuChiTienMatDto,
   CreatePhieuChiTienGuiDto,
+  CreatePhieuChiKhacDto,
 } from './dto/create-phieu-chi.dto';
 import {
   UpdatePhieuChiTienMatDto,
@@ -159,22 +160,72 @@ export class PhieuChiService {
     return this.phieuChiRepository.removePhieuChiTienGui(id);
   }
 
+  // Khac
+
+  async createKhac(createPhieuChiDto: CreatePhieuChiKhacDto) {
+    const accountant = await this.employeeService.findOneAccountant(
+      createPhieuChiDto.accountantId,
+    );
+    return this.phieuChiRepository.createPhieuChiKhac(
+      createPhieuChiDto,
+      accountant,
+    );
+  }
+
+  findAllKhac() {
+    return this.phieuChiRepository.findAllPhieuChiKhac();
+  }
+
+  async findOneKhac(id: number) {
+    const phieuChi = await this.phieuChiRepository.findOnePhieuChiKhac(id);
+    if (!phieuChi) {
+      throw new NotFoundException(`Phieu chi with id ${id} not found`);
+    }
+    return phieuChi;
+  }
+
   // Common
 
-  findByDate(query: GetPhieuChiDto, isTienMat: boolean) {
+  findByDate(
+    query: GetPhieuChiDto,
+    isTienMat: 'tienMat' | 'tienGui' | 'khac' | 'all',
+  ) {
     const startDate = new Date(query.startDate);
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(query.endDate);
     endDate.setHours(23, 59, 59, 999);
-    if (!isTienMat) {
-      return this.phieuChiRepository.findByDatePhieuChiTienGui(
-        startDate,
-        endDate,
-      );
+    switch (isTienMat) {
+      case 'tienMat':
+        return this.phieuChiRepository.findByDatePhieuChiTienMat(
+          startDate,
+          endDate,
+        );
+      case 'tienGui':
+        return this.phieuChiRepository.findByDatePhieuChiTienGui(
+          startDate,
+          endDate,
+        );
+      case 'khac':
+        return this.phieuChiRepository.findByDatePhieuChiKhac(
+          startDate,
+          endDate,
+        );
+      case 'all':
+        const tienMat = this.phieuChiRepository.findByDatePhieuChiTienMat(
+          startDate,
+          endDate,
+        );
+        const tienGui = this.phieuChiRepository.findByDatePhieuChiTienGui(
+          startDate,
+          endDate,
+        );
+        const khac = this.phieuChiRepository.findByDatePhieuChiKhac(
+          startDate,
+          endDate,
+        );
+        return [tienMat, tienGui, khac];
+      default:
+        throw new NotFoundException('Invalid type');
     }
-    return this.phieuChiRepository.findByDatePhieuChiTienMat(
-      startDate,
-      endDate,
-    );
   }
 }
