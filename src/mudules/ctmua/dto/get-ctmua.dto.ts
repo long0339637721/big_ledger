@@ -6,10 +6,9 @@ import {
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
-import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
 
-export class GetCtmuaDto extends PageOptionsDto {
+export class GetCtmuaDto {
   @ApiProperty({ example: '2024-09-01' })
   @IsDateString(undefined, { message: 'startDate must be a date string' })
   @IsNotEmpty({ message: 'startDate is required' })

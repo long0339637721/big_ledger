@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNotEmpty } from 'class-validator';
-import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 
-export class GetPhieuChiDto extends PageOptionsDto {
+export class GetPhieuChiDto {
   @ApiProperty({ example: '2024-09-01' })
   @IsDateString(undefined, { message: 'startDate must be a date string' })
   @IsNotEmpty({ message: 'startDate is required' })
