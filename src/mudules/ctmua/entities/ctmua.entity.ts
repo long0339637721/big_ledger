@@ -9,6 +9,7 @@ import {
   ChungTuCuaPhieuChiTienMat,
 } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
 import { ReportCpmhProductDetail } from 'src/mudules/report-cpmh/entities/report-cpmh.entity';
+import { ReportNoPhaiTraSupplierDetail } from 'src/mudules/report-no-phai-tra/entities/report-no-phai-tra.entity';
 
 @Entity({ name: 'ctmua' })
 export class Ctmua extends AbstractEntity {
@@ -73,6 +74,12 @@ export class Ctmua extends AbstractEntity {
     (reportCpmhProductDetail) => reportCpmhProductDetail.ctmuas,
   )
   reportCpmhProductDetails: ReportCpmhProductDetail[];
+
+  @OneToMany(
+    () => ReportNoPhaiTraSupplierDetail,
+    (reportNoPhaiTra) => reportNoPhaiTra.ctmua,
+  )
+  reportNoPhaiTraSupplierDetails: ReportNoPhaiTraSupplierDetail[];
 }
 
 @Entity({ name: 'product_of_ctmua' })

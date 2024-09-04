@@ -13,6 +13,7 @@ import { SupplierGroup } from './supplier-group.entity';
 import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { PhieuChiTienMat } from 'src/mudules/phieu-chi/entities/phieu-chi.entity';
 import { ReportCpmhProductDetail } from 'src/mudules/report-cpmh/entities/report-cpmh.entity';
+import { ReportNoPhaiTraDetail } from 'src/mudules/report-no-phai-tra/entities/report-no-phai-tra.entity';
 
 @Entity({ name: 'suppliers' })
 export class Supplier extends AbstractEntity {
@@ -66,4 +67,10 @@ export class Supplier extends AbstractEntity {
     (reportCpmhProductDetail) => reportCpmhProductDetail.supplier,
   )
   reportCpmhProductDetails: ReportCpmhProductDetail[];
+
+  @OneToMany(
+    () => ReportNoPhaiTraDetail,
+    (reportNoPhaiTraDetail) => reportNoPhaiTraDetail.supplier,
+  )
+  reportNoPhaiTraDetails: ReportNoPhaiTraDetail[];
 }

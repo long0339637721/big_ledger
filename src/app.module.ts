@@ -98,6 +98,12 @@ import {
   ReportDtbhDetail,
 } from './mudules/report-dtbh/entities/report-dtbh.entity';
 import { ReportDtbhModule } from './mudules/report-dtbh/report-dtbh.module';
+import {
+  ReportNoPhaiTra,
+  ReportNoPhaiTraDetail,
+  ReportNoPhaiTraSupplierDetail,
+} from './mudules/report-no-phai-tra/entities/report-no-phai-tra.entity';
+import { ReportNoPhaiTraModule } from './mudules/report-no-phai-tra/report-no-phai-tra.module';
 import { Supplier, SupplierGroup } from './mudules/supplier/entities';
 import { SupplierModule } from './mudules/supplier/supplier.module';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -164,6 +170,9 @@ dotenv.config();
         ReportThcnDetail,
         ReportDtbh,
         ReportDtbhDetail,
+        ReportNoPhaiTra,
+        ReportNoPhaiTraDetail,
+        ReportNoPhaiTraSupplierDetail,
         Supplier,
         SupplierGroup,
       ],
@@ -213,6 +222,7 @@ dotenv.config();
     ReportDccnModule,
     ReportThcnModule,
     ReportDtbhModule,
+    ReportNoPhaiTraModule,
     SupplierModule,
   ],
   controllers: [],
