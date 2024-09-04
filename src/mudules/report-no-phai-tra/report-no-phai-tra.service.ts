@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportNoPhaiTraDto } from './dto/create-report-no-phai-tra.dto';
 import { UpdateReportNoPhaiTraDto } from './dto/update-report-no-phai-tra.dto';
 import { ReportNoPhaiTraRepository } from './report-no-phai-tra.repository';
-import { Ctmua } from '../ctmua/entities/ctmua.entity';
-import { Supplier } from '../supplier/entities';
+import { CtmuaService } from '../ctmua/ctmua.service';
+import { SupplierService } from '../supplier/supplier.service';
 
 @Injectable()
 export class ReportNoPhaiTraService {
   constructor(
     private readonly reportNoPhaiTraRepository: ReportNoPhaiTraRepository,
-    private readonly supplierRepository: Supplier,
-    private readonly ctmuaRepository: Ctmua,
+    private readonly ctmuaService: CtmuaService,
+    private readonly supplierService: SupplierService,
   ) {}
 
   create(createReportNoPhaiTraDto: CreateReportNoPhaiTraDto) {
