@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsDateString,
@@ -10,6 +10,7 @@ import {
   IsArray,
   ArrayNotEmpty,
   IsIn,
+  IsBoolean,
 } from 'class-validator';
 import { PHIEU_CHI_TYPE, PhieuChiType } from 'src/constants/phieu-chi-type';
 
@@ -143,4 +144,14 @@ export class CreatePhieuChiKhacDto {
   @IsNumber({}, { message: 'ID Kế toán không hợp lệ' })
   @IsNotEmpty({ message: 'ID Kế toán không được để trống' })
   accountantId: number;
+
+  @ApiProperty({ example: true })
+  @IsNotEmpty({ message: 'Thông tin không được để trống' })
+  @IsBoolean({ message: 'Thông tin không hợp lệ' })
+  isTienMat: boolean;
+
+  @ApiPropertyOptional({ example: 1 })
+  @IsNumber({}, { message: 'ID Tài khoản ngân hàng không hợp lệ' })
+  @IsOptional()
+  bankAccountId?: number;
 }

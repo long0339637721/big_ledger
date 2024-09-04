@@ -132,4 +132,12 @@ export class PhieuChiKhac extends AbstractEntity {
     nullable: false,
   })
   accountant: Accountant;
+
+  @Column({ type: 'boolean', default: true })
+  isTienMat: boolean;
+
+  @ManyToOne(() => BankAccount, (bankAccount) => bankAccount.phieuChiKhac, {
+    nullable: true,
+  })
+  bankAccount: BankAccount;
 }

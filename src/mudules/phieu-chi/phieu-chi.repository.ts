@@ -219,10 +219,12 @@ export class PhieuChiRepository {
   createPhieuChiKhac(
     createPhieuChiKhacDto: CreatePhieuChiKhacDto,
     account: Accountant,
+    BankAccount: BankAccount | undefined,
   ) {
     const newPhieuChi = this.pcKhacRepository.create({
       ...createPhieuChiKhacDto,
       accountant: account,
+      bankAccount: BankAccount,
     });
     return this.pcKhacRepository.save(newPhieuChi);
   }
@@ -242,6 +244,7 @@ export class PhieuChiRepository {
       },
       relations: {
         accountant: true,
+        bankAccount: true,
       },
     });
   }
@@ -253,6 +256,7 @@ export class PhieuChiRepository {
       },
       relations: {
         accountant: true,
+        bankAccount: true,
       },
     });
   }

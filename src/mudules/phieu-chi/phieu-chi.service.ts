@@ -166,9 +166,13 @@ export class PhieuChiService {
     const accountant = await this.employeeService.findOneAccountant(
       createPhieuChiDto.accountantId,
     );
+    const bankAccount = createPhieuChiDto.bankAccountId
+      ? await this.bankAccountService.findOne(createPhieuChiDto.bankAccountId)
+      : undefined;
     return this.phieuChiRepository.createPhieuChiKhac(
       createPhieuChiDto,
       accountant,
+      bankAccount,
     );
   }
 
