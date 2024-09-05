@@ -22,6 +22,11 @@ export class ReportNoPhaiTraController {
     return this.reportNoPhaiTraService.create(createReportNoPhaiTraDto);
   }
 
+  @Post('raw')
+  createRaw(@Body() createReportNoPhaiTraDto: CreateReportNoPhaiTraDto) {
+    return this.reportNoPhaiTraService.create(createReportNoPhaiTraDto, true);
+  }
+
   @Get()
   findAll() {
     return this.reportNoPhaiTraService.findAll();
