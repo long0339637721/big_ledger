@@ -233,6 +233,7 @@ export class PhieuChiRepository {
     return this.pcKhacRepository.find({
       relations: {
         accountant: true,
+        bankAccount: true,
       },
     });
   }
