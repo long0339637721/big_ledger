@@ -113,6 +113,12 @@ export class ReportNoPhaiTraService {
       }
     });
 
+    ctmuaGroupBySupplier.forEach((value, key) => {
+      if (value.inOfDate + value.outOfDate === 0) {
+        ctmuaGroupBySupplier.delete(key);
+      }
+    });
+
     if (isRaw) {
       return {
         ...createReportNoPhaiTraDto,
