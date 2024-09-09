@@ -34,11 +34,6 @@ export class CtmuaController {
     return this.ctmuaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ctmuaService.findOne(+id);
-  }
-
   @Get('by-date')
   findByDate(@Query() query: GetCtmuaDto) {
     const startDate = new Date(query.startDate);
@@ -69,6 +64,11 @@ export class CtmuaController {
     @Param('month') month: string,
   ) {
     return this.ctmuaService.reportCostOfMonth(+year, +month);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.ctmuaService.findOne(+id);
   }
 
   // @Patch(':id')

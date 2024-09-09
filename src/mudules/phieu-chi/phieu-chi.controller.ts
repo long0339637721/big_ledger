@@ -35,14 +35,14 @@ export class PhieuChiTienMatController {
     return this.phieuChiService.findAllTienMat();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.phieuChiService.findOneTienMat(+id);
-  }
-
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
     return this.phieuChiService.findByDate(query, 'tienMat');
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.phieuChiService.findOneTienMat(+id);
   }
 
   // @Patch(':id')
@@ -73,14 +73,14 @@ export class PhieuChiTienGuiController {
     return this.phieuChiService.findAllTienGui();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.phieuChiService.findOneTienGui(+id);
-  }
-
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
     return this.phieuChiService.findByDate(query, 'tienGui');
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.phieuChiService.findOneTienGui(+id);
   }
 
   // @Patch(':id')
@@ -111,11 +111,6 @@ export class PhieuChiKhacController {
     return this.phieuChiService.findAllKhac();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.phieuChiService.findOneKhac(+id);
-  }
-
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
     return this.phieuChiService.findByDate(query, 'khac');
@@ -124,6 +119,11 @@ export class PhieuChiKhacController {
   @Get('get-all-by-date')
   findAllByDate(@Query() query: GetPhieuChiDto) {
     return this.phieuChiService.findByDate(query, 'all');
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.phieuChiService.findOneKhac(+id);
   }
 
   // @Patch(':id')
