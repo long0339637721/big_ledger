@@ -3,7 +3,7 @@ import { UserRoleType } from '../../../../constants/index';
 export type TokenExtractPayloadType = {
   id: number;
   email: string;
-  roles: UserRoleType[];
+  isAdmin: boolean;
   iat: number;
   exp: number;
 };

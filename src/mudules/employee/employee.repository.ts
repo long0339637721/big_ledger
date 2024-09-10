@@ -34,10 +34,6 @@ export class EmployeeRepository {
     this.wKeeperRepository = this.dataSource.getRepository(WarehouseKeeper);
   }
 
-  createAdmin(createAdminDto: CreateAdminDto) {
-    return this.adminRepository.save(createAdminDto);
-  }
-
   createAccountant(createAccountantDto: CreateAccountantDto, password: string) {
     const newAccountant = this.accountantRepository.create({
       name: createAccountantDto.name,
@@ -46,6 +42,8 @@ export class EmployeeRepository {
       address: createAccountantDto.address,
       password: password,
       avatar: createAccountantDto.avatar ?? DEFAULT_VALUES.DEFAULT_AVATAR,
+      isAdmin: createAccountantDto.isAdmin,
+      isDeleted: false,
     });
     return this.accountantRepository.save(newAccountant);
   }
@@ -65,66 +63,80 @@ export class EmployeeRepository {
   }
 
   findAllWarehouseKeeper() {
-    return this.wKeeperRepository.find();
+    return this.wKeeperRepository.find({
+      where: {
+        isDeleted: false,
+      },
+    });
   }
 
   findAllPurchasingOfficer() {
-    return this.pOfficerRepository.find();
+    return this.pOfficerRepository.find({
+      where: {
+        isDeleted: false,
+      },
+    });
   }
 
   findAllSalesperson() {
-    return this.salespersonRepository.find();
+    return this.salespersonRepository.find({
+      where: {
+        isDeleted: false,
+      },
+    });
   }
 
   findSalespersonByIds(ids: number[]) {
     return this.salespersonRepository.find({
       where: {
         id: In(ids),
+        isDeleted: false,
       },
     });
   }
 
-  findAllAdmin() {
-    return this.adminRepository.find();
-  }
-
   findAllAccountant() {
-    return this.accountantRepository.find();
+    return this.accountantRepository.find({
+      where: {
+        isDeleted: false,
+        isAdmin: false,
+      },
+    });
   }
 
   findOneWarehouseKeeper(id: number) {
     return this.wKeeperRepository.findOneBy({
       id: id,
+      isDeleted: false,
     });
   }
 
   findOnePurchasingOfficer(id: number) {
     return this.pOfficerRepository.findOneBy({
       id: id,
+      isDeleted: false,
     });
   }
 
   findOneSalesperson(id: number) {
     return this.salespersonRepository.findOneBy({
       id: id,
-    });
-  }
-
-  findOneAdmin(id: number) {
-    return this.adminRepository.findOneBy({
-      id: id,
+      isDeleted: false,
     });
   }
 
   findOneAccountant(id: number) {
     return this.accountantRepository.findOneBy({
       id: id,
+      isDeleted: false,
+      isAdmin: false,
     });
   }
 
   findOneByEmail(email: string) {
     return this.accountantRepository.findOneBy({
       email: email,
+      isDeleted: false,
     });
   }
 
@@ -139,6 +151,8 @@ export class EmployeeRepository {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} donMuaHang`;
+    return this.accountantRepository.update(id, {
+      isDeleted: true,
+    });
   }
 }

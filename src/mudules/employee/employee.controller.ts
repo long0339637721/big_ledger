@@ -22,7 +22,7 @@ import { USER_ROLE } from 'src/constants';
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Post('accountant')
+  @Post('user')
   createAccountant(@Body() createAccountantDto: CreateAccountantDto) {
     return this.employeeService.createAccountant(createAccountantDto);
   }
@@ -48,10 +48,10 @@ export class EmployeeController {
     return this.employeeService.findAllSalesperson();
   }
 
-  @Get('admin')
-  findAllAdmin() {
-    return this.employeeService.findAllAdmin();
-  }
+  // @Get('admin')
+  // findAllAdmin() {
+  //   return this.employeeService.findAllAdmin();
+  // }
 
   @Get('accountant')
   findAllAccountant() {
@@ -73,10 +73,10 @@ export class EmployeeController {
     return this.employeeService.findOneSalesperson(+id);
   }
 
-  @Get('admin/:id')
-  findOneAdmin(@Param('id') id: string) {
-    return this.employeeService.findOneAdmin(+id);
-  }
+  // @Get('admin/:id')
+  // findOneAdmin(@Param('id') id: string) {
+  //   return this.employeeService.findOneAdmin(+id);
+  // }
 
   @Get('accountant/:id')
   findOneAccountant(@Param('id') id: string) {

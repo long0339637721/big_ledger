@@ -6,6 +6,7 @@ import {
   MinLength,
   IsIn,
   IsStrongPassword,
+  IsBoolean,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { USER_ROLE, UserRoleType } from 'src/constants';
@@ -55,6 +56,11 @@ export class CreateAccountantDto extends CreateEmployeeDto {
   @IsString({ message: 'Avatar is not valid' })
   @IsOptional()
   avatar?: string;
+
+  @ApiProperty({ example: false })
+  @IsNotEmpty({ message: 'Is Admin is required' })
+  @IsBoolean({ message: 'Is Admin is not valid' })
+  isAdmin: boolean;
 }
 
 export class CreateOtherEmployee extends CreateEmployeeDto {
@@ -63,7 +69,14 @@ export class CreateOtherEmployee extends CreateEmployeeDto {
     type: 'enum',
     enum: Object.values(USER_ROLE),
   })
-  @IsIn(Object.values(USER_ROLE), { message: 'Role is not valid' })
+  @IsIn(
+    [
+      USER_ROLE.PURCHARSING_OFFICER,
+      USER_ROLE.SALESPERSON,
+      USER_ROLE.WAREHOUSE_KEEPER,
+    ],
+    { message: 'Role is not valid' },
+  )
   @IsString({ message: 'Role is not valid' })
   @IsNotEmpty({ message: 'Role is required' })
   role: UserRoleType;

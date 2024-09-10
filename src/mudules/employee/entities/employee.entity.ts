@@ -26,6 +26,12 @@ abstract class Emmployee extends AbstractEntity {
 
   @Column({ type: 'varchar' })
   address: string;
+
+  @Column({ type: 'boolean', default: false })
+  isAdmin: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  isDeleted: boolean;
 }
 
 @Entity({ name: 'accountants' })

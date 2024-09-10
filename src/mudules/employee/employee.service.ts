@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   CreateAccountantDto,
   CreateOtherEmployee,
@@ -22,8 +26,6 @@ export class EmployeeService {
 
   createOtherEmployee(createOtherEmployee: CreateOtherEmployee) {
     switch (createOtherEmployee.role) {
-      case USER_ROLE.ADMIN:
-        return this.employeeRepository.createAdmin(createOtherEmployee);
       case USER_ROLE.PURCHARSING_OFFICER:
         return this.employeeRepository.createPurchasingOfficer(
           createOtherEmployee,
@@ -39,14 +41,6 @@ export class EmployeeService {
           `Role ${createOtherEmployee.role} not found`,
         );
     }
-  }
-
-  findAll() {
-    return `This action returns all employee`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
   }
 
   findAllWareHouseKeeper() {
@@ -71,10 +65,6 @@ export class EmployeeService {
       throw new NotFoundException('Some salesperson not found');
     }
     return salespersons;
-  }
-
-  findAllAdmin() {
-    return this.employeeRepository.findAllAdmin();
   }
 
   findAllAccountant() {
@@ -107,14 +97,6 @@ export class EmployeeService {
     return salesperson;
   }
 
-  async findOneAdmin(id: number) {
-    const admin = await this.employeeRepository.findOneAdmin(id);
-    if (!admin) {
-      throw new NotFoundException(`Admin with id ${id} not found`);
-    }
-    return admin;
-  }
-
   async findOneAccountant(id: number) {
     const accountant = await this.employeeRepository.findOneAccountant(id);
     if (!accountant) {
@@ -140,7 +122,11 @@ export class EmployeeService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async remove(id: number) {
+    const employee = await this.findOneAccountant(id);
+    if (employee.isAdmin) {
+      throw new ConflictException('Cannot delete admin');
+    }
+    return this.employeeRepository.remove(id);
   }
 }
