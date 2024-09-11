@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import {
   CreateAccountantDto,
@@ -17,7 +18,38 @@ export class EmployeeService {
   constructor(private readonly employeeRepository: EmployeeRepository) {}
 
   createAccountant(createAccountantDto: CreateAccountantDto) {
+    if (createAccountantDto.isAdmin) {
+      const requiredAttributes = [
+        'companyName',
+        'companyAddress',
+        'companyPhone',
+        'companyEmail',
+        'companyLogo',
+        'companyTaxCode',
+        'companyRepresentative',
+        'firstAnnounce',
+        'secondAnnounce',
+      ];
+      for (const attribute of requiredAttributes) {
+        if (!(attribute in createAccountantDto)) {
+          throw new UnprocessableEntityException(
+            `Missing attribute: ${attribute}`,
+          );
+        }
+      }
+    } else {
+      createAccountantDto.companyName = undefined;
+      createAccountantDto.companyAddress = undefined;
+      createAccountantDto.companyPhone = undefined;
+      createAccountantDto.companyEmail = undefined;
+      createAccountantDto.companyLogo = undefined;
+      createAccountantDto.companyTaxCode = undefined;
+      createAccountantDto.companyRepresentative = undefined;
+      createAccountantDto.firstAnnounce = undefined;
+      createAccountantDto.secondAnnounce = undefined;
+    }
     const hashedPassword = generateHash(createAccountantDto.password);
+
     return this.employeeRepository.createAccountant(
       createAccountantDto,
       hashedPassword,

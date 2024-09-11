@@ -3,10 +3,11 @@ import {
   IsEmail,
   IsOptional,
   IsNotEmpty,
-  MinLength,
   IsIn,
   IsStrongPassword,
   IsBoolean,
+  IsNumber,
+  Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { USER_ROLE, UserRoleType } from 'src/constants';
@@ -57,10 +58,57 @@ export class CreateAccountantDto extends CreateEmployeeDto {
   @IsOptional()
   avatar?: string;
 
-  @ApiProperty({ example: false })
+  @ApiProperty({ example: true })
   @IsNotEmpty({ message: 'Is Admin is required' })
   @IsBoolean({ message: 'Is Admin is not valid' })
   isAdmin: boolean;
+
+  @ApiProperty({ example: 'Company Name' })
+  @IsString({ message: 'Company Name is not valid' })
+  @IsOptional()
+  companyName?: string;
+
+  @ApiProperty({ example: 'Company Address' })
+  @IsString({ message: 'Company Address is not valid' })
+  @IsOptional()
+  companyAddress?: string;
+
+  @ApiProperty({ example: 'Company Phone' })
+  @IsString({ message: 'Company Phone is not valid' })
+  @IsOptional()
+  companyPhone?: string;
+
+  @ApiProperty({ example: 'CompanyEmail@gmail.com' })
+  @IsEmail({}, { message: 'Company Email is not valid' })
+  @IsOptional()
+  companyEmail?: string;
+
+  @ApiProperty({ example: 'Company Logo' })
+  @IsString({ message: 'Company Logo is not valid' })
+  @IsOptional()
+  companyLogo?: string;
+
+  @ApiProperty({ example: 'Company Tax Code' })
+  @IsString({ message: 'Company Tax Code is not valid' })
+  @IsOptional()
+  companyTaxCode?: string;
+
+  @ApiProperty({ example: 'Company Representative' })
+  @IsString({ message: 'Company Representative is not valid' })
+  @IsOptional()
+  companyRepresentative?: string;
+
+  @ApiProperty({ example: 3 })
+  @IsNumber({}, { message: 'First Announce is not valid' })
+  @Min(1, { message: 'First Announce is not valid' })
+  @IsOptional()
+  firstAnnounce?: number;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber({}, { message: 'Second Announce is not valid' })
+  @Min(1, { message: 'Second Announce is not valid' })
+  @IsOptional()
+  secondAnnounce?: number;
 }
 
 export class CreateOtherEmployee extends CreateEmployeeDto {

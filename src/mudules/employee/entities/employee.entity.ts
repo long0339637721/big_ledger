@@ -28,9 +28,6 @@ abstract class Emmployee extends AbstractEntity {
   address: string;
 
   @Column({ type: 'boolean', default: false })
-  isAdmin: boolean;
-
-  @Column({ type: 'boolean', default: false })
   isDeleted: boolean;
 }
 
@@ -47,6 +44,36 @@ export class Accountant extends Emmployee {
 
   @OneToMany(() => PhieuChiKhac, (phieuChi) => phieuChi.accountant)
   phieuChiKhac: PhieuChiKhac[];
+
+  @Column({ type: 'boolean', default: false })
+  isAdmin: boolean;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyName: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyAddress: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyPhone: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyEmail: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyLogo: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyTaxCode: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  companyRepresentative: string;
+
+  @Column({ type: 'integer', nullable: true })
+  firstAnnounce: number;
+
+  @Column({ type: 'integer', nullable: true })
+  secondAnnounce: number;
 }
 
 @Entity({ name: 'salespersons' })

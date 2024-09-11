@@ -44,6 +44,15 @@ export class EmployeeRepository {
       avatar: createAccountantDto.avatar ?? DEFAULT_VALUES.DEFAULT_AVATAR,
       isAdmin: createAccountantDto.isAdmin,
       isDeleted: false,
+      companyName: createAccountantDto.companyName,
+      companyAddress: createAccountantDto.companyAddress,
+      companyPhone: createAccountantDto.companyPhone,
+      companyEmail: createAccountantDto.companyEmail,
+      companyLogo: createAccountantDto.companyLogo,
+      companyTaxCode: createAccountantDto.companyTaxCode,
+      companyRepresentative: createAccountantDto.companyRepresentative,
+      firstAnnounce: createAccountantDto.firstAnnounce,
+      secondAnnounce: createAccountantDto.secondAnnounce,
     });
     return this.accountantRepository.save(newAccountant);
   }
