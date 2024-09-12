@@ -21,6 +21,7 @@ export class ReportCostService {
     const ctmuas = await this.ctmuaService.findByDate(startDate, endDate);
 
     // const
+    return this.reportCostRepository.create(createReportCostDto, ctmuas);
   }
 
   findAll() {

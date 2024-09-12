@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { ReportCost } from './entities/report-cost.entity';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { CreateReportCostDto } from './dto/create-report-cost.dto';
+import { Ctmua } from '../ctmua/entities/ctmua.entity';
 
 @Injectable()
 export class ReportCostRepository {
@@ -10,36 +12,17 @@ export class ReportCostRepository {
     this.reportCostRepository = this.dataSource.getRepository(ReportCost);
   }
 
-  create() {
-    //
+  create(createReportCostDto: CreateReportCostDto, ctmuas: Ctmua[]) {
+    return this.reportCostRepository.save(createReportCostDto);
   }
 
   findAll() {
-    return this.reportCostRepository.find({
-      // relations: {
-      //   reportCostDetails: {
-      //     product: true,
-      //     reportCostProductDetails: {
-      //       supplier: true,
-      //       ctmuas: true,
-      //     },
-      //   },
-      // },
-    });
+    return this.reportCostRepository.find();
   }
 
   findOne(id: number) {
     return this.reportCostRepository.findOne({
       where: { id: id },
-      // relations: {
-      //   reportCostDetails: {
-      //     product: true,
-      //     reportCostProductDetails: {
-      //       supplier: true,
-      //       ctmuas: true,
-      //     },
-      //   },
-      // },
     });
   }
 }

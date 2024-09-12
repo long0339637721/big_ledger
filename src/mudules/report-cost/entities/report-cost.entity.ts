@@ -1,95 +1,65 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
-import { Supplier } from 'src/mudules/supplier/entities';
-import { Product } from 'src/mudules/product/entities/product.entity';
-import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
+import { Column, Entity } from 'typeorm';
 
+@Entity({ name: 'report_cost' })
 export class ReportCost extends AbstractEntity {
-  //
+  @Column({ type: 'varchar' })
+  name: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  description?: string;
+
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
+  startDate: Date;
+
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
+  endDate: Date;
+
+  @Column({ type: 'float', default: 0 })
+  revenue: number;
+
+  @Column({ type: 'float', default: 0 })
+  revenueDeduction: number;
+
+  @Column({ type: 'float', default: 0 })
+  netRevenue: number;
+
+  @Column({ type: 'float', default: 0 })
+  goodsCost: number;
+
+  @Column({ type: 'float', default: 0 })
+  grossProfit: number;
+
+  @Column({ type: 'float', default: 0 })
+  financeIncome: number;
+
+  @Column({ type: 'float', default: 0 })
+  financeExpense: number;
+
+  @Column({ type: 'float', default: 0 })
+  sellingExpense: number;
+
+  @Column({ type: 'float', default: 0 })
+  managementExpense: number;
+
+  @Column({ type: 'float', default: 0 })
+  operatingProfit: number;
+
+  @Column({ type: 'float', default: 0 })
+  otherIncome: number;
+
+  @Column({ type: 'float', default: 0 })
+  otherExpense: number;
+
+  @Column({ type: 'float', default: 0 })
+  otherProfit: number;
+
+  @Column({ type: 'float', default: 0 })
+  profitBeforeTax: number;
+
+  @Column({ type: 'float', default: 0 })
+  corporateIncomeTax: number;
+
+  @Column({ type: 'float', default: 0 })
+  profitAfterTax: number;
 }
-
-// @Entity({ name: 'report_cost' })
-// export class ReportCost extends AbstractEntity {
-//   @Column({ type: 'varchar' })
-//   name: string;
-
-//   @Column({ type: 'varchar', nullable: true })
-//   description?: string;
-
-//   @Column({ type: 'date' })
-//   startDate: Date;
-
-//   @Column({ type: 'date' })
-//   endDate: Date;
-
-//   @Column({ type: 'int' })
-//   totalCost: number;
-
-//   @OneToMany(
-//     () => ReportCostDetail,
-//     (reportCostDetail) => reportCostDetail.reportCost,
-//   )
-//   reportCostDetails: ReportCostDetail[];
-// }
-
-// @Entity({ name: 'report_cost_detail' })
-// export class ReportCostDetail extends AbstractEntity {
-//   @ManyToOne(() => Product, (product) => product.reportCostDetails)
-//   product: Product;
-
-//   @Column({ type: 'int' })
-//   count: number;
-
-//   @Column({ type: 'float' })
-//   productValue: number;
-
-//   @Column({ type: 'float' })
-//   discountValue: number;
-
-//   @Column({ type: 'float' })
-//   totalValue: number;
-
-//   @ManyToOne(() => ReportCost, (reportCost) => reportCost.reportCostDetails)
-//   reportCost: ReportCost;
-
-//   @OneToMany(
-//     () => ReportCostProductDetail,
-//     (reportCostProductDetail) => reportCostProductDetail.reportCostDetail,
-//   )
-//   reportCostProductDetails: ReportCostProductDetail[];
-// }
-
-// @Entity({ name: 'report_cost_product_detail' })
-// export class ReportCostProductDetail extends AbstractEntity {
-//   @ManyToOne(() => Supplier, (supplier) => supplier.reportCostProductDetails)
-//   supplier: Supplier;
-
-//   @Column({ type: 'int' })
-//   count: number;
-
-//   @Column({ type: 'float' })
-//   productValue: number;
-
-//   @Column({ type: 'float' })
-//   discountValue: number;
-
-//   @Column({ type: 'float' })
-//   totalValue: number;
-
-//   @ManyToMany(() => Ctmua, (ctmua) => ctmua.reportCostProductDetails)
-//   @JoinTable()
-//   ctmuas: Ctmua[];
-
-//   @ManyToOne(
-//     () => ReportCostDetail,
-//     (reportCostDetail) => reportCostDetail.reportCostProductDetails,
-//   )
-//   reportCostDetail: ReportCostDetail;
-// }
