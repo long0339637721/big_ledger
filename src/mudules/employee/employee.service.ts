@@ -146,7 +146,7 @@ export class EmployeeService {
   }
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    await this.findOneAccountant(id);
+    await this.employeeRepository.findOneAdminOrAccountant(id);
     await this.employeeRepository.update(id, updateEmployeeDto);
     if (updateEmployeeDto.password) {
       const newPass = generateHash(updateEmployeeDto.password);

@@ -149,6 +149,13 @@ export class EmployeeRepository {
     });
   }
 
+  findOneAdminOrAccountant(id: number) {
+    return this.accountantRepository.findOneBy({
+      id: id,
+      isDeleted: false,
+    });
+  }
+
   update(id: number, updateDto: UpdateEmployeeDto) {
     return this.accountantRepository.update(id, updateDto);
   }
