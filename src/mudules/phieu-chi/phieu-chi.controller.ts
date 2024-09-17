@@ -37,7 +37,9 @@ export class PhieuChiTienMatController {
 
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, 'tienMat');
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.phieuChiService.findByDate(startDate, endDate, 'tienMat');
   }
 
   @Get(':id')
@@ -75,7 +77,9 @@ export class PhieuChiTienGuiController {
 
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, 'tienGui');
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.phieuChiService.findByDate(startDate, endDate, 'tienGui');
   }
 
   @Get(':id')
@@ -113,12 +117,16 @@ export class PhieuChiKhacController {
 
   @Get('get-by-date')
   findByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, 'khac');
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.phieuChiService.findByDate(startDate, endDate, 'khac');
   }
 
   @Get('get-all-by-date')
   findAllByDate(@Query() query: GetPhieuChiDto) {
-    return this.phieuChiService.findByDate(query, 'all');
+    const startDate = new Date(query.startDate);
+    const endDate = new Date(query.endDate);
+    return this.phieuChiService.findByDate(startDate, endDate, 'all');
   }
 
   @Get(':id')

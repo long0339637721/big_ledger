@@ -191,12 +191,11 @@ export class PhieuChiService {
   // Common
 
   findByDate(
-    query: GetPhieuChiDto,
+    startDate: Date = new Date(),
+    endDate: Date = new Date(),
     isTienMat: 'tienMat' | 'tienGui' | 'khac' | 'all',
   ) {
-    const startDate = new Date(query.startDate);
     startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(query.endDate);
     endDate.setHours(23, 59, 59, 999);
     switch (isTienMat) {
       case 'tienMat':

@@ -438,6 +438,10 @@ export class CtbanService {
     return Array.from(ctbansGroupByDay.values());
   }
 
+  async findByDate(startDate: Date = new Date(0), endDate: Date = new Date()) {
+    return this.ctbanRepository.findByDate(startDate, endDate);
+  }
+
   async makePayment(id: number, money: number) {
     const ctban = await this.findOne(id);
     if (ctban.paidValue + money > ctban.finalValue) {

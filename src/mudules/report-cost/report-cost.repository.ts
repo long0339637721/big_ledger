@@ -12,8 +12,31 @@ export class ReportCostRepository {
     this.reportCostRepository = this.dataSource.getRepository(ReportCost);
   }
 
-  create(createReportCostDto: CreateReportCostDto, ctmuas: Ctmua[]) {
-    return this.reportCostRepository.save(createReportCostDto);
+  create(
+    createReportCostDto: CreateReportCostDto,
+    detail: {
+      revenue: number;
+      revenueDeduction: number;
+      netRevenue: number;
+      goodsCost: number;
+      grossProfit: number;
+      financeIncome: number;
+      financeExpense: number;
+      sellingExpense: number;
+      managementExpense: number;
+      operatingProfit: number;
+      otherIncome: number;
+      otherExpense: number;
+      otherProfit: number;
+      profitBeforeTax: number;
+      corporateIncomeTax: number;
+      profitAfterTax: number;
+    },
+  ) {
+    return this.reportCostRepository.save({
+      ...createReportCostDto,
+      ...detail,
+    });
   }
 
   findAll() {
