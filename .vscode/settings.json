@@ -19,6 +19,16 @@
       "username": "postgres",
       "database": "big_ledger",
       "password": "0339637721Hh@"
+    },
+    {
+      "previewLimit": 50,
+      "server": "3.113.29.152",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "test server",
+      "database": "postgres",
+      "username": "postgres",
+      "password": "postgres"
     }
   ]
 }
