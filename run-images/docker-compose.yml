@@ -11,7 +11,7 @@ services:
       - '5432:5432'
 
   app:
-    image: big-ledger-app
+    image: 0339637721/big-ledger-app:latest
     container_name: nest-docker-postgres
     environment:
       - PORT=${PORT}

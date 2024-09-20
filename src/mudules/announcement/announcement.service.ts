@@ -376,7 +376,7 @@ export class AnnouncementService {
     console.log('Test mail');
     this.sendEmail(
       'long01639637721@gmail.com',
-      'Test mail',
+      'Test title',
       'Test mail',
       '<b>welcome</b>',
     );

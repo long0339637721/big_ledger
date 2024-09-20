@@ -21,6 +21,12 @@ export class AnnouncementController {
     return this.announcementService.findAll(getAnnouncementDto);
   }
 
+  @Get('test')
+  test() {
+    return 'cc';
+    return this.announcementService.testMail();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.announcementService.findOne(+id);

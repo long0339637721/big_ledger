@@ -21,7 +21,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Hoặc branch bạn muốn triển khai
+      - main # Hoặc branch bạn muốn triển khai
 
 jobs:
   build-and-deploy:
@@ -55,7 +55,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd /path/to/your/app
-            git pull origin main  # Nếu bạn có repository trên EC2
-            docker-compose pull
-            docker-compose up -d
+            cd workspace/firstServer
+            docker pull 0339637721/big-ledger-app:latest
+            docker compose up -d
