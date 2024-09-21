@@ -43,9 +43,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker compose build
-          docker images
-          IMAGE_TAG=$(date +%s)
-          docker tag my-image-name:$IMAGE_TAG 0339637721/big-ledger-app:latest
+          docker tag big_ledger-app 0339637721/big-ledger-app:latest
           docker push 0339637721/big-ledger-app:latest
 
       # Bước 4: SSH vào EC2 và Deploy
