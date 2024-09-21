@@ -42,9 +42,9 @@ jobs:
       # Bước 3: Build và Push Docker Image
       - name: Build and Push Docker Image
         run: |
-          sudo docker compose build
-          sudo docker tag big-ledger-app 0339637721/big-ledger-app:latest
-          sudo docker push 0339637721/big-ledger-app:latest
+          docker compose build
+          docker tag big-ledger-app 0339637721/big-ledger-app:latest
+          docker push 0339637721/big-ledger-app:latest
 
       # Bước 4: SSH vào EC2 và Deploy
       - name: Deploy to EC2
