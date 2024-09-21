@@ -16,7 +16,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: big-ledger-app:latest
     container_name: nest-docker-postgres
     environment:
       - PORT=${PORT}
