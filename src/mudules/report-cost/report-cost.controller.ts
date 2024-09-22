@@ -20,6 +20,11 @@ export class ReportCostController {
     return this.reportCostService.create(createReportCostDto);
   }
 
+  @Post('raw')
+  createRaw(@Body() createReportCostDto: CreateReportCostDto) {
+    return this.reportCostService.create(createReportCostDto, true);
+  }
+
   @Get()
   findAll() {
     return this.reportCostService.findAll();
