@@ -120,7 +120,7 @@ export class AnnouncementService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkCtban() {
-    console.log('Cron job: checkCtban');
+    // console.log('Cron job: checkCtban');
     const ctban = await this.ctbanService.findByPaymentStatus([
       PAYMENT_STATUS.BEING_PAID,
       PAYMENT_STATUS.NOT_PAID,
@@ -159,7 +159,7 @@ export class AnnouncementService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkDonBanHang() {
-    console.log('Cron job: checkDonBanHang');
+    // console.log('Cron job: checkDonBanHang');
     const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
       DELIVERY_STATUS.NOT_DELIVERED,
       DELIVERY_STATUS.DELIVERING,
@@ -179,7 +179,7 @@ export class AnnouncementService {
           ANNOUNCEMENT_TYPE.BAN_HANG,
         );
         if (!annoucement) {
-          console.log('Create new announcement');
+          // console.log('Create new announcement');
           const message = messageGenerator(
             ANNOUNCEMENT_TYPE.BAN_HANG,
             donBanHang.id,
@@ -211,7 +211,7 @@ export class AnnouncementService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkCtmua() {
-    console.log('Cron job: checkCtmua');
+    // console.log('Cron job: checkCtmua');
     const ctmuas = await this.ctmuaService.findByPaymentStatus([
       PAYMENT_STATUS.BEING_PAID,
       PAYMENT_STATUS.NOT_PAID,
@@ -231,7 +231,7 @@ export class AnnouncementService {
           ANNOUNCEMENT_TYPE.MUA_HANG,
         );
         if (!annoucement) {
-          console.log('Create new announcement');
+          // console.log('Create new announcement');
           const message = messageGenerator(
             ANNOUNCEMENT_TYPE.MUA_HANG,
             ctmua.id,
@@ -263,7 +263,7 @@ export class AnnouncementService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkDonMuaHang() {
-    console.log('Cron job: checkDonMuaHang');
+    // console.log('Cron job: checkDonMuaHang');
     const donMuaHangs = await this.donMuaHangService.findByDocumentStatus([
       DOCUMENT_STATUS.UNDOCUMENTED,
       DOCUMENT_STATUS.DOCUMENTING,
@@ -283,7 +283,7 @@ export class AnnouncementService {
           ANNOUNCEMENT_TYPE.MUA_HANG,
         );
         if (!annoucement) {
-          console.log('Create new announcement');
+          // console.log('Create new announcement');
           const message = messageGenerator(
             ANNOUNCEMENT_TYPE.MUA_HANG,
             donMuaHang.id,
@@ -327,7 +327,7 @@ export class AnnouncementService {
 
   @Cron(CronExpression.EVERY_DAY_AT_6AM)
   async checkAnnouncement() {
-    console.log('Cron job: checkAnnouncement');
+    // console.log('Cron job: checkAnnouncement');
     const announcements = await this.announcementRepository.findAll(
       [false],
       [false],

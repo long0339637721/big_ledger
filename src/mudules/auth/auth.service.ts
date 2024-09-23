@@ -17,8 +17,8 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const user = await this.employeeService.findOneByEmail(loginDto.email);
-    console.log('password: ', loginDto.password);
-    console.log('hash: ', user.password);
+    // console.log('password: ', loginDto.password);
+    // console.log('hash: ', user.password);
     const comparePassword = await validateHash(
       loginDto.password,
       user.password,
