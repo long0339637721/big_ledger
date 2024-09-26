@@ -12,12 +12,23 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeRepository } from './employee.repository';
 import { generateHash } from 'src/common/utils';
 import { USER_ROLE } from 'src/constants';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class EmployeeService {
-  constructor(private readonly employeeRepository: EmployeeRepository) {}
+  constructor(
+    private readonly employeeRepository: EmployeeRepository,
+    private readonly mailerService: MailerService,
+  ) {}
 
-  createAccountant(createAccountantDto: CreateAccountantDto) {
+  async createAccountant(createAccountantDto: CreateAccountantDto) {
+    const existedEmployee = await this.employeeRepository.findOneByEmail(
+      createAccountantDto.email,
+    );
+    if (existedEmployee) {
+      throw new ConflictException('Email already exists');
+    }
+
     if (createAccountantDto.isAdmin) {
       const requiredAttributes = [
         'companyName',
@@ -50,10 +61,17 @@ export class EmployeeService {
     }
     const hashedPassword = generateHash(createAccountantDto.password);
 
-    return this.employeeRepository.createAccountant(
+    const newEmployee = await this.employeeRepository.createAccountant(
       createAccountantDto,
       hashedPassword,
     );
+
+    await this.notifyUserRegistration(
+      createAccountantDto.email,
+      createAccountantDto.password,
+    );
+
+    return newEmployee;
   }
 
   createOtherEmployee(createOtherEmployee: CreateOtherEmployee) {
@@ -168,5 +186,44 @@ export class EmployeeService {
       throw new ConflictException('Cannot delete admin');
     }
     return this.employeeRepository.remove(id);
+  }
+
+  async notifyUserRegistration(to: string, password: string) {
+    const subject = 'Thông báo đăng ký tài khoản thành công';
+    const text = `Xin chào,
+  
+  Bạn đã được đăng ký tài khoản thành công. Dưới đây là thông tin đăng nhập của bạn:
+  
+  Email: ${to}
+  Mật khẩu: ${password}
+  
+  Vui lòng thay đổi mật khẩu sau khi đăng nhập.
+  
+  Trân trọng,
+  Đội ngũ hỗ trợ`;
+
+    const html = `
+    <p>Xin chào,</p>
+    <p>Bạn đã được đăng ký tài khoản thành công. Dưới đây là thông tin đăng nhập của bạn:</p>
+    <p>Email: <b>${to}</b></p>
+    <p>Mật khẩu: <b>${password}</b></p>
+    <p>Vui lòng thay đổi mật khẩu sau khi đăng nhập.</p>
+    <p>Trân trọng,</p>
+    <p>Đội ngũ hỗ trợ</p>`;
+
+    await this.mailerService
+      .sendMail({
+        to: to, // List of receivers email address
+        from: 'longdoan.student@gmail.com', // Senders email address
+        subject: subject, // Subject line
+        text: text, // plaintext body
+        html: html, // '<b>welcome</b>',  HTML body content
+      })
+      .then((success) => {
+        console.log('Send mail success');
+      })
+      .catch((err) => {
+        console.log('Send mail fail:', err);
+      });
   }
 }
