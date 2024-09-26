@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EmployeeService } from '../employee/employee.service';
 import { USER_ROLE } from 'src/constants';
 import { UpdateEmployeeDto } from '../employee/dto/update-employee.dto';
+import { Accountant } from '../employee/entities/employee.entity';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,18 @@ export class AuthService {
     };
     const token = await this.jwtService.signAsync(payload);
     return new AuthResponseDto(token);
+  }
+
+  async getMe(user: Accountant) {
+    if (user.isAdmin) {
+      return user;
+    } else {
+      const admin = await this.employeeService.findAmin();
+      return {
+        ...user,
+        company: admin,
+      };
+    }
   }
 
   updateMe(userId: number, updateDto: UpdateEmployeeDto) {

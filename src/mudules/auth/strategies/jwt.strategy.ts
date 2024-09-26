@@ -3,6 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { EmployeeService } from 'src/mudules/employee/employee.service';
 import { TokenExtractPayloadType } from '../types/token-extract-payload';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * Extract and check for JSON Web Token. Return Unauthorized if token is invalid.
@@ -14,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secret',
+      secretOrKey: process.env.JWT_SECRET,
     });
   }
 

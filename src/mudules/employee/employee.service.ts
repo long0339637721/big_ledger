@@ -137,6 +137,14 @@ export class EmployeeService {
     return accountant;
   }
 
+  async findAmin() {
+    const admin = this.employeeRepository.findAmin();
+    if (!admin) {
+      throw new NotFoundException('Admin not found');
+    }
+    return admin;
+  }
+
   async findOneByEmail(email: string) {
     const employee = await this.employeeRepository.findOneByEmail(email);
     if (!employee) {

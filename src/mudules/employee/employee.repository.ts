@@ -142,6 +142,13 @@ export class EmployeeRepository {
     });
   }
 
+  findAmin() {
+    return this.accountantRepository.findOneBy({
+      isAdmin: true,
+      isDeleted: false,
+    });
+  }
+
   findOneByEmail(email: string) {
     return this.accountantRepository.findOneBy({
       email: email,

@@ -1,6 +1,6 @@
 import { DonMuaHang } from 'src/mudules/don-mua-hang/entities/don-mua-hang.entity';
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, Unique } from 'typeorm';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import {
   PhieuChiKhac,
@@ -32,6 +32,7 @@ abstract class Emmployee extends AbstractEntity {
 }
 
 @Entity({ name: 'accountants' })
+@Unique(['email'])
 export class Accountant extends Emmployee {
   @Column({ type: 'varchar' })
   password: string;

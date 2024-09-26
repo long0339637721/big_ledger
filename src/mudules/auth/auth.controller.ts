@@ -30,7 +30,7 @@ export class AuthController {
   @Get('me')
   @HttpCode(HttpStatus.OK)
   getMe(@AuthUser() user: Accountant) {
-    return user;
+    return this.authService.getMe(user);
   }
 
   @Post('login')
