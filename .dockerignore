@@ -10,7 +10,10 @@
 
 **/node_modules
 **/npm-debug.log
-# **/dist
+**/dist
+pgdata
+
+.env
 
 LICENSE
 README.md
