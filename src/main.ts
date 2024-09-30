@@ -2,6 +2,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import fs from 'fs';
 import {
   ClassSerializerInterceptor,
   HttpStatus,
@@ -15,7 +16,15 @@ import { setupSwagger } from './setup-swagger';
 import { SerializerInterceptor } from './interceptors/serializer-interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const httpsOptions = {
+    key: fs.readFileSync(
+      '/etc/letsencrypt/live/big-ledger.ddns.net/privkey.pem',
+    ),
+    cert: fs.readFileSync(
+      '/etc/letsencrypt/live/big-ledger.ddns.net/fullchain.pem',
+    ),
+  };
+  const app = await NestFactory.create(AppModule, { cors: true, httpsOptions });
 
   app.use(helmet());
   app.setGlobalPrefix('/api/v1');
