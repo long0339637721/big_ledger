@@ -2,7 +2,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import fs from 'fs';
+import * as fs from 'fs';
 import {
   ClassSerializerInterceptor,
   HttpStatus,
