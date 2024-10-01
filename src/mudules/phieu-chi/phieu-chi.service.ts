@@ -163,7 +163,7 @@ export class PhieuChiService {
   // Khac
 
   async createKhac(createPhieuChiDto: CreatePhieuChiKhacDto) {
-    const accountant = await this.employeeService.findOneAccountant(
+    const accountant = await this.employeeService.findOneAccountantOrAdmin(
       createPhieuChiDto.accountantId,
     );
     const bankAccount = createPhieuChiDto.bankAccountId

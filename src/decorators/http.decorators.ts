@@ -22,14 +22,14 @@ import { PublicRoute } from './public-route.decorator';
  * @param options (Optional) Set { public: true } if route is public
  */
 export function Auth(
-  roles: UserRoleType[],
+  requiredRole: UserRoleType,
   options?: Partial<{ public: boolean }>,
 ): MethodDecorator {
   // console.log('Auth');
   const isPublicRoute = options?.public;
 
   return applyDecorators(
-    SetMetadata('roles', roles),
+    SetMetadata('requiredRole', requiredRole),
     UseGuards(AuthGuard({ public: isPublicRoute }), UserRolesGuard),
     ApiBearerAuth(),
     UseInterceptors(AuthUserInterceptor),

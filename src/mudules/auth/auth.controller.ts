@@ -26,7 +26,7 @@ import * as fs from 'fs';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Auth([USER_ROLE.ACCOUNTANT])
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get('me')
   @HttpCode(HttpStatus.OK)
   getMe(@AuthUser() user: Accountant) {
@@ -44,12 +44,13 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Patch('me')
-  @Auth([USER_ROLE.ACCOUNTANT])
   updateMe(@AuthUser() user: Accountant, @Body() updateDto: UpdateEmployeeDto) {
     return this.authService.updateMe(user.id, updateDto);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get('download')
   downloadExcel(@Res() res: Response) {
     const filePath = path.join(

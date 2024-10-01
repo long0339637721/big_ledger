@@ -15,24 +15,20 @@ export class UserRolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     console.log('UserRolesGuard');
-    // const requiredRoles = this.reflector.get<UserRoleType[]>(
-    //   'roles',
-    //   context.getHandler(),
-    // );
+    const requiredRole: UserRoleType = this.reflector.get<UserRoleType>(
+      'requiredRole',
+      context.getHandler(),
+    );
 
-    // if (_.isEmpty(requiredRoles)) {
-    //   return true;
-    // }
-
-    // const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest();
     // console.log(request.user);
-    // const userRoles: UserRoleType[] = [USER_ROLE.ACCOUNTANT];
+    const userIsAdmin: boolean = request.user.isAdmin;
 
-    // if (!requiredRoles.some((role) => userRoles.includes(role))) {
-    //   throw new ForbiddenResourceException(
-    //     'Forbidden! You do not have permission to access this resource!',
-    //   );
-    // }
+    if (requiredRole === USER_ROLE.ADMIN && !userIsAdmin) {
+      throw new ForbiddenResourceException(
+        'You do not have permission to access this resource',
+      );
+    }
 
     return true;
   }

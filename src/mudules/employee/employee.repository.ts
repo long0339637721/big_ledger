@@ -178,4 +178,22 @@ export class EmployeeRepository {
       isDeleted: true,
     });
   }
+
+  removeSalesperson(id: number) {
+    return this.salespersonRepository.update(id, {
+      isDeleted: true,
+    });
+  }
+
+  removePurchasingOfficer(id: number) {
+    return this.pOfficerRepository.update(id, {
+      isDeleted: true,
+    });
+  }
+
+  removeWarehouseKeeper(id: number) {
+    return this.wKeeperRepository.update(id, {
+      isDeleted: true,
+    });
+  }
 }

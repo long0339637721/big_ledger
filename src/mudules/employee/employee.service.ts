@@ -66,7 +66,7 @@ export class EmployeeService {
       hashedPassword,
     );
 
-    await this.notifyUserRegistration(
+    this.notifyUserRegistration(
       createAccountantDto.email,
       createAccountantDto.password,
     );
@@ -155,6 +155,14 @@ export class EmployeeService {
     return accountant;
   }
 
+  async findOneAccountantOrAdmin(id: number) {
+    const employee = await this.employeeRepository.findOneAdminOrAccountant(id);
+    if (!employee) {
+      throw new NotFoundException(`Accountant/Admin with id ${id} not found`);
+    }
+    return employee;
+  }
+
   async findAmin() {
     const admin = this.employeeRepository.findAmin();
     if (!admin) {
@@ -182,10 +190,22 @@ export class EmployeeService {
 
   async remove(id: number) {
     const employee = await this.findOneAccountant(id);
-    if (employee.isAdmin) {
-      throw new ConflictException('Cannot delete admin');
-    }
     return this.employeeRepository.remove(id);
+  }
+
+  async removeSalesperson(id: number) {
+    const salesperson = await this.findOneSalesperson(id);
+    return this.employeeRepository.removeSalesperson(id);
+  }
+
+  async removePurchasingOfficer(id: number) {
+    const purchasingOfficer = await this.findOnePurchasingOfficer(id);
+    return this.employeeRepository.removePurchasingOfficer(id);
+  }
+
+  async removeWarehouseKeeper(id: number) {
+    const warehouseKeeper = await this.findOneWarehouseKeeper(id);
+    return this.employeeRepository.removeWarehouseKeeper(id);
   }
 
   async notifyUserRegistration(to: string, password: string) {
