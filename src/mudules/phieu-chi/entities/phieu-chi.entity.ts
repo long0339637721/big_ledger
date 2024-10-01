@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany, Unique } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   Accountant,
@@ -10,6 +10,7 @@ import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { PHIEU_CHI_TYPE, PhieuChiType } from 'src/constants/phieu-chi-type';
 
 @Entity({ name: 'phieu_chi_tien_mat' })
+@Index(['id'], { unique: true })
 export class PhieuChiTienMat extends AbstractEntity {
   @Column({ type: 'date' })
   paymentDate: Date;
@@ -40,6 +41,7 @@ export class PhieuChiTienMat extends AbstractEntity {
 }
 
 @Entity({ name: 'phieu_chi_tien_gui' })
+@Index(['id'], { unique: true })
 export class PhieuChiTienGui extends AbstractEntity {
   @Column({ type: 'date' })
   paymentDate: Date;
@@ -75,6 +77,7 @@ export class PhieuChiTienGui extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_mat' })
+@Index(['id'], { unique: true })
 @Unique(['phieuChiTienMat', 'ctmua'])
 export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
   @Column({ type: 'float', default: 0 })
@@ -93,6 +96,7 @@ export class ChungTuCuaPhieuChiTienMat extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_gui' })
+@Index(['id'], { unique: true })
 @Unique(['phieuChiTienGui', 'ctmua'])
 export class ChungTuCuaPhieuChiTienGui extends AbstractEntity {
   @Column({ type: 'float', default: 0 })
@@ -111,6 +115,7 @@ export class ChungTuCuaPhieuChiTienGui extends AbstractEntity {
 }
 
 @Entity({ name: 'phieu_chi_khac' })
+@Index(['id'], { unique: true })
 export class PhieuChiKhac extends AbstractEntity {
   @Column({ type: 'date' })
   paymentDate: Date;

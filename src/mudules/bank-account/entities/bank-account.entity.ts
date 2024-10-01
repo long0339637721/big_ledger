@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import {
   PhieuChiKhac,
@@ -7,6 +7,7 @@ import {
 import { PhieuThuTienGui } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 
 @Entity({ name: 'bank_accounts' })
+@Index(['id'], { unique: true })
 export class BankAccount extends AbstractEntity {
   @Column({ type: 'varchar' })
   accountNumber: string;

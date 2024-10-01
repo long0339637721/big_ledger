@@ -124,6 +124,8 @@ dotenv.config();
       //   encrypt: false,
       // },
       synchronize: true,
+      logging: ['error'],
+      maxQueryExecutionTime: 1000,
       entities: [
         Announcement,
         BankAccount,

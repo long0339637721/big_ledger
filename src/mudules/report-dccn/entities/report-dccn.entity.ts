@@ -1,9 +1,10 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { Customer } from 'src/mudules/customer/entities/customer.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'report_dccn' })
+@Index(['id'], { unique: true })
 export class ReportDccn extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -25,6 +26,7 @@ export class ReportDccn extends AbstractEntity {
 }
 
 @Entity({ name: 'report_dccn_details' })
+@Index(['id'], { unique: true })
 export class ReportDccnDetail extends AbstractEntity {
   @ManyToOne(() => Customer, (customer) => customer.reportDccnDetails, {
     nullable: false,
@@ -50,6 +52,7 @@ export class ReportDccnDetail extends AbstractEntity {
 }
 
 @Entity({ name: 'report_dccn_customer_details' })
+@Index(['id'], { unique: true })
 export class ReportDccnCustomerDetail extends AbstractEntity {
   @ManyToOne(() => Ctban, (ctban) => ctban.reportDccnCustomerDetails, {
     nullable: false,

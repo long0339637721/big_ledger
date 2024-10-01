@@ -2,6 +2,7 @@ import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   Column,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -12,6 +13,7 @@ import { Product } from 'src/mudules/product/entities/product.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 
 @Entity({ name: 'report_cpmh' })
+@Index(['id'], { unique: true })
 export class ReportCpmh extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -36,6 +38,7 @@ export class ReportCpmh extends AbstractEntity {
 }
 
 @Entity({ name: 'report_cpmh_detail' })
+@Index(['id'], { unique: true })
 export class ReportCpmhDetail extends AbstractEntity {
   @ManyToOne(() => Product, (product) => product.reportCpmhDetails)
   product: Product;
@@ -63,6 +66,7 @@ export class ReportCpmhDetail extends AbstractEntity {
 }
 
 @Entity({ name: 'report_cpmh_product_detail' })
+@Index(['id'], { unique: true })
 export class ReportCpmhProductDetail extends AbstractEntity {
   @ManyToOne(() => Supplier, (supplier) => supplier.reportCpmhProductDetails)
   supplier: Supplier;

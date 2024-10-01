@@ -1,9 +1,10 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { Supplier } from 'src/mudules/supplier/entities';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'report_no_phai_tra' })
+@Index(['id'], { unique: true })
 export class ReportNoPhaiTra extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -25,6 +26,7 @@ export class ReportNoPhaiTra extends AbstractEntity {
 }
 
 @Entity({ name: 'report_no_phai_tra_details' })
+@Index(['id'], { unique: true })
 export class ReportNoPhaiTraDetail extends AbstractEntity {
   @ManyToOne(() => Supplier, (supplier) => supplier.reportNoPhaiTraDetails, {
     nullable: false,
@@ -61,6 +63,7 @@ export class ReportNoPhaiTraDetail extends AbstractEntity {
 }
 
 @Entity({ name: 'report_no_phai_tra_supplier_details' })
+@Index(['id'], { unique: true })
 export class ReportNoPhaiTraSupplierDetail extends AbstractEntity {
   @ManyToOne(() => Ctmua, (ctmua) => ctmua.reportNoPhaiTraSupplierDetails, {
     nullable: false,

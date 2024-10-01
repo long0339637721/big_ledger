@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { Customer } from 'src/mudules/customer/entities/customer.entity';
 import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
@@ -6,6 +6,7 @@ import { Ctban } from 'src/mudules/ctban/entities/ctban.entity';
 import { BankAccount } from 'src/mudules/bank-account/entities/bank-account.entity';
 
 @Entity({ name: 'phieu_thu_tien_mat' })
+@Index(['id'], { unique: true })
 export class PhieuThuTienMat extends AbstractEntity {
   @Column({ type: 'date' })
   receiveDate: Date;
@@ -34,6 +35,7 @@ export class PhieuThuTienMat extends AbstractEntity {
 }
 
 @Entity('phieu_thu_tien_gui')
+@Index(['id'], { unique: true })
 export class PhieuThuTienGui extends AbstractEntity {
   @Column({ type: 'date' })
   receiveDate: Date;
@@ -67,6 +69,7 @@ export class PhieuThuTienGui extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_thu_tien_mat' })
+@Index(['id'], { unique: true })
 export class ChungTuCuaPhieuThuTienMat extends AbstractEntity {
   @Column({ type: 'int' })
   money: number;
@@ -84,6 +87,7 @@ export class ChungTuCuaPhieuThuTienMat extends AbstractEntity {
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_thu_tien_gui' })
+@Index(['id'], { unique: true })
 export class ChungTuCuaPhieuThuTienGui extends AbstractEntity {
   @Column({ type: 'int' })
   money: number;

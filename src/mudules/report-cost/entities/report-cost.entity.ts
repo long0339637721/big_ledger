@@ -1,7 +1,8 @@
 import { AbstractEntity } from 'src/common/abstract.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 @Entity({ name: 'report_cost' })
+@Index(['id'], { unique: true })
 export class ReportCost extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;

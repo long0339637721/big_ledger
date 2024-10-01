@@ -1,8 +1,9 @@
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { Supplier } from './supplier.entity';
 
 @Entity({ name: 'supplier_groups' })
+@Index(['id'], { unique: true })
 export class SupplierGroup extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;

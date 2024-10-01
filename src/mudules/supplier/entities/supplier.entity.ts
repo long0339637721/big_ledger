@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -16,6 +17,7 @@ import { ReportCpmhProductDetail } from 'src/mudules/report-cpmh/entities/report
 import { ReportNoPhaiTraDetail } from 'src/mudules/report-no-phai-tra/entities/report-no-phai-tra.entity';
 
 @Entity({ name: 'suppliers' })
+@Index(['id'], { unique: true })
 export class Supplier extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;

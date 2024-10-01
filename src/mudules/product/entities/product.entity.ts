@@ -1,5 +1,12 @@
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { UnitType, UNIT } from '../../../constants';
 import { Supplier } from '../../supplier/entities/supplier.entity';
 import { ProductOfDonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
@@ -9,6 +16,7 @@ import { ProductOfCtmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 import { ReportCpmhDetail } from 'src/mudules/report-cpmh/entities/report-cpmh.entity';
 
 @Entity({ name: 'product_groups' })
+@Index(['id'], { unique: true })
 export class ProductGroup extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -24,6 +32,7 @@ export class ProductGroup extends AbstractEntity {
 }
 
 @Entity({ name: 'products' })
+@Index(['id'], { unique: true })
 export class Product extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;

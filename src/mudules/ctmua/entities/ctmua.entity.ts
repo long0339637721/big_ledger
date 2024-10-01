@@ -1,4 +1,11 @@
-import { Entity, Column, ManyToOne, OneToMany, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  ManyToMany,
+  Index,
+} from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
 import { PAYMENT_STATUS, PaymentStatusType } from 'src/constants';
@@ -12,6 +19,7 @@ import { ReportCpmhProductDetail } from 'src/mudules/report-cpmh/entities/report
 import { ReportNoPhaiTraSupplierDetail } from 'src/mudules/report-no-phai-tra/entities/report-no-phai-tra.entity';
 
 @Entity({ name: 'ctmua' })
+@Index(['id'], { unique: true })
 export class Ctmua extends AbstractEntity {
   @Column({ type: 'date', default: new Date() })
   deliveryDate: Date;
@@ -83,6 +91,7 @@ export class Ctmua extends AbstractEntity {
 }
 
 @Entity({ name: 'product_of_ctmua' })
+@Index(['id'], { unique: true })
 export class ProductOfCtmua extends AbstractEntity {
   @Column({ type: 'int', default: 0 })
   count: number;

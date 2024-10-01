@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { DonBanHang } from 'src/mudules/don-ban-hang/entities/don-ban-hang.entity';
 import { Product } from 'src/mudules/product/entities/product.entity';
@@ -12,6 +19,7 @@ import { ReportDccnCustomerDetail } from 'src/mudules/report-dccn/entities/repor
 import { ReportDtbhDetail } from 'src/mudules/report-dtbh/entities/report-dtbh.entity';
 
 @Entity({ name: 'ctban' })
+@Index(['id'], { unique: true })
 export class Ctban extends AbstractEntity {
   @Column({ type: 'date' })
   deliveryDate: Date;
@@ -82,6 +90,7 @@ export class Ctban extends AbstractEntity {
 }
 
 @Entity({ name: 'product_of_ctban' })
+@Index(['id'], { unique: true })
 export class ProductOfCtban extends AbstractEntity {
   @Column({ type: 'int' })
   count: number;

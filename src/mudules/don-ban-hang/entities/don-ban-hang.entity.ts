@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import { DELIVERY_STATUS, DeliveryStatusType } from '../../../constants';
 import { Customer } from '../../customer/entities/customer.entity';
@@ -9,6 +9,7 @@ import { DieuKhoan } from 'src/mudules/dieu-khoan/entities/dieu-khoan.entity';
 import { Cktm } from 'src/mudules/cktm/entities/cktm.entity';
 
 @Entity({ name: 'don_ban_hang' })
+@Index(['id'], { unique: true })
 export class DonBanHang extends AbstractEntity {
   @Column({ type: 'date' })
   saleDate: Date;
@@ -53,6 +54,7 @@ export class DonBanHang extends AbstractEntity {
 }
 
 @Entity({ name: 'product_of_don_ban_hang' })
+@Index(['id'], { unique: true })
 export class ProductOfDonBanHang extends AbstractEntity {
   @Column({ type: 'int' })
   count: number;

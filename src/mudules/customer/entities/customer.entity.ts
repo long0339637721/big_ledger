@@ -1,6 +1,6 @@
 import { CUSTOMER_STATUS, CustomerStatusType } from '../../../constants';
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 import { DonBanHang } from '../../don-ban-hang/entities/don-ban-hang.entity';
 import { PhieuThuTienMat } from 'src/mudules/phieu-thu/entities/phieu-thu.entity';
 import { DieuKhoan } from 'src/mudules/dieu-khoan/entities/dieu-khoan.entity';
@@ -9,6 +9,7 @@ import { ReportThcnDetail } from 'src/mudules/report-thcn/entities/report-thcn.e
 import { ReportDccnDetail } from 'src/mudules/report-dccn/entities/report-dccn.entity';
 
 @Entity({ name: 'customer_groups' })
+@Index(['id'], { unique: true })
 export class CustomerGroup extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -21,6 +22,7 @@ export class CustomerGroup extends AbstractEntity {
 }
 
 @Entity({ name: 'customers' })
+@Index(['id'], { unique: true })
 export class Customer extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;

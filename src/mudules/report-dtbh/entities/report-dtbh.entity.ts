@@ -4,6 +4,7 @@ import { Salesperson } from 'src/mudules/employee/entities/employee.entity';
 import {
   Column,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -11,6 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'report_dtbh' })
+@Index(['id'], { unique: true })
 export class ReportDtbh extends AbstractEntity {
   @Column({ type: 'varchar' })
   name: string;
@@ -32,6 +34,7 @@ export class ReportDtbh extends AbstractEntity {
 }
 
 @Entity({ name: 'report-dtbn-detail' })
+@Index(['id'], { unique: true })
 export class ReportDtbhDetail extends AbstractEntity {
   @ManyToOne(() => Salesperson, (salesperson) => salesperson.reportDtbhDetails)
   salesperson: Salesperson;

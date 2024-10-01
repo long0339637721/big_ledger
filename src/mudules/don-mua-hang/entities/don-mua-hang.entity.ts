@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { AbstractEntity } from 'src/common/abstract.entity';
 import {
   DELIVERY_STATUS,
@@ -14,6 +21,7 @@ import { PurchasingOfficer } from 'src/mudules/employee/entities/employee.entity
 import { Ctmua } from 'src/mudules/ctmua/entities/ctmua.entity';
 
 @Entity({ name: 'don_mua_hang' })
+@Index(['id'], { unique: true })
 export class DonMuaHang extends AbstractEntity {
   @Column({ type: 'date', default: new Date() })
   purchasingDate: Date;
@@ -60,6 +68,7 @@ export class DonMuaHang extends AbstractEntity {
 }
 
 @Entity({ name: 'product_of_don_mua_hang' })
+@Index(['id'], { unique: true })
 export class ProductOfDonMuaHang extends AbstractEntity {
   @Column({ type: 'int', default: 0 })
   count: number;
