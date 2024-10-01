@@ -17,8 +17,8 @@ import { SerializerInterceptor } from './interceptors/serializer-interceptor';
 
 async function bootstrap() {
   const httpsOptions = {
-    key: fs.readFileSync('/home/ubuntu/workspace/firstServer/privkey.pem'),
-    cert: fs.readFileSync('/home/ubuntu/workspace/firstServer/fullchain.pem'),
+    key: fs.readFileSync('/etc/ssl/privkey.pem'),
+    cert: fs.readFileSync('/etc/ssl/fullchain.pem'),
   };
   const app = await NestFactory.create(AppModule, { cors: true, httpsOptions });
 
