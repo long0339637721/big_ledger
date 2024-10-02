@@ -25,8 +25,8 @@ export function validateHash(
   if (!password || !hash) {
     return Promise.resolve(false);
   }
-  console.log('password: ', password);
-  console.log('hash: ', hash);
+  // console.log('password: ', password);
+  // console.log('hash: ', hash);
 
   return bcrypt.compare(password, hash);
 }

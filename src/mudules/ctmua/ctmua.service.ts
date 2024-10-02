@@ -62,18 +62,31 @@ export class CtmuaService {
       }),
     );
 
-    productOfCtmuas.forEach(async (each) => {
+    // productOfCtmuas.forEach(async (each) => {
+    //   await this.donMuaHangService.deliverDonMuaHang(
+    //     donMuaHang.id,
+    //     each.product,
+    //     each.count,
+    //   );
+    //   await this.productService.deliverProduct(
+    //     each.product.id,
+    //     each.count,
+    //     true,
+    //   );
+    // });
+
+    for (let i = 0; i < productOfCtmuas.length; i++) {
       await this.donMuaHangService.deliverDonMuaHang(
         donMuaHang.id,
-        each.product,
-        each.count,
+        productOfCtmuas[i].product,
+        productOfCtmuas[i].count,
       );
       await this.productService.deliverProduct(
-        each.product.id,
-        each.count,
+        productOfCtmuas[i].product.id,
+        productOfCtmuas[i].count,
         true,
       );
-    });
+    }
 
     await this.donMuaHangService.checkAndUpdateDocumentStatus(donMuaHang.id);
 

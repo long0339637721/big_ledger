@@ -14,7 +14,7 @@ export class UserRolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    console.log('UserRolesGuard');
+    // console.log('UserRolesGuard');
     const requiredRole: UserRoleType = this.reflector.get<UserRoleType>(
       'requiredRole',
       context.getHandler(),
