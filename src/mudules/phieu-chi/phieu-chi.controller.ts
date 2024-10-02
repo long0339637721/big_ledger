@@ -22,6 +22,7 @@ import {
 import { GetPhieuChiDto } from './dto/get-phieu-chi.dto';
 import { Auth } from 'src/decorators/http.decorators';
 import { USER_ROLE } from 'src/constants';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('phieu-chi-tien-mat')
 export class PhieuChiTienMatController {
@@ -29,18 +30,21 @@ export class PhieuChiTienMatController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new phieu chi tien mat' })
   create(@Body() createPhieuChiDto: CreatePhieuChiTienMatDto) {
     return this.phieuChiService.createTienMat(createPhieuChiDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all phieu chi tien mat' })
   findAll() {
     return this.phieuChiService.findAllTienMat();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('get-by-date')
+  @ApiOperation({ description: 'Get phieu chi tien mat by date' })
   findByDate(@Query() query: GetPhieuChiDto) {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
@@ -49,6 +53,7 @@ export class PhieuChiTienMatController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get phieu chi tien mat by id' })
   findOne(@Param('id') id: string) {
     return this.phieuChiService.findOneTienMat(+id);
   }
@@ -73,18 +78,21 @@ export class PhieuChiTienGuiController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new phieu chi tien gui' })
   create(@Body() createPhieuChiDto: CreatePhieuChiTienGuiDto) {
     return this.phieuChiService.createTienGui(createPhieuChiDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all phieu chi tien gui' })
   findAll() {
     return this.phieuChiService.findAllTienGui();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('get-by-date')
+  @ApiOperation({ description: 'Get phieu chi tien gui by date' })
   findByDate(@Query() query: GetPhieuChiDto) {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
@@ -93,6 +101,7 @@ export class PhieuChiTienGuiController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get phieu chi tien gui by id' })
   findOne(@Param('id') id: string) {
     return this.phieuChiService.findOneTienGui(+id);
   }
@@ -117,18 +126,21 @@ export class PhieuChiKhacController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new phieu chi khac' })
   create(@Body() createPhieuChiDto: CreatePhieuChiKhacDto) {
     return this.phieuChiService.createKhac(createPhieuChiDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all phieu chi khac' })
   findAll() {
     return this.phieuChiService.findAllKhac();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('get-by-date')
+  @ApiOperation({ description: 'Get phieu chi khac by date' })
   findByDate(@Query() query: GetPhieuChiDto) {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
@@ -137,6 +149,7 @@ export class PhieuChiKhacController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('get-all-by-date')
+  @ApiOperation({ description: 'Get all phieu chi by date' })
   findAllByDate(@Query() query: GetPhieuChiDto) {
     const startDate = new Date(query.startDate);
     const endDate = new Date(query.endDate);
@@ -145,6 +158,7 @@ export class PhieuChiKhacController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get phieu chi khac by id' })
   findOne(@Param('id') id: string) {
     return this.phieuChiService.findOneKhac(+id);
   }

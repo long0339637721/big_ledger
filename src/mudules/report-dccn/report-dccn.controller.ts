@@ -12,6 +12,7 @@ import { CreateReportDccnDto } from './dto/create-report-dccn.dto';
 import { UpdateReportDccnDto } from './dto/update-report-dccn.dto';
 import { Auth } from 'src/decorators/http.decorators';
 import { USER_ROLE } from 'src/constants';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('report-dccn')
 export class ReportDccnController {
@@ -19,24 +20,28 @@ export class ReportDccnController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new report dccn' })
   create(@Body() createReportDccnDto: CreateReportDccnDto) {
     return this.reportDccnService.create(createReportDccnDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post('raw')
+  @ApiOperation({ description: 'Create raw report dccn' })
   findRaw(@Body() createReportDccnDto: CreateReportDccnDto) {
     return this.reportDccnService.findRaw(createReportDccnDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all report dccn' })
   findAll() {
     return this.reportDccnService.findAll();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get report dccn by id' })
   findOne(@Param('id') id: string) {
     return this.reportDccnService.findOne(+id);
   }
@@ -46,9 +51,9 @@ export class ReportDccnController {
   //   return this.reportDccnService.update(+id, updateReportDccnDto);
   // }
 
-  @Auth(USER_ROLE.ADMIN)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reportDccnService.remove(+id);
-  }
+  // @Auth(USER_ROLE.ADMIN)
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.reportDccnService.remove(+id);
+  // }
 }

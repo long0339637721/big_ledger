@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { SupplierService } from './supplier.service';
 import {
@@ -29,24 +29,28 @@ export class SupplierController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new supplier' })
   create(@Body() createSupplierDto: CreateSupplierDto) {
     return this.supplierService.create(createSupplierDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all supplier' })
   findAll() {
     return this.supplierService.findAll();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get supplier by id' })
   findOne(@Param('id') id: string) {
     return this.supplierService.findOne(+id);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id')
+  @ApiOperation({ description: 'Update supplier by id' })
   update(
     @Param('id') id: string,
     @Body() updateSupplierDto: UpdateSupplierDto,
@@ -56,6 +60,7 @@ export class SupplierController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id/add-product')
+  @ApiOperation({ description: 'Add product to supplier' })
   addProduct(@Param('id') id: string, @Body() addProductDto: AddProductDto) {
     return this.supplierService.addProducts(+id, addProductDto);
   }
@@ -73,24 +78,28 @@ export class SupplierGroupController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new supplier group' })
   create(@Body() createSupplierGroupDto: CreateSupplierGroupDto) {
     return this.supplierService.createGroup(createSupplierGroupDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all supplier group' })
   findAll() {
     return this.supplierService.findAllGroup();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get supplier group by id' })
   findOne(@Param('id') id: string) {
     return this.supplierService.findOneGroup(+id);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id')
+  @ApiOperation({ description: 'Update supplier group by id' })
   update(
     @Param('id') id: string,
     @Body() updateSupplierGroupDto: UpdateSupplierGroupDto,

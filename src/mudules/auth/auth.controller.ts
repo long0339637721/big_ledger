@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
-import { ApiTags, ApiOkResponse, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiBody, ApiOperation } from '@nestjs/swagger';
 import { AuthResponseDto } from './dtos/auth-response.dto';
 import { USER_ROLE } from 'src/constants';
 import { Auth } from 'src/decorators/http.decorators';
@@ -29,29 +29,30 @@ export class AuthController {
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('me')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ description: 'Get infor of current user and company' })
   getMe(@AuthUser() user: Accountant) {
     return this.authService.getMe(user);
   }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({
-    description: 'Successfully',
-    type: AuthResponseDto,
-  })
-  @ApiBody({ type: LoginDto })
+  @ApiOperation({ description: 'Login' })
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Patch('me')
+  @ApiOperation({ description: 'Update infor of current user' })
   updateMe(@AuthUser() user: Accountant, @Body() updateDto: UpdateEmployeeDto) {
     return this.authService.updateMe(user.id, updateDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get('download')
+  @ApiOperation({
+    description: 'Download excel file "example data to import DMH"',
+  })
   downloadExcel(@Res() res: Response) {
     const filePath = path.join(
       __dirname,

@@ -12,6 +12,7 @@ import { CreateReportThcnDto } from './dto/create-report-thcn.dto';
 import { UpdateReportThcnDto } from './dto/update-report-thcn.dto';
 import { Auth } from 'src/decorators/http.decorators';
 import { USER_ROLE } from 'src/constants';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('report-thcn')
 export class ReportThcnController {
@@ -19,24 +20,28 @@ export class ReportThcnController {
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
+  @ApiOperation({ description: 'Create new report thcn' })
   create(@Body() createReportThcnDto: CreateReportThcnDto) {
     return this.reportThcnService.create(createReportThcnDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Post('raw')
+  @ApiOperation({ description: 'Create raw report thcn' })
   findRaw(@Body() createReportThcnDto: CreateReportThcnDto) {
     return this.reportThcnService.findRaw(createReportThcnDto);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
+  @ApiOperation({ description: 'Get all report thcn' })
   findAll() {
     return this.reportThcnService.findAll();
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
+  @ApiOperation({ description: 'Get report thcn by id' })
   findOne(@Param('id') id: string) {
     return this.reportThcnService.findOne(+id);
   }
@@ -46,8 +51,8 @@ export class ReportThcnController {
   //   return this.reportThcnService.update(+id, updateReportThcnDto);
   // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reportThcnService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.reportThcnService.remove(+id);
+  // }
 }
