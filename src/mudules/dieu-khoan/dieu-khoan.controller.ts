@@ -15,36 +15,36 @@ import { UpdateDieuKhoanDto } from './dto/update-dieu-khoan.dto';
 export class DieuKhoanController {
   constructor(private readonly dieuKhoanService: DieuKhoanService) {}
 
-  @Post()
-  create(@Body() createDieuKhoanDto: CreateDieuKhoanDto) {
-    return this.dieuKhoanService.create(createDieuKhoanDto);
-  }
+  // @Post()
+  // create(@Body() createDieuKhoanDto: CreateDieuKhoanDto) {
+  //   return this.dieuKhoanService.create(createDieuKhoanDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.dieuKhoanService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.dieuKhoanService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dieuKhoanService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.dieuKhoanService.findOne(+id);
+  // }
 
-  @Get('customer/:id')
-  findByCustomer(@Param('id') id: string) {
-    return this.dieuKhoanService.findByCustomer(+id);
-  }
+  // @Get('customer/:id')
+  // findByCustomer(@Param('id') id: string) {
+  //   return this.dieuKhoanService.findByCustomer(+id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDieuKhoanDto: UpdateDieuKhoanDto,
-  ) {
-    return this.dieuKhoanService.update(+id, updateDieuKhoanDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateDieuKhoanDto: UpdateDieuKhoanDto,
+  // ) {
+  //   return this.dieuKhoanService.update(+id, updateDieuKhoanDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dieuKhoanService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.dieuKhoanService.remove(+id);
+  // }
 }
