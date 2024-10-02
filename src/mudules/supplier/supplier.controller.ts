@@ -19,27 +19,33 @@ import {
   UpdateSupplierGroupDto,
 } from './dto/update-supplier.dto';
 import { AddProductDto } from './dto/add-product.dto';
+import { Auth } from 'src/decorators/http.decorators';
+import { USER_ROLE } from 'src/constants';
 
 @ApiTags('Doi tuong')
 @Controller('supplier')
 export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
   create(@Body() createSupplierDto: CreateSupplierDto) {
     return this.supplierService.create(createSupplierDto);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
   findAll() {
     return this.supplierService.findAll();
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.supplierService.findOne(+id);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -48,6 +54,7 @@ export class SupplierController {
     return this.supplierService.update(+id, updateSupplierDto);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id/add-product')
   addProduct(@Param('id') id: string, @Body() addProductDto: AddProductDto) {
     return this.supplierService.addProducts(+id, addProductDto);
@@ -64,21 +71,25 @@ export class SupplierController {
 export class SupplierGroupController {
   constructor(private readonly supplierService: SupplierService) {}
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Post()
   create(@Body() createSupplierGroupDto: CreateSupplierGroupDto) {
     return this.supplierService.createGroup(createSupplierGroupDto);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get()
   findAll() {
     return this.supplierService.findAllGroup();
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.supplierService.findOneGroup(+id);
   }
 
+  @Auth(USER_ROLE.ACCOUNTANT)
   @Patch(':id')
   update(
     @Param('id') id: string,
