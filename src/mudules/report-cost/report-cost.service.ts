@@ -6,6 +6,7 @@ import { CtmuaService } from '../ctmua/ctmua.service';
 import { EmployeeService } from '../employee/employee.service';
 import { CtbanService } from '../ctban/ctban.service';
 import { PhieuChiService } from '../phieu-chi/phieu-chi.service';
+import { PHIEU_CHI_TYPE } from 'src/constants/phieu-chi-type';
 
 @Injectable()
 export class ReportCostService {
@@ -27,10 +28,9 @@ export class ReportCostService {
     endDate.setHours(23, 59, 59, 999);
     const ctmuas = await this.ctmuaService.findByDate(startDate, endDate);
     const ctbans = await this.ctbanService.findByDate(startDate, endDate);
-    const phieuChiKhacs = await this.phieuChiService.findByDate(
+    const phieuChiKhacs = await this.phieuChiService.findAllKhacByDate(
       startDate,
       endDate,
-      'khac',
     );
 
     // Doanh thu bán hàng
@@ -47,13 +47,13 @@ export class ReportCostService {
       0 - ctmuas.reduce((acc, ctmua) => acc + ctmua.finalValue, 0);
     const grossProfit = netRevenue + goodsCost;
     // Lãi đầu tư, lãi mua hàng trả chậm, lãi cho vay, lãi gửi ngân hàng
-    const financeIncome = 0;
+    let financeIncome = 0;
     // Chi phí chiết khấu thanh toán, lãi vay, lãi mua hàng trả chậm
-    const financeExpense = 0;
+    let financeExpense = 0;
     // Chi phí bán hàng
-    const sellingExpense = 0;
+    let sellingExpense = 0;
     // Chi phí quản lý
-    const managementExpense = 0;
+    let managementExpense = 0;
     const operatingProfit =
       grossProfit +
       financeIncome +
@@ -61,14 +61,66 @@ export class ReportCostService {
       sellingExpense +
       managementExpense;
     // Thu nhập khác
-    const otherIncome = 0;
+    let otherIncome = 0;
     // Chi phí khác
-    const otherExpense = 0;
+    let otherExpense = 0;
     const otherProfit = otherIncome + otherExpense;
     const profitBeforeTax = operatingProfit + otherProfit;
     // Thuế TNDN
-    const corporateIncomeTax = 0;
+    let corporateIncomeTax = 0;
     const profitAfterTax = profitBeforeTax - corporateIncomeTax;
+
+    phieuChiKhacs.forEach((phieuChi) => {
+      switch (phieuChi.type) {
+        case PHIEU_CHI_TYPE.SALARY_COSTS: // Chi phí lương
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.BONUS_COSTS: // Chi phí thưởng
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.TAX_EXPENSES: // Chi phí thuế: hbxh, bhyt, hải quan...
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.RENT_EXPENSES: // Chi phí thuê mặt bằng
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.MARKETING_EXPENSES: // Chi phí quảng cáo và tiếp thị
+          sellingExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.UTILITY_COSTS: // Chi phí tiện ích (điện nước)
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.LOGISTICS_COSTS: // Chi phí vận chuyển cho hoạt động bán hàng
+          sellingExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.ADMINISTRATIVE_COSTS: // Chi phí hành chính (văn phòng phẩm)
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.TRAINING_COSTS: // Chi phí đào tạo và phát triển
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.LEGAL_COSTS: // Chi phí tư vấn pháp lý, giấy phép...
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.INSURANCE_COSTS: // Chi phí bảo hiểm
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.DEPRECIATION_COSTS: // Chi phí khấu hao, ko tính trực tiếp vào giá vốn
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.FINANCIAL_COSTS: // Chi phí tài chính (lãi vay, phí ngân hàng, giao dịch...)
+          financeExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.RAD_COSTS: // Chi phí nghiên cứu và phát triển
+          managementExpense += phieuChi.money;
+          break;
+        case PHIEU_CHI_TYPE.OTHER_COSTS: // Chi phí khác
+          otherExpense += phieuChi.money;
+          break;
+        default:
+          break;
+      }
+    });
 
     const detail = {
       revenue,

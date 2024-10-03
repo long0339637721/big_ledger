@@ -180,6 +180,12 @@ export class PhieuChiService {
     return this.phieuChiRepository.findAllPhieuChiKhac();
   }
 
+  findAllKhacByDate(startDate: Date = new Date(), endDate: Date = new Date()) {
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
+    return this.phieuChiRepository.findByDatePhieuChiKhac(startDate, endDate);
+  }
+
   async findOneKhac(id: number) {
     const phieuChi = await this.phieuChiRepository.findOnePhieuChiKhac(id);
     if (!phieuChi) {
