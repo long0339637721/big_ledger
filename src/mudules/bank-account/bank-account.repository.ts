@@ -79,6 +79,12 @@ export class BankAccountRepository {
           id: bankAccount.id,
         },
       },
+      relations: {
+        bankAccount: true,
+        phieuThu: true,
+        phieuChi: true,
+        phieuChiKhac: true,
+      },
     });
   }
 
@@ -87,6 +93,12 @@ export class BankAccountRepository {
       where: {
         bankAccount: bankAccount,
         reconciled: false,
+      },
+      relations: {
+        bankAccount: true,
+        phieuThu: true,
+        phieuChi: true,
+        phieuChiKhac: true,
       },
     });
   }
