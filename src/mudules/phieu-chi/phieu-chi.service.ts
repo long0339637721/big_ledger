@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -25,6 +27,7 @@ export class PhieuChiService {
     private readonly phieuChiRepository: PhieuChiRepository,
     private readonly employeeService: EmployeeService,
     private readonly supplierService: SupplierService,
+    @Inject(forwardRef(() => BankAccountService))
     private readonly bankAccountService: BankAccountService,
     private readonly ctmuaService: CtmuaService,
   ) {}

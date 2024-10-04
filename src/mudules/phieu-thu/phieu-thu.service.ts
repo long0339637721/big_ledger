@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   CreatePhieuThuTienGuiDto,
   CreatePhieuThuTienMatDto,
@@ -21,6 +26,7 @@ export class PhieuThuService {
     private readonly customerService: CustomerService,
     private readonly employeeService: EmployeeService,
     private readonly ctbanService: CtbanService,
+    @Inject(forwardRef(() => BankAccountService))
     private readonly bankAccountService: BankAccountService,
   ) {}
 

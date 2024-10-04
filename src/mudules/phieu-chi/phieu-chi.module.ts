@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PhieuChiService } from './phieu-chi.service';
 import {
   PhieuChiTienMatController,
@@ -19,6 +19,11 @@ import { SupplierModule } from '../supplier/supplier.module';
   ],
   providers: [PhieuChiService, PhieuChiRepository],
   exports: [PhieuChiService],
-  imports: [CtmuaModule, SupplierModule, BankAccountModule, EmployeeModule],
+  imports: [
+    forwardRef(() => BankAccountModule),
+    CtmuaModule,
+    SupplierModule,
+    EmployeeModule,
+  ],
 })
 export class PhieuChiModule {}
