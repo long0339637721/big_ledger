@@ -125,6 +125,7 @@ export class AnnouncementService {
       PAYMENT_STATUS.BEING_PAID,
       PAYMENT_STATUS.NOT_PAID,
     ]);
+    const setting = await this.employeeService.findAmin();
 
     ctban.forEach(async (ctban) => {
       const term = new Date(ctban.paymentTerm);
@@ -134,25 +135,38 @@ export class AnnouncementService {
       const leftTime = term.getTime() - now.getTime();
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
+      if (leftDate <= setting.firstAnnounce) {
         const annoucement = await this.announcementRepository.findByEntity(
           ctban.id,
           ANNOUNCEMENT_TYPE.THU,
         );
-        const isRead =
-          annoucement?.leftDate === leftDate ? annoucement.isRead : false;
-        const message = messageGenerator(
-          ANNOUNCEMENT_TYPE.THU,
-          ctban.id,
-          leftDate,
-        );
-        await this.announcementRepository.create(
-          message,
-          ANNOUNCEMENT_TYPE.THU,
-          ctban.id,
-          leftDate,
-          isRead,
-        );
+        if (!annoucement) {
+          // console.log('Create new announcement');
+          const message = messageGenerator(
+            ANNOUNCEMENT_TYPE.THU,
+            ctban.id,
+            leftDate,
+          );
+          return this.announcementRepository.create(
+            message,
+            ANNOUNCEMENT_TYPE.THU,
+            ctban.id,
+            leftDate,
+            false,
+          );
+        }
+        if (leftDate !== annoucement.leftDate) {
+          const message = messageGenerator(
+            ANNOUNCEMENT_TYPE.THU,
+            ctban.id,
+            leftDate,
+          );
+          return this.announcementRepository.updateLeftDate(
+            annoucement.id,
+            leftDate,
+            message,
+          );
+        }
       }
     });
   }
@@ -164,6 +178,7 @@ export class AnnouncementService {
       DELIVERY_STATUS.NOT_DELIVERED,
       DELIVERY_STATUS.DELIVERING,
     ]);
+    const setting = await this.employeeService.findAmin();
 
     donBanHangs.forEach(async (donBanHang) => {
       const term = new Date(donBanHang.deliveryTerm);
@@ -173,7 +188,7 @@ export class AnnouncementService {
       const leftTime = term.getTime() - now.getTime();
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
+      if (leftDate <= setting.firstAnnounce) {
         const annoucement = await this.announcementRepository.findByEntity(
           donBanHang.id,
           ANNOUNCEMENT_TYPE.BAN_HANG,
@@ -216,6 +231,7 @@ export class AnnouncementService {
       PAYMENT_STATUS.BEING_PAID,
       PAYMENT_STATUS.NOT_PAID,
     ]);
+    const setting = await this.employeeService.findAmin();
 
     ctmuas.forEach(async (ctmua) => {
       const term = new Date(ctmua.paymentTerm);
@@ -225,7 +241,7 @@ export class AnnouncementService {
       const leftTime = term.getTime() - now.getTime();
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
+      if (leftDate <= setting.firstAnnounce) {
         const annoucement = await this.announcementRepository.findByEntity(
           ctmua.id,
           ANNOUNCEMENT_TYPE.MUA_HANG,
@@ -268,6 +284,7 @@ export class AnnouncementService {
       DOCUMENT_STATUS.UNDOCUMENTED,
       DOCUMENT_STATUS.DOCUMENTING,
     ]);
+    const setting = await this.employeeService.findAmin();
 
     donMuaHangs.forEach(async (donMuaHang) => {
       const term = new Date(donMuaHang.deliveryTerm);
@@ -277,7 +294,7 @@ export class AnnouncementService {
       const leftTime = term.getTime() - now.getTime();
       const leftDate = leftTime / (1000 * 60 * 60 * 24);
 
-      if (leftDate <= 3) {
+      if (leftDate <= setting.firstAnnounce) {
         const annoucement = await this.announcementRepository.findByEntity(
           donMuaHang.id,
           ANNOUNCEMENT_TYPE.MUA_HANG,
@@ -339,16 +356,21 @@ export class AnnouncementService {
       ],
     );
     const accountants = await this.employeeService.findAllAccountant();
+    const setting = await this.employeeService.findAmin();
 
     announcements.forEach(async (announcement) => {
-      const leftDate = announcement.leftDate - 1;
+      const leftDate = announcement.leftDate - setting.secondAnnounce;
       if (leftDate === 0) {
         for (const accountant of accountants) {
           await this.sendEmail(
             accountant.email,
-            'Thông báo',
-            announcement.message,
-            `<b>${announcement.message}</b>`,
+            'Big-ledger: Thông báo về hạn chứng từ',
+            announcement.message +
+              ` Xin vui lòng kiểm tra và hiện thực chứng từ đúng hạn.
+            
+            Trân trọng.`,
+            `<p>${announcement.message} Xin vui lòng kiểm tra và hiện thực chứng từ đúng hạn</p>
+            <p>Trân trọng.</p>`,
           );
         }
       }

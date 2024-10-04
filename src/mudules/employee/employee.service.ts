@@ -164,7 +164,7 @@ export class EmployeeService {
   }
 
   async findAmin() {
-    const admin = this.employeeRepository.findAmin();
+    const admin = await this.employeeRepository.findAmin();
     if (!admin) {
       throw new NotFoundException('Admin not found');
     }
