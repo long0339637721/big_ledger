@@ -33,10 +33,10 @@ export class ReportDccnDetail extends AbstractEntity {
   })
   customer: Customer;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   collectedTotal: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   notCollectedTotal: number;
 
   @OneToMany(
@@ -59,10 +59,10 @@ export class ReportDccnCustomerDetail extends AbstractEntity {
   })
   ctban: Ctban;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   collected: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   notCollected: number;
 
   @ManyToOne(

@@ -32,13 +32,13 @@ export class ReportThcnDetail extends AbstractEntity {
   })
   customer: Customer;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'float', default: 0 })
   collectedTotal: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   outOfDate: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   inOfDate: number;
 
   @ManyToOne(() => ReportThcn, (reportThcn) => reportThcn.reportThcnDetails, {
