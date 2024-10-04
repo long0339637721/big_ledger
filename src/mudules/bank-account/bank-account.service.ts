@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   forwardRef,
   Inject,
   Injectable,
@@ -12,7 +13,6 @@ import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
 import { BankAccountRepository } from './bank-account.repository';
 import { PhieuChiService } from '../phieu-chi/phieu-chi.service';
 import { PhieuThuService } from '../phieu-thu/phieu-thu.service';
-import { ConflictResourceException } from 'src/exceptions';
 
 @Injectable()
 export class BankAccountService {
@@ -54,7 +54,7 @@ export class BankAccountService {
   async createTransactions(createTransactionsDto: CreateTransactionsDto) {
     createTransactionsDto.transactions.forEach((transaction) => {
       if (transaction.debit * transaction.credit !== 0) {
-        throw new ConflictResourceException('One of debit or credit must be 0');
+        throw new ConflictException('One of debit or credit must be 0');
       }
     });
 
@@ -65,9 +65,7 @@ export class BankAccountService {
           transaction.transactionNumber,
         );
       if (trans) {
-        throw new ConflictResourceException(
-          'Transaction number already exists',
-        );
+        throw new ConflictException('Transaction number already exists');
       }
       this.bankAccountRepository.createTransaction(transaction, bankAccount);
     });
@@ -103,13 +101,13 @@ export class BankAccountService {
     const phieuChi = await this.phieuChiService.findOneTienGui(phieuChiId);
     const transaction = await this.findOneTransaction(transactionId);
     if (transaction.reconciled) {
-      return new ConflictResourceException('Transaction already reconciled');
+      return new ConflictException('Transaction already reconciled');
     }
     // if (
     //   transaction.debit - transaction.transactionFee !==
     //   phieuChi.chungTu.reduce((a, b) => a + b.money, 0)
     // ) {
-    //   return new ConflictResourceException('Credit amount not match');
+    //   return new ConflictException('Credit amount not match');
     // }
     return this.bankAccountRepository.reconcilePhieuChi(transaction, phieuChi);
   }
@@ -118,13 +116,13 @@ export class BankAccountService {
     const phieuThu = await this.phieuThuService.findOneTienGui(phieuThuId);
     const transaction = await this.findOneTransaction(transactionId);
     if (transaction.reconciled) {
-      return new ConflictResourceException('Transaction already reconciled');
+      return new ConflictException('Transaction already reconciled');
     }
     // if (
     //   transaction.credit - transaction.transactionFee !==
     //   phieuThu.chungTuCuaPhieuThu.reduce((a, b) => a + b.money, 0)
     // ) {
-    //   return new ConflictResourceException('Debit amount not match');
+    //   return new ConflictException('Debit amount not match');
     // }
     return this.bankAccountRepository.reconcilePhieuThu(transaction, phieuThu);
   }
@@ -133,10 +131,10 @@ export class BankAccountService {
     const phieuChi = await this.phieuChiService.findOneKhac(phieuChiId);
     const transaction = await this.findOneTransaction(transactionId);
     if (transaction.reconciled) {
-      return new ConflictResourceException('Transaction already reconciled');
+      return new ConflictException('Transaction already reconciled');
     }
     // if (transaction.debit - transaction.transactionFee !== phieuChi.money) {
-    //   return new ConflictResourceException('Credit amount not match');
+    //   return new ConflictException('Credit amount not match');
     // }
     return this.bankAccountRepository.reconcilePhieuChiKhac(
       transaction,
