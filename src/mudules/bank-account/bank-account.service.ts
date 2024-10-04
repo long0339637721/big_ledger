@@ -54,7 +54,7 @@ export class BankAccountService {
   async createTransactions(createTransactionsDto: CreateTransactionsDto) {
     createTransactionsDto.transactions.forEach((transaction) => {
       if (transaction.debit * transaction.credit !== 0) {
-        throw new ConflictException('One of debit or credit must be 0');
+        return new ConflictException('One of debit or credit must be 0');
       }
     });
 
@@ -65,7 +65,7 @@ export class BankAccountService {
           transaction.transactionNumber,
         );
       if (trans) {
-        throw new ConflictException('Transaction number already exists');
+        return new ConflictException('Transaction number already exists');
       }
       this.bankAccountRepository.createTransaction(transaction, bankAccount);
     });
