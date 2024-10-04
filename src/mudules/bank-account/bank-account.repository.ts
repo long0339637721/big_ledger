@@ -96,6 +96,14 @@ export class BankAccountRepository {
     });
   }
 
+  findTransactionByTransactionNumber(transactionNumber: string) {
+    return this.transactionRepository.findOne({
+      where: {
+        transactionNumber: transactionNumber,
+      },
+    });
+  }
+
   reconcilePhieuThu(transaction: Transaction, phieuThu: PhieuThuTienGui) {
     transaction.phieuThu = phieuThu;
     transaction.reconciled = true;

@@ -60,6 +60,15 @@ export class BankAccountService {
 
     createTransactionsDto.transactions.forEach(async (transaction) => {
       const bankAccount = await this.findOne(transaction.bankAccountId);
+      const trans =
+        await this.bankAccountRepository.findTransactionByTransactionNumber(
+          transaction.transactionNumber,
+        );
+      if (trans) {
+        throw new ConflictResourceException(
+          'Transaction number already exists',
+        );
+      }
       this.bankAccountRepository.createTransaction(transaction, bankAccount);
     });
   }
