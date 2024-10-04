@@ -118,7 +118,7 @@ export class AnnouncementService {
     return annoucement;
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async checkCtban() {
     // console.log('Cron job: checkCtban');
     const ctban = await this.ctbanService.findByPaymentStatus([
@@ -157,7 +157,7 @@ export class AnnouncementService {
     });
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async checkDonBanHang() {
     // console.log('Cron job: checkDonBanHang');
     const donBanHangs = await this.donBanHangService.findByDeliveryStatus([
@@ -209,7 +209,7 @@ export class AnnouncementService {
     });
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async checkCtmua() {
     // console.log('Cron job: checkCtmua');
     const ctmuas = await this.ctmuaService.findByPaymentStatus([
@@ -261,7 +261,7 @@ export class AnnouncementService {
     });
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async checkDonMuaHang() {
     // console.log('Cron job: checkDonMuaHang');
     const donMuaHangs = await this.donMuaHangService.findByDocumentStatus([
@@ -325,7 +325,7 @@ export class AnnouncementService {
   //   console.log('Send mail success');
   // }
 
-  @Cron(CronExpression.EVERY_DAY_AT_6AM)
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
   async checkAnnouncement() {
     // console.log('Cron job: checkAnnouncement');
     const announcements = await this.announcementRepository.findAll(

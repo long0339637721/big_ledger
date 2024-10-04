@@ -38,7 +38,10 @@ export class AuthService {
 
   async getMe(user: Accountant) {
     if (user.isAdmin) {
-      return user;
+      return {
+        ...user,
+        company: user,
+      };
     } else {
       const admin = await this.employeeService.findAmin();
       return {
