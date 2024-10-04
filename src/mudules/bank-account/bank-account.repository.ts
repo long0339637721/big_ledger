@@ -62,7 +62,14 @@ export class BankAccountRepository {
   }
 
   findAllTransaction() {
-    return this.transactionRepository.find();
+    return this.transactionRepository.find({
+      relations: {
+        bankAccount: true,
+        phieuThu: true,
+        phieuChi: true,
+        phieuChiKhac: true,
+      },
+    });
   }
 
   findTransactionByBank(bankAccount: BankAccount) {
