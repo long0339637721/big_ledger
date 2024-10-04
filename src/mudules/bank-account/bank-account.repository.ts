@@ -68,7 +68,9 @@ export class BankAccountRepository {
   findTransactionByBank(bankAccount: BankAccount) {
     return this.transactionRepository.find({
       where: {
-        bankAccount: bankAccount,
+        bankAccount: {
+          id: bankAccount.id,
+        },
       },
     });
   }
