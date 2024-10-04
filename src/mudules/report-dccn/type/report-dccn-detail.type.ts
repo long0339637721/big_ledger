@@ -5,9 +5,13 @@ export type ReportDccnDetailType = {
   customer: Customer;
   collectedTotal: number;
   notCollectedTotal: number;
+  inOfDate: number;
+  outOfDate: number;
   ctbans: {
     ctban: Ctban;
     collected: number;
     notCollected: number;
+    inOfDate: number;
+    outOfDate: number;
   }[];
 };

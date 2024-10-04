@@ -39,6 +39,12 @@ export class ReportDccnDetail extends AbstractEntity {
   @Column({ type: 'float' })
   notCollectedTotal: number;
 
+  @Column({ type: 'float', default: 0 })
+  inOfDate: number;
+
+  @Column({ type: 'float', default: 0 })
+  outOfDate: number;
+
   @OneToMany(
     () => ReportDccnCustomerDetail,
     (reportDccnCustomerDetail) => reportDccnCustomerDetail.reportDccnDetail,
@@ -64,6 +70,12 @@ export class ReportDccnCustomerDetail extends AbstractEntity {
 
   @Column({ type: 'float' })
   notCollected: number;
+
+  @Column({ type: 'float', default: 0 })
+  inOfDate: number;
+
+  @Column({ type: 'float', default: 0 })
+  outOfDate: number;
 
   @ManyToOne(
     () => ReportDccnDetail,
