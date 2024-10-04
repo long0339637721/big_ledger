@@ -14,7 +14,10 @@ export class ReportThcnService {
     private readonly customerService: CustomerService,
   ) {}
 
-  async create(createReportThcnDto: CreateReportThcnDto) {
+  async create(
+    createReportThcnDto: CreateReportThcnDto,
+    isRaw: boolean = false,
+  ) {
     const startDate = new Date(createReportThcnDto.startDate);
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(createReportThcnDto.endDate);
@@ -29,25 +32,14 @@ export class ReportThcnService {
         endDate,
         customers,
       );
-    return this.reportThcnRepository.create(createReportThcnDto, ctbans);
-  }
 
-  async findRaw(createReportThcnDto: CreateReportThcnDto) {
-    const startDate = new Date(createReportThcnDto.startDate);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(createReportThcnDto.endDate);
-    endDate.setHours(23, 59, 59, 999);
-    const customers = await this.customerService.findByIds(
-      createReportThcnDto.customerIds,
-    );
-    const ctbans =
-      await this.ctbanService.findByPaymentStatusAndGroupByCustomer(
-        [PAYMENT_STATUS.NOT_PAID, PAYMENT_STATUS.BEING_PAID],
-        startDate,
-        endDate,
-        customers,
-      );
-    return ctbans;
+    if (isRaw) {
+      return {
+        ...createReportThcnDto,
+        reportThcnDetails: ctbans,
+      };
+    }
+    return this.reportThcnRepository.create(createReportThcnDto, ctbans);
   }
 
   findAll() {

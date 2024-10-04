@@ -29,7 +29,7 @@ export class ReportThcnController {
   @Post('raw')
   @ApiOperation({ description: 'Create raw report thcn' })
   findRaw(@Body() createReportThcnDto: CreateReportThcnDto) {
-    return this.reportThcnService.findRaw(createReportThcnDto);
+    return this.reportThcnService.create(createReportThcnDto, true);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
