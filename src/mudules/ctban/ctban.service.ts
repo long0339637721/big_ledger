@@ -158,7 +158,13 @@ export class CtbanService {
   ): Promise<
     {
       customer: Customer;
-      ctbans: { ctban: Ctban; collected: number; notCollected: number }[];
+      ctbans: {
+        ctban: Ctban;
+        collected: number;
+        notCollected: number;
+        inOfDate: number;
+        outOfDate: number;
+      }[];
       collectedTotal: number;
       notCollectedTotal: number;
       inOfDate: number;
@@ -186,11 +192,11 @@ export class CtbanService {
           outOfDate: 0,
         });
       }
-      ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
-        ctban: ctban,
-        collected: ctban.paidValue,
-        notCollected: ctban.finalValue - ctban.paidValue,
-      });
+      // ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
+      //   ctban: ctban,
+      //   collected: ctban.paidValue,
+      //   notCollected: ctban.finalValue - ctban.paidValue,
+      // });
       ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).collectedTotal +=
         ctban.paidValue;
       ctbansGroupByCustomer.get(
@@ -199,9 +205,23 @@ export class CtbanService {
       const paymentTerm = new Date(ctban.paymentTerm);
       paymentTerm.setHours(8, 0, 0, 0);
       if (paymentTerm.getTime() < now.getTime()) {
+        ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
+          ctban: ctban,
+          collected: ctban.paidValue,
+          notCollected: ctban.finalValue - ctban.paidValue,
+          inOfDate: 0,
+          outOfDate: ctban.finalValue - ctban.paidValue,
+        });
         ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).outOfDate +=
           ctban.finalValue - ctban.paidValue;
       } else {
+        ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).ctbans.push({
+          ctban: ctban,
+          collected: ctban.paidValue,
+          notCollected: ctban.finalValue - ctban.paidValue,
+          inOfDate: ctban.finalValue - ctban.paidValue,
+          outOfDate: 0,
+        });
         ctbansGroupByCustomer.get(ctban.donBanHang.customer.id).inOfDate +=
           ctban.finalValue - ctban.paidValue;
       }
