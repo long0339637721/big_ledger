@@ -79,10 +79,10 @@ export class BankAccountService {
 
   async findTransactionByBank(
     bankAccountId: number,
-    reconciled: boolean = false,
+    reconciled: boolean = true,
   ) {
     const bankAccount = await this.findOne(bankAccountId);
-    if (reconciled) {
+    if (!reconciled) {
       return this.bankAccountRepository.findTransactionByBankReconciled(
         bankAccount,
       );

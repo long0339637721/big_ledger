@@ -77,7 +77,7 @@ export class BankAccountRepository {
     return this.transactionRepository.find({
       where: {
         bankAccount: bankAccount,
-        reconciled: true,
+        reconciled: false,
       },
     });
   }

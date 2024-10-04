@@ -86,10 +86,10 @@ export class TransactionController {
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
-  @Get('bank/reconciled/:id')
+  @Get('bank/notReconcile/:id')
   @ApiOperation({ description: 'Get all transactions by bank account' })
-  findByBankAccountReconciled(@Param('id') id: string) {
-    return this.bankAccountService.findTransactionByBank(+id, true);
+  findByBankAccountNotReconcile(@Param('id') id: string) {
+    return this.bankAccountService.findTransactionByBank(+id, false);
   }
 
   @Auth(USER_ROLE.ACCOUNTANT)
