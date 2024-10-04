@@ -23,7 +23,7 @@ export class CreateReportDccnDto {
   description: string;
 
   @ApiProperty({ type: 'array', example: [1, 2, 3] })
-  @IsNotEmpty({ message: 'Danh sách khách hàng không được để trống' })
+  // @IsNotEmpty({ message: 'Danh sách khách hàng không được để trống' })
   @IsArray({ message: 'Danh sách khách hàng không hợp lệ' })
   customerIds: number[];
 }
