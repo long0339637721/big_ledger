@@ -74,6 +74,9 @@ export class PhieuChiTienGui extends AbstractEntity {
     nullable: false,
   })
   bankAccount: BankAccount;
+
+  @Column({ type: 'boolean', default: false })
+  reconciled: boolean;
 }
 
 @Entity({ name: 'chung_tu_cua_phieu_chi_tien_mat' })
@@ -145,4 +148,7 @@ export class PhieuChiKhac extends AbstractEntity {
     nullable: true,
   })
   bankAccount: BankAccount;
+
+  @Column({ type: 'boolean', default: false })
+  reconciled: boolean;
 }

@@ -214,6 +214,10 @@ export class PhieuChiRepository {
     return this.pcTienGuiRepository.delete(id);
   }
 
+  reconcilePhieuChiTienGui(id: number) {
+    return this.pcTienGuiRepository.update(id, { reconciled: true });
+  }
+
   // Khac
 
   createPhieuChiKhac(
@@ -268,5 +272,9 @@ export class PhieuChiRepository {
 
   removePhieuChiKhac(id: number) {
     return this.pcKhacRepository.delete(id);
+  }
+
+  reconcilePhieuChiKhac(id: number) {
+    return this.pcKhacRepository.update(id, { reconciled: true });
   }
 }

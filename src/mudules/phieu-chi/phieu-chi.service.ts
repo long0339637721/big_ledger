@@ -163,6 +163,11 @@ export class PhieuChiService {
     return this.phieuChiRepository.removePhieuChiTienGui(id);
   }
 
+  async reconcileTienGui(id: number) {
+    const phieuChi = await this.findOneTienGui(id);
+    return this.phieuChiRepository.reconcilePhieuChiTienGui(id);
+  }
+
   // Khac
 
   async createKhac(createPhieuChiDto: CreatePhieuChiKhacDto) {
@@ -195,6 +200,10 @@ export class PhieuChiService {
       throw new NotFoundException(`Phieu chi with id ${id} not found`);
     }
     return phieuChi;
+  }
+
+  reconcileKhac(id: number) {
+    return this.phieuChiRepository.reconcilePhieuChiKhac(id);
   }
 
   // Common

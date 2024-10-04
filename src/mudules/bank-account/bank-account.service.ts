@@ -109,7 +109,12 @@ export class BankAccountService {
     // ) {
     //   return new ConflictException('Credit amount not match');
     // }
-    return this.bankAccountRepository.reconcilePhieuChi(transaction, phieuChi);
+    const res = this.bankAccountRepository.reconcilePhieuChi(
+      transaction,
+      phieuChi,
+    );
+    await this.phieuChiService.reconcileTienGui(phieuChiId);
+    return res;
   }
 
   async reconciliationPhieuThu(transactionId: number, phieuThuId: number) {
@@ -136,9 +141,11 @@ export class BankAccountService {
     // if (transaction.debit - transaction.transactionFee !== phieuChi.money) {
     //   return new ConflictException('Credit amount not match');
     // }
-    return this.bankAccountRepository.reconcilePhieuChiKhac(
+    const res = await this.bankAccountRepository.reconcilePhieuChiKhac(
       transaction,
       phieuChi,
     );
+    await this.phieuChiService.reconcileKhac(phieuChiId);
+    return res;
   }
 }
